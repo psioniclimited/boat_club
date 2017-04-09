@@ -22,8 +22,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect.
       -->
-      <link rel="stylesheet" href="{{asset('bower_components/AdminLTE')}}/dist/css/skins/skin-blue.min.css">
-
+      <link rel="stylesheet" href="{{asset('bower_components/AdminLTE')}}/dist/css/skins/skin-blue.min.css"> 
+@yield('css')
       <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
       <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -56,6 +56,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <section class="content">
         <!-- Your Page Content Here -->
         @yield('content')
+
       </section>
       <!-- /.content -->
     </div>
@@ -149,7 +150,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{asset('bower_components/AdminLTE')}}/bootstrap/js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('bower_components/AdminLTE')}}/dist/js/app.min.js"></script>
-
+@yield('scripts')
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. Slimscroll is required when using the
