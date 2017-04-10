@@ -18,8 +18,8 @@ class UserController extends Controller
         return view('user::login');
     }
 
-    public function loginUser(Request $request)
-    {    $credentials=array(
+    public function loginUser(Request $request){ 
+       $credentials=array(
             'email' => $request->email, 
             'password' => $request->password
         );  
@@ -28,7 +28,7 @@ class UserController extends Controller
         } 
         return back()->withInput();
     }
-    
+
 public function createUsers() {
     $getRoles = Role::all();
     return view('user::create_users',['getRoles'=>$getRoles]);
