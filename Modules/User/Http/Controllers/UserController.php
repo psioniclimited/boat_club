@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Form;
+use Auth;
 class UserController extends Controller
 {
     /**
@@ -16,6 +17,22 @@ class UserController extends Controller
     {
         return view('user::login');
     }
+
+    public function loginUser(Request $request)
+    {    $credentials=array(
+            'email' => $request->email, 
+            'password' => $request->password
+        );  
+        if (Auth::attempt($credentials)) { 
+            return redirect()->intended('/');
+        } 
+        return back()->withInput();
+    }
+    
+public function createUsers() {
+    $getRoles = Role::all();
+    return view('user::create_users',['getRoles'=>$getRoles]);
+}
 
     /**
      * Show the form for creating a new resource.
