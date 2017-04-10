@@ -20,44 +20,12 @@ class UserController extends Controller
         return view('user::login');
     }
 
-    public function loginUser(Request $request){
+    public function login(Request $request){
         $credentials=array( 'email' => $request->email,  'password' => $request->password);
         if (Auth::attempt($credentials)) {
             return redirect()->intended('/');
         }
         return back()->withInput();
-    }
-
-    public function createUsers() {
-        $getRoles = Role::all(); 
-        return view('user::create_users',['getRoles'=>$getRoles]);
-    }
-
-    public function createUsersProcess(Request $request) {  
-         // dd($request->all());
-        $user = User::create();
-        $user->password = bcrypt($request->input('password'));
-        $user->attachRole($request->input('role'))
-        $user = User::find(3);
-        $user->attachRole(1);
-        dd();
-        $addUsers = new User();
-
-        $addUsers->name = $request->input('name');
-        $addUsers->email = $request->input('email');
-        $addUsers->password = bcrypt($request->input('password'));
-
-        $addUsers->save();
-
-        // $userID = $addUsers->id;
-        $roleID = $request->input('roles');
-        $addUsers->attachRole($roleID);
-        dd('success');
-        // $user = User::find($userID);
-        $user = User::find(3);
-        $role = Role::where('id', '=', $roleID)->get()->first(); 
-        $user->attachRole($role); 
-        return back();
     }
 
     /**
@@ -66,7 +34,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('user::create');
+        $roles = Role::all(); 
+        return view('user::create_users',['roles'=>$roles]);
     }
 
     /**
@@ -75,7 +44,17 @@ class UserController extends Controller
      * @return Response
      */
     public function store(Request $request)
-    {
+    { 
+        // dd($request->input('role'));
+        $user = new User();
+        $user->save($request->all());
+        dd($user);
+        // $user = User::create($request->all());
+        // $user = User::find(3);
+        // dd($user);
+        // $user->password = bcrypt($request->input('password'));
+        $user->attachRole($request->input('role'));
+        return back();
     }
 
     /**

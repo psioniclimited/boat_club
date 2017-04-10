@@ -9,7 +9,7 @@
 <script src="{{asset('plugins/tooltipster/tooltipster.js')}}"></script>
 <script>
 
-$(document).ready(function () {
+    $(document).ready(function () {
 
     // initialize tooltipster on form input elements
     $('form input, select').tooltipster({// <-  USE THE PROPER SELECTOR FOR YOUR INPUTs
@@ -23,7 +23,7 @@ $(document).ready(function () {
         errorPlacement: function (error, element) {
 
             var lastError = $(element).data('lastError'),
-                    newError = $(error).text();
+            newError = $(error).text();
 
             $(element).data('lastError', newError);
 
@@ -87,9 +87,8 @@ $(document).ready(function () {
             <h3 class="box-title">User Create Page</h3>
         </div>
         <!-- /.box-header -->
-        <!-- form starts here -->
-        {!! Form::open(array('url' => 'user/create_users_process', 'id' => 'add_user_form', 'class' => 'form-horizontal')) !!}
-
+        <!-- form starts here --> 
+        {!! Form::open(array('url'=>'user','id'=>'add_user_form','class' => 'form-horizontal')) !!}
         <div class="box-body">
             <div class="col-md-6">
                 <div class="form-group">
@@ -107,10 +106,10 @@ $(document).ready(function () {
                 <div class="form-group">
                     <label for="roles" class="col-sm-4 control-label">Role*</label>
                     <div class="col-sm-8">
-                        <select class="form-control" name="roles" >
+                        <select class="form-control" name="role" >
                             <option value="">Select Role</option>
-                            @foreach($getRoles as $grole)
-                            <option value="{{$grole->id}}">{{$grole->display_name}}</option>
+                            @foreach($roles as $role)
+                            <option value="{{$role->id}}">{{$role->display_name}}</option>
                             @endforeach
                         </select>
                     </div>
