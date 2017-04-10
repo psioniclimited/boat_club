@@ -179,7 +179,7 @@ return [
         Yajra\Datatables\DatatablesServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
         Nwidart\Modules\LaravelModulesServiceProvider::class,
-
+        Collective\Html\HtmlServiceProvider::class,
         ],
 
     /*
@@ -231,6 +231,8 @@ return [
     'Datatables'=>Yajra\Datatables\Facades\Datatables::class,
     'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
     'Module' => Nwidart\Modules\Facades\Module::class,
+    'Form' => Collective\Html\FormFacade::class,
+    'Html' => Collective\Html\HtmlFacade::class,
     ],
 
     ];
