@@ -2,15 +2,9 @@
 
 namespace Modules\User\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use Zizaco\Entrust\EntrustRole;
 
-class Role extends Model
+class Role extends EntrustRole
 {
-	protected $fillable = ['name','display_name','description'];
-	protected $table = 'roles';
-	public $timestamps = true;
-	public function role_user()
-	{
-		return $this->hasMany('Modules\User\Entities\RoleUser');
-	}
+	
 }

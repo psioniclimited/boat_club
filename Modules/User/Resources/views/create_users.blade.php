@@ -36,18 +36,18 @@ $(document).ready(function () {
             $(element).tooltipster('hide');
         },
         rules: {
-            fullname: {required: true, minlength: 4},
-            uemail: {required: true, email: true},
-            upassword: {required: true, minlength: 6},
-            upassword_re: {required: true, equalTo: "#upassword"},
-            uroles: {required: true}
+            name: {required: true, minlength: 4},
+            email: {required: true, email: true},
+            password: {required: true, minlength: 6},
+            password_re: {required: true, equalTo: "#password"},
+            roles: {required: true}
         },
         messages: {
-            fullname: {required: "Please give fullname"},
-            uemail: {required: "Insert email address"},
-            upassword: {required: "Six digit password"},
-            upassword_re: {required: "Re-enter same password"},
-            uroles: {required: "Please select a role"}
+            name: {required: "Please give name"},
+            email: {required: "Insert email address"},
+            password: {required: "Six digit password"},
+            password_re: {required: "Re-enter same password"},
+            roles: {required: "Please select a role"}
         }
     });
 
@@ -93,21 +93,21 @@ $(document).ready(function () {
         <div class="box-body">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="fullname" class="col-sm-4 control-label">Fullname*</label>
+                    <label for="name" class="col-sm-4 control-label">name*</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Enter fullname">
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter name">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="uemail" class="col-sm-4 control-label">Email*</label>
+                    <label for="email" class="col-sm-4 control-label">Email*</label>
                     <div class="col-sm-8">
-                        <input type="email" class="form-control" id="uemail" name="uemail" placeholder="Enter email">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="uroles" class="col-sm-4 control-label">Role*</label>
+                    <label for="roles" class="col-sm-4 control-label">Role*</label>
                     <div class="col-sm-8">
-                        <select class="form-control" name="uroles" >
+                        <select class="form-control" name="roles" >
                             <option value="">Select Role</option>
                             @foreach($getRoles as $grole)
                             <option value="{{$grole->id}}">{{$grole->display_name}}</option>
@@ -116,15 +116,15 @@ $(document).ready(function () {
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="upassword" class="col-sm-4 control-label">Password*</label>
+                    <label for="password" class="col-sm-4 control-label">Password*</label>
                     <div class="col-sm-8">
-                        <input type="password" class="form-control" id="upassword" name="upassword" placeholder="Enter password">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="upassword_re" class="col-sm-4 control-label">Confirm Password*</label>
+                    <label for="password_re" class="col-sm-4 control-label">Confirm Password*</label>
                     <div class="col-sm-8">
-                        <input type="password" class="form-control" id="upassword_re" name="upassword_re" placeholder="Enter password again">
+                        <input type="password" class="form-control" id="password_re" name="password_re" placeholder="Enter password again">
                     </div>
                 </div>
             </div>

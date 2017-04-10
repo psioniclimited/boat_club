@@ -2,15 +2,9 @@
 
 namespace Modules\User\Entities;
 
-use Illuminate\Database\Eloquent\Model;
+use Zizaco\Entrust\EntrustPermission;
 
-class Permission extends Model
+class Permission extends EntrustPermission
 {
-	protected $fillable = ['name','display_name','description'];
-	protected $table = 'permissions';
-	public $timestamps = true;
-	public function permission_role()
-	{
-		return $this->hasMany('Modules\User\Entities\PermissionRole');
-	}
+	
 }

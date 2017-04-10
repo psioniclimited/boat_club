@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use Form;
 use Auth;
 use Modules\User\Entities\Role;
+use Modules\User\Entities\User;
 class UserController extends Controller
 {
     /**
@@ -33,23 +34,30 @@ class UserController extends Controller
     }
 
     public function createUsersProcess(Request $request) {  
-         dd($request->all());
+         // dd($request->all());
+        $user = User::create();
+        $user->password = bcrypt($request->input('password'));
+        $user->attachRole($request->input('role'))
+        $user = User::find(3);
+        $user->attachRole(1);
+        dd();
         $addUsers = new User();
 
-        $addUsers->name = $request->input('fullname');
-        $addUsers->email = $request->input('uemail');
-        $addUsers->password = bcrypt($request->input('upassword'));
+        $addUsers->name = $request->input('name');
+        $addUsers->email = $request->input('email');
+        $addUsers->password = bcrypt($request->input('password'));
 
         $addUsers->save();
 
-        $userID = $addUsers->id;
-        $roleID = $request->input('uroles');
-
-        $user = User::find($userID);
-        $role = Role::where('id', '=', $roleID)->get()->first();
-        $user->attachRole($role);
-
-        return redirect('allusers');
+        // $userID = $addUsers->id;
+        $roleID = $request->input('roles');
+        $addUsers->attachRole($roleID);
+        dd('success');
+        // $user = User::find($userID);
+        $user = User::find(3);
+        $role = Role::where('id', '=', $roleID)->get()->first(); 
+        $user->attachRole($role); 
+        return back();
     }
 
     /**
