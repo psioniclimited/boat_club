@@ -44,16 +44,11 @@ class UserController extends Controller
      * @return Response
      */
     public function store(Request $request)
-    { 
-        // dd($request->input('role'));
-        $user = new User();
-        $user->save($request->all());
-        dd($user);
-        // $user = User::create($request->all());
-        // $user = User::find(3);
-        // dd($user);
-        // $user->password = bcrypt($request->input('password'));
-        $user->attachRole($request->input('role'));
+    {  
+        $user = User::create($request->all());
+        $user->password = bcrypt($request->input('password'));
+        $user->save();
+        $user->roles()->sync($request->input('role')); 
         return back();
     }
 

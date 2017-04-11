@@ -1,5 +1,13 @@
 @extends('layouts.master')
 
+@section('page_header')
+    Register User
+@endsection
+    
+@section('page_description')
+Register a new User with Admin LTE
+@endsection
+
 @section('css')
 <link rel="stylesheet" href="{{asset('plugins/tooltipster/tooltipster.css')}}">
 @endsection
@@ -39,15 +47,15 @@
             name: {required: true, minlength: 4},
             email: {required: true, email: true},
             password: {required: true, minlength: 6},
-            password_re: {required: true, equalTo: "#password"},
-            roles: {required: true}
+            password_confirm: {required: true, equalTo: "#password"},
+            role: {required: true}
         },
         messages: {
             name: {required: "Please give name"},
             email: {required: "Insert email address"},
             password: {required: "Six digit password"},
-            password_re: {required: "Re-enter same password"},
-            roles: {required: "Please select a role"}
+            password_confirm: {required: "Re-enter same password"},
+            role: {required: "Please select a role"}
         }
     });
 
@@ -68,89 +76,84 @@
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1>
+<!--     <h1>
         User Module
         <small>it all starts here</small>
-    </h1>
+    </h1> -->
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="#">User</a></li>
-        <li clasuss="active">Create Users</li>
+        <li class="active">Create Users</li>
     </ol>
 </section>
 <!-- Main content -->
 <section class="content">
-    <!-- <div class="col-md-6"> -->
-    <!-- Horizontal Form -->
-    <div class="box box-info">
-        <div class="box-header with-border">
-            <h3 class="box-title">User Create Page</h3>
-        </div>
-        <!-- /.box-header -->
-        <!-- form starts here --> 
-        {!! Form::open(array('url'=>'user','id'=>'add_user_form','class' => 'form-horizontal')) !!}
-        <div class="box-body">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="name" class="col-sm-4 control-label">name*</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter name">
-                    </div>
+    <div class="row">
+
+        <div class="col-md-6">
+            <!-- Horizontal Form -->
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">User Create Page</h3>
                 </div>
-                <div class="form-group">
-                    <label for="email" class="col-sm-4 control-label">Email*</label>
-                    <div class="col-sm-8">
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+                <!-- /.box-header -->
+                <!-- form starts here --> 
+                {!! Form::open(array('url'=>'user','id'=>'add_user_form','class' => 'form-horizontal')) !!}
+                <div class="box-body">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="name" class="control-label">name*</label> 
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter name"> 
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="control-label">Email*</label> 
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email"> 
+                        </div>
+                        <div class="form-group">
+                            <label for="roles" class="control-label">Role*</label> 
+                            <select class="form-control" name="role" >
+                                <option value="">Select Role</option>
+                                @foreach($roles as $role)
+                                <option value="{{$role->id}}">{{$role->display_name}}</option>
+                                @endforeach
+                            </select> 
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="control-label">Password*</label> 
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter password"> 
+                        </div>
+                        <div class="form-group">
+                            <label for="password_confirm" class="control-label">Confirm Password*</label> 
+                            <input type="password" class="form-control" id="password_confirm" name="password_confirm" placeholder="Enter password again"> 
+                        </div>
                     </div>
+
+                    <!-- /.col -->
                 </div>
-                <div class="form-group">
-                    <label for="roles" class="col-sm-4 control-label">Role*</label>
-                    <div class="col-sm-8">
-                        <select class="form-control" name="role" >
-                            <option value="">Select Role</option>
-                            @foreach($roles as $role)
-                            <option value="{{$role->id}}">{{$role->display_name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <!-- <button type="submit" class="btn btn-default">Cancel</button> -->
+                    <button type="submit" class="btn btn-primary pull-right">Submit</button>
                 </div>
-                <div class="form-group">
-                    <label for="password" class="col-sm-4 control-label">Password*</label>
-                    <div class="col-sm-8">
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
-                    </div>
+                <!-- /.box-footer -->
+                {!! Form::close() !!}
+                <!-- /.form ends here -->
+
+
+                @if (count($errors) > 0)
+                <div class="alert alert-danger alert-login col-sm-4">
+                    <ul class="list-unstyled">
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
-                <div class="form-group">
-                    <label for="password_re" class="col-sm-4 control-label">Confirm Password*</label>
-                    <div class="col-sm-8">
-                        <input type="password" class="form-control" id="password_re" name="password_re" placeholder="Enter password again">
-                    </div>
-                </div>
+                @endif
             </div>
-            <!-- /.col -->
+            <!-- /.box -->
         </div>
-        <!-- /.box-body -->
-        <div class="box-footer">
-            <!-- <button type="submit" class="btn btn-default">Cancel</button> -->
-            <button type="submit" class="btn btn-primary pull-right">Submit</button>
-        </div>
-        <!-- /.box-footer -->
-        {!! Form::close() !!}
-        <!-- /.form ends here -->
 
-
-        @if (count($errors) > 0)
-        <div class="alert alert-danger alert-login col-sm-4">
-            <ul class="list-unstyled">
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
-    </div>
-    <!-- /.box -->
-    <!-- </div> -->
+    </div>    
 </section>
 <!-- /.content -->
 
