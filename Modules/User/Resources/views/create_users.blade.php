@@ -2,28 +2,22 @@
 @section('css')
 <link rel="stylesheet" href="{{asset('plugins/tooltipster/tooltipster.css')}}">
 @endsection
-
 @section('page_header')
-    Register User
+Register User
 @endsection
-    
 @section('page_description')
 Register a new User with Admin LTE
 @endsection
 @section('breadcrumb')
 {!! Breadcrumbs::render('create_user') !!}
 @endsection
- 
 @section('content')
-
 <!-- Content Header (Page header) -->
 <section class="content-header">
- 
 </section>
 <!-- Main content -->
 <section class="content">
     <div class="row">
-
         <div class="col-md-6">
             <!-- Horizontal Form -->
             <div class="box box-info">
@@ -32,16 +26,22 @@ Register a new User with Admin LTE
                 </div>
                 <!-- /.box-header -->
                 <!-- form starts here --> 
+                <!-- create user form submit-->
+                @if(isset($user))
                 {!! Form::open(array('url'=>'user','id'=>'add_user_form','class' => 'form-horizontal')) !!}
+                @else
+                <!-- edit user form submit-->
+                {!! Form::open(array('url'=>'user.update','id'=>'add_user_form','class' => 'form-horizontal')) !!}
+                @endif
                 <div class="box-body">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="name" class="control-label">name*</label> 
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter name"> 
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" value="<?php if(isset($user)) echo $user->name;else Input::old('name');?>"> 
                         </div>
                         <div class="form-group">
                             <label for="email" class="control-label">Email*</label> 
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email"> 
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" value="<?php if(isset($user)) echo $user->name;else Input::old('email');?>"> 
                         </div>
                         <div class="form-group">
                             <label for="roles" class="control-label">Role*</label> 
@@ -61,7 +61,6 @@ Register a new User with Admin LTE
                             <input type="password" class="form-control" id="password_confirm" name="password_confirm" placeholder="Enter password again"> 
                         </div>
                     </div>
-
                     <!-- /.col -->
                 </div>
                 <!-- /.box-body -->

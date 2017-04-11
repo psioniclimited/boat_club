@@ -10,6 +10,7 @@ use Auth;
 use Modules\User\Entities\Role;
 use Modules\User\Entities\User;
 use Datatables;
+use URL;
 class UserController extends Controller
 {
     /**
@@ -57,8 +58,8 @@ class UserController extends Controller
      */
     public function showAllUsers()
     {  
-     return view('user::all_users');
- }
+       return view('user::all_users');
+   }
 
     /**
      * returns a list for the datatable
@@ -68,8 +69,7 @@ class UserController extends Controller
         $users = User::all(); 
         return Datatables::of($users)
         ->addColumn('action', function ($users) {
-                   return '<a href="" class="btn btn-xs btn-info">
-                   <i class="glyphicon glyphicon-edit"></i> View</a>';
+            return '<a href="'.URL::to('/').'/user/'.$users->id.'/edit" class="btn btn-sm btn-info" title="edit"><i class="glyphicon glyphicon-edit"></i></a>';
         })
         ->make(true);
     }
@@ -88,7 +88,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        // dd($user);   
+        $roles = Role::all(); 
+        return view('user::create_users',['user'=>$user,'roles'=>$roles]);
     }
 
     /**
