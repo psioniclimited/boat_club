@@ -1,4 +1,7 @@
 @extends('layouts.master')
+@section('css')
+<link rel="stylesheet" href="{{asset('plugins/tooltipster/tooltipster.css')}}">
+@endsection
 
 @section('page_header')
     Register User
@@ -7,84 +10,12 @@
 @section('page_description')
 Register a new User with Admin LTE
 @endsection
-
-@section('css')
-<link rel="stylesheet" href="{{asset('plugins/tooltipster/tooltipster.css')}}">
-@endsection
-
-@section('scripts')
-<script src="{{asset('plugins/validation/dist/jquery.validate.js')}}"></script>
-<script src="{{asset('plugins/tooltipster/tooltipster.js')}}"></script>
-<script>
-
-    $(document).ready(function () {
-
-    // initialize tooltipster on form input elements
-    $('form input, select').tooltipster({// <-  USE THE PROPER SELECTOR FOR YOUR INPUTs
-        trigger: 'custom', // default is 'hover' which is no good here
-        onlyOne: false, // allow multiple tips to be open at a time
-        position: 'right'  // display the tips to the right of the element
-    });
-
-    // initialize validate plugin on the form
-    $('#add_user_form').validate({
-        errorPlacement: function (error, element) {
-
-            var lastError = $(element).data('lastError'),
-            newError = $(error).text();
-
-            $(element).data('lastError', newError);
-
-            if (newError !== '' && newError !== lastError) {
-                $(element).tooltipster('content', newError);
-                $(element).tooltipster('show');
-            }
-        },
-        success: function (label, element) {
-            $(element).tooltipster('hide');
-        },
-        rules: {
-            name: {required: true, minlength: 4},
-            email: {required: true, email: true},
-            password: {required: true, minlength: 6},
-            password_confirm: {required: true, equalTo: "#password"},
-            role: {required: true}
-        },
-        messages: {
-            name: {required: "Please give name"},
-            email: {required: "Insert email address"},
-            password: {required: "Six digit password"},
-            password_confirm: {required: "Re-enter same password"},
-            role: {required: "Please select a role"}
-        }
-    });
-
-
-});
-
-
-
-</script>
-
-@endsection
-
-@section('side_menu')
-
-@endsection
-
+ 
 @section('content')
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
-<!--     <h1>
-        User Module
-        <small>it all starts here</small>
-    </h1> -->
-    <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">User</a></li>
-        <li class="active">Create Users</li>
-    </ol>
+ 
 </section>
 <!-- Main content -->
 <section class="content">
@@ -159,3 +90,59 @@ Register a new User with Admin LTE
 
 @endsection
 
+
+@section('scripts')
+<script src="{{asset('plugins/validation/dist/jquery.validate.js')}}"></script>
+<script src="{{asset('plugins/tooltipster/tooltipster.js')}}"></script>
+<script>
+
+    $(document).ready(function () {
+
+    // initialize tooltipster on form input elements
+    $('form input, select').tooltipster({// <-  USE THE PROPER SELECTOR FOR YOUR INPUTs
+        trigger: 'custom', // default is 'hover' which is no good here
+        onlyOne: false, // allow multiple tips to be open at a time
+        position: 'right'  // display the tips to the right of the element
+    });
+
+    // initialize validate plugin on the form
+    $('#add_user_form').validate({
+        errorPlacement: function (error, element) {
+
+            var lastError = $(element).data('lastError'),
+            newError = $(error).text();
+
+            $(element).data('lastError', newError);
+
+            if (newError !== '' && newError !== lastError) {
+                $(element).tooltipster('content', newError);
+                $(element).tooltipster('show');
+            }
+        },
+        success: function (label, element) {
+            $(element).tooltipster('hide');
+        },
+        rules: {
+            name: {required: true, minlength: 4},
+            email: {required: true, email: true},
+            password: {required: true, minlength: 6},
+            password_confirm: {required: true, equalTo: "#password"},
+            role: {required: true}
+        },
+        messages: {
+            name: {required: "Please give name"},
+            email: {required: "Insert email address"},
+            password: {required: "Six digit password"},
+            password_confirm: {required: "Re-enter same password"},
+            role: {required: "Please select a role"}
+        }
+    });
+
+
+});
+
+
+
+</script>
+
+@endsection

@@ -5,5 +5,4 @@ Route::group(['middleware' => 'web', 'prefix' => 'user', 'namespace' => 'Modules
 	Route::resource('/', 'UserController');
 
     Route::post('/login', ['uses'=>'UserController@login']);
-  
 });

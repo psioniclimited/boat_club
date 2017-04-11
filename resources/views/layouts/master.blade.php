@@ -50,6 +50,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
           <li class="active">Here</li>
         </ol> -->
+        {!! Breadcrumbs::render('create_user') !!}
       </section>
 
       <!-- Main content -->
