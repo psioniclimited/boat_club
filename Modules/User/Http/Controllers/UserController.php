@@ -9,6 +9,7 @@ use Form;
 use Auth;
 use Modules\User\Entities\Role;
 use Modules\User\Entities\User;
+use Datatables;
 class UserController extends Controller
 {
     /**
@@ -51,23 +52,43 @@ class UserController extends Controller
         $user->roles()->sync($request->input('role')); 
         return back();
     }
+    /**
+     * returns a list of all users 
+     */
+    public function showAllUsers()
+    {  
+     return view('user::all_users');
+ }
 
+    /**
+     * returns a list for the datatable
+     */
+    public function getUsers()
+    {
+        $users = User::all(); 
+        return Datatables::of($users)
+        ->addColumn('action', function ($users) {
+                   return '<a href="" class="btn btn-xs btn-info">
+                   <i class="glyphicon glyphicon-edit"></i> View</a>';
+        })
+        ->make(true);
+    }
     /**
      * Show the specified resource.
      * @return Response
      */
-    public function show()
+    public function show(User $user)
     {
-        return view('user::show');
+        // return view('user::show');
     }
 
     /**
      * Show the form for editing the specified resource.
      * @return Response
      */
-    public function edit()
+    public function edit(User $user)
     {
-        return view('user::edit');
+        // dd($user);   
     }
 
     /**

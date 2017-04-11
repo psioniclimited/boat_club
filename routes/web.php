@@ -14,3 +14,5 @@
 Route::get('/', function () {
     return view('layouts.master');
 });
+
+Route::resource('test', 'TestController');

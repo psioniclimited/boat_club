@@ -1,8 +1,14 @@
 <?php
 // Home
+Breadcrumbs::register('home', function($breadcrumbs)
+{
+    $breadcrumbs->push('Dashboard', url('/'));
+});
+
 Breadcrumbs::register('user', function($breadcrumbs)
 {
-    $breadcrumbs->push('User', url('/user'));
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('User', url('/all_user'));
 });
 
 Breadcrumbs::register('create_user', function($breadcrumbs)

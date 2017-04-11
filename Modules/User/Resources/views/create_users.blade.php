@@ -10,6 +10,9 @@
 @section('page_description')
 Register a new User with Admin LTE
 @endsection
+@section('breadcrumb')
+{!! Breadcrumbs::render('create_user') !!}
+@endsection
  
 @section('content')
 
