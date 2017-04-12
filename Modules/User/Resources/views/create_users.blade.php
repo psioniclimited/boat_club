@@ -27,21 +27,26 @@ Register a new User with Admin LTE
                 <!-- /.box-header -->
                 <!-- form starts here --> 
                 <!-- create user form submit-->
-                @if(isset($user))
                 {!! Form::open(array('url'=>'user','id'=>'add_user_form','class' => 'form-horizontal')) !!}
-                @else
-                <!-- edit user form submit-->
-                {!! Form::open(array('url'=>'user.update','id'=>'add_user_form','class' => 'form-horizontal')) !!}
-                @endif
+
                 <div class="box-body">
-                    <div class="col-md-6">
+                    @if (count($errors) > 0)
+                    <div class="alert alert-danger alert-login col-md-12">
+                        <ul class="list-unstyled">
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
+                    <div class="col-md-6"> 
                         <div class="form-group">
                             <label for="name" class="control-label">name*</label> 
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" value="<?php if(isset($user)) echo $user->name;else Input::old('name');?>"> 
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" value="{{old('name')}}"> 
                         </div>
                         <div class="form-group">
                             <label for="email" class="control-label">Email*</label> 
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" value="<?php if(isset($user)) echo $user->name;else Input::old('email');?>"> 
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" value="{{old('email')}}"> 
                         </div>
                         <div class="form-group">
                             <label for="roles" class="control-label">Role*</label> 
@@ -57,9 +62,9 @@ Register a new User with Admin LTE
                             <input type="password" class="form-control" id="password" name="password" placeholder="Enter password"> 
                         </div>
                         <div class="form-group">
-                            <label for="password_confirm" class="control-label">Confirm Password*</label> 
-                            <input type="password" class="form-control" id="password_confirm" name="password_confirm" placeholder="Enter password again"> 
-                        </div>
+                            <label for="password_confirmation" class="control-label">Confirm Password*</label> 
+                            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Enter password again"> 
+                        </div> 
                     </div>
                     <!-- /.col -->
                 </div>
@@ -71,17 +76,6 @@ Register a new User with Admin LTE
                 <!-- /.box-footer -->
                 {!! Form::close() !!}
                 <!-- /.form ends here -->
-
-
-                @if (count($errors) > 0)
-                <div class="alert alert-danger alert-login col-sm-4">
-                    <ul class="list-unstyled">
-                        @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-                @endif
             </div>
             <!-- /.box -->
         </div>
@@ -128,14 +122,14 @@ Register a new User with Admin LTE
             name: {required: true, minlength: 4},
             email: {required: true, email: true},
             password: {required: true, minlength: 6},
-            password_confirm: {required: true, equalTo: "#password"},
+            password_confirmation: {required: true, equalTo: "#password"},
             role: {required: true}
         },
         messages: {
             name: {required: "Please give name"},
             email: {required: "Insert email address"},
             password: {required: "Six digit password"},
-            password_confirm: {required: "Re-enter same password"},
+            password_confirmation: {required: "Re-enter same password"},
             role: {required: "Please select a role"}
         }
     });

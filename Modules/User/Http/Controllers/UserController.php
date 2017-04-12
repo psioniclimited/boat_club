@@ -11,6 +11,7 @@ use Modules\User\Entities\Role;
 use Modules\User\Entities\User;
 use Datatables;
 use URL;
+use Input;
 class UserController extends Controller
 {
     /**
@@ -23,7 +24,7 @@ class UserController extends Controller
     }
 
     public function login(Request $request){
-        $credentials=array( 'email' => $request->email,  'password' => $request->password);
+        $credentials=array('email' => $request->email,  'password' => $request->password);
         if (Auth::attempt($credentials)) {
             return redirect()->intended('/');
         }
@@ -45,7 +46,7 @@ class UserController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(\Modules\User\Http\Requests\UserRequest $request)
     {  
         $user = User::create($request->all());
         $user->password = bcrypt($request->input('password'));
@@ -58,8 +59,8 @@ class UserController extends Controller
      */
     public function showAllUsers()
     {  
-       return view('user::all_users');
-   }
+        return view('user::all_users');
+    }
 
     /**
      * returns a list for the datatable
