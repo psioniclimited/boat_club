@@ -120,15 +120,15 @@ Edit User
         rules: {
             name: {required: true, minlength: 4},
             email: {required: true, email: true},
-            password: {required: true, minlength: 6},
-            password_confirmation: {required: true, equalTo: "#password"},
+            // password: {required: true, minlength: 6},
+            // password_confirmation: {required: true, equalTo: "#password"},
             role: {required: true}
         },
         messages: {
             name: {required: "Please give name"},
             email: {required: "Insert email address"},
-            password: {required: "Six digit password"},
-            password_confirmation: {required: "Re-enter same password"},
+            // password: {required: "Six digit password"},
+            // password_confirmation: {required: "Re-enter same password"},
             role: {required: "Please select a role"}
         }
     });

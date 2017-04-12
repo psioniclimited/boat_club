@@ -12,10 +12,11 @@ use Modules\User\Entities\User;
 use Modules\User\Entities\RoleUser;
 use Datatables;
 use URL;
-use DB;
-use Input;
+use DB; 
+use Illuminate\Foundation\Validation\ValidatesRequests;
 class UserController extends Controller
 {
+    use ValidatesRequests;
     /**
      * Display a listing of the resource.
      * @return Response
@@ -103,9 +104,17 @@ class UserController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function update(Request $request)
-    {
-        dd($request->all());
+    public function update(\Modules\User\Http\Requests\UserEditRequest $request, User $user){   
+        $this->validate($request, [
+            'email' => 'required|unique:users,email,'. $user->id
+            ]);
+        $user->update($request->all());
+        if (isset($user->password)) { 
+            $user->password = bcrypt($request->input('password'));
+        }
+        $user->save();
+        $user->roles()->sync($request->input('role')); 
+        return back();
     }
 
     /**
