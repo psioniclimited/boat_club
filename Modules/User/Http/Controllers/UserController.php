@@ -9,8 +9,10 @@ use Form;
 use Auth;
 use Modules\User\Entities\Role;
 use Modules\User\Entities\User;
+use Modules\User\Entities\RoleUser;
 use Datatables;
 use URL;
+use DB;
 use Input;
 class UserController extends Controller
 {
@@ -47,7 +49,7 @@ class UserController extends Controller
      * @return Response
      */
     public function store(\Modules\User\Http\Requests\UserRequest $request)
-    {  
+    {
         $user = User::create($request->all());
         $user->password = bcrypt($request->input('password'));
         $user->save();
@@ -79,8 +81,8 @@ class UserController extends Controller
      * @return Response
      */
     public function show(User $user)
-    {
-        // return view('user::show');
+    { 
+
     }
 
     /**
@@ -90,7 +92,10 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $roles = Role::all(); 
-        return view('user::create_users',['user'=>$user,'roles'=>$roles]);
+        return view('user::edit_user',[
+            'user'=>$user,
+            'roles'=>$roles,
+            ]);
     }
 
     /**
@@ -100,6 +105,7 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
+        dd($request->all());
     }
 
     /**

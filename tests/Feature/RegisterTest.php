@@ -20,14 +20,18 @@ class RegisterTest extends TestCase
     {
     	$this->post('user', [
     		"_token" => "ulS0fVbFoFlVPEGu3DiiShur5XWrHJxpjNRceZOf",
-    		"name" => "Saaad",
+    		"name" => "Saaaaad",
     		"email" => "saad@gmail.coom",
     		"role" => "1",
     		"password" => "123456",
-    		"password_re" => "123456"
+    		"password_confirmation" => "123456"
     		]);
     	$this->assertDatabaseHas('users', ['email' => 'saad@gmail.coom']);
     	$user = User::where('email', 'saad@gmail.coom')->get();
     	$this->assertDatabaseHas('role_user', ['user_id' => $user[0]->id]);
+    }
+
+    public function testRegistrationForm(){
+        
     }
 }

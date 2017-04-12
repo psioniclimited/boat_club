@@ -6,7 +6,7 @@
 Register User
 @endsection
 @section('page_description')
-Register a new User with Admin LTE
+Edit User
 @endsection
 @section('breadcrumb')
 {!! Breadcrumbs::render('create_user') !!}
@@ -22,14 +22,13 @@ Register a new User with Admin LTE
             <!-- Horizontal Form -->
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">User Create Page</h3>
+                    <h3 class="box-title">User Edit Page</h3>
                 </div>
                 <!-- /.box-header -->
                 <!-- form starts here --> 
                 <!-- create user form submit-->
- 
-                {!! Form::open(array('route'=>'user.store','id'=>'add_user_form','class' => 'form-horizontal')) !!}
-                 <div class="box-body">
+                {!! Form::open(array('route' => array('user.update', $user->id), 'id' => 'edit_user_form', 'method'=>'PUT')) !!}          
+                <div class="box-body">
                     @if (count($errors) > 0)
                     <div class="alert alert-danger alert-login col-md-12">
                         <ul class="list-unstyled">
@@ -42,18 +41,21 @@ Register a new User with Admin LTE
                     <div class="col-md-6"> 
                         <div class="form-group">
                             <label for="name" class="control-label">name*</label> 
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" value="{{old('name')}}"> 
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" value="{{$user->name}}"> 
                         </div>
                         <div class="form-group">
                             <label for="email" class="control-label">Email*</label> 
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" value="{{old('email')}}"> 
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" value="{{$user->email}}"> 
                         </div>
                         <div class="form-group">
-                            <label for="roles" class="control-label">Role*</label> 
+                            <label for="roles" class="control-label">Rolea*</label> 
                             <select class="form-control" name="role" >
-                                <option value="">Select Role</option>
                                 @foreach($roles as $role)
-                                <option value="{{$role->id}}">{{$role->display_name}}</option>
+                                    @if($role->id == $user->roles->first()->role_id)
+                                    <option value="{{$role->id}}" selected>{{$role->display_name}}</option>
+                                    @else
+                                    <option value="{{$role->id}}">{{$role->display_name}}</option>
+                                    @endif
                                 @endforeach
                             </select> 
                         </div>
@@ -93,18 +95,15 @@ Register a new User with Admin LTE
 <script>
 
     $(document).ready(function () {
-
     // initialize tooltipster on form input elements
     $('form input, select').tooltipster({// <-  USE THE PROPER SELECTOR FOR YOUR INPUTs
         trigger: 'custom', // default is 'hover' which is no good here
         onlyOne: false, // allow multiple tips to be open at a time
         position: 'right'  // display the tips to the right of the element
     });
-
     // initialize validate plugin on the form
-    $('#add_user_form').validate({
+    $('#edit_user_form').validate({
         errorPlacement: function (error, element) {
-
             var lastError = $(element).data('lastError'),
             newError = $(error).text();
 
@@ -136,9 +135,5 @@ Register a new User with Admin LTE
 
 
 });
-
-
-
 </script>
-
 @endsection
