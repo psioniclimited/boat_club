@@ -41,9 +41,6 @@ A list of all the users
 </section>
 <!-- /.content -->
 
-
-
-
 <!-- Modal for User Delete -->
 <div >
   <div class="modal" id="delete_user_modal">
@@ -59,10 +56,6 @@ A list of all the users
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-
-            {{ Form::open(['method' => 'DELETE', 'route' => ['user.destroy', '']]) }}
-            {{ Form::button('<i class="fa fa-remove"></i> Delete', ['class' => 'btn btn-danger', 'role' => 'button', 'type' => 'submit']) }}
-            {{ Form::close() }}  
             <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
           </div>
         </div>
@@ -84,27 +77,24 @@ A list of all the users
   <script src="{{asset('bower_components/AdminLTE')}}/plugins/datatables/dataTables.bootstrap.min.js"></script>
   <script>
     $('document').ready(function(){
-   //datatable
-   var table = $('#all_user_table').DataTable({
-     "paging": true,
-     "lengthChange": true,
-     "searching": true,
-     "ordering": true,
-     "info": true,
-     "autoWidth": false,
-     "processing": true,
-     "serverSide": true,
-     "ajax": "{{URL::to('/user/get_users')}}",
-     "columns": [ 
-     {"data": "name"},
-     {"data": "email"}, 
-     {data: 'action', name: 'action', orderable: false, searchable: false}
-     ],
-     "order": [[0, 'asc']]
+     var table = $('#all_user_table').DataTable({
+       "paging": true,
+       "lengthChange": true,
+       "searching": true,
+       "ordering": true,
+       "info": true,
+       "autoWidth": false,
+       "processing": true,
+       "serverSide": true,
+       "ajax": "{{URL::to('/user/get_users')}}",
+       "columns": [ 
+       {"data": "name"},
+       {"data": "email"}, 
+       {data: 'action', name: 'action', orderable: false, searchable: false}
+       ],
+       "order": [[0, 'asc']]
+     }); 
+     $('#delete_user_modal').modal('show');
    });
-
-   // modal
-   $('#delete_user_modal').modal('show');
- });
-</script>
-@endsection
+ </script>
+ @endsection
