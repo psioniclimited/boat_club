@@ -40,14 +40,51 @@ A list of all the users
   </div>    
 </section>
 <!-- /.content -->
-@endsection
 
-@section('scripts')
-<!-- DataTables -->
-<script src="{{asset('bower_components/AdminLTE')}}/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="{{asset('bower_components/AdminLTE')}}/plugins/datatables/dataTables.bootstrap.min.js"></script>
-<script>
-  $('document').ready(function(){
+
+
+
+<!-- Modal for User Delete -->
+<div >
+  <div class="modal" id="delete_user_modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Delete User</h4>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure, You want to delete this user?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+
+            {{ Form::open(['method' => 'DELETE', 'route' => ['user.destroy', '']]) }}
+            {{ Form::button('<i class="fa fa-remove"></i> Delete', ['class' => 'btn btn-danger', 'role' => 'button', 'type' => 'submit']) }}
+            {{ Form::close() }}  
+            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+  </div> 
+  @endsection
+
+
+
+
+
+  @section('scripts')
+  <!-- DataTables -->
+  <script src="{{asset('bower_components/AdminLTE')}}/plugins/datatables/jquery.dataTables.min.js"></script>
+  <script src="{{asset('bower_components/AdminLTE')}}/plugins/datatables/dataTables.bootstrap.min.js"></script>
+  <script>
+    $('document').ready(function(){
+   //datatable
    var table = $('#all_user_table').DataTable({
      "paging": true,
      "lengthChange": true,
@@ -65,6 +102,9 @@ A list of all the users
      ],
      "order": [[0, 'asc']]
    });
+
+   // modal
+   $('#delete_user_modal').modal('show');
  });
 </script>
 @endsection

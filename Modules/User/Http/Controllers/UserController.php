@@ -73,8 +73,9 @@ class UserController extends Controller
         $users = User::all(); 
         return Datatables::of($users)
         ->addColumn('action', function ($users) {
-            return '<a href="'.URL::to('/').'/user/'.$users->id.'/edit" class="btn btn-sm btn-info" title="edit"><i class="glyphicon glyphicon-edit"></i></a>';
-        })
+            return '<a href="'.URL::to('/').'/user/'.$users->id.'/edit" class="btn btn-sm btn-info" title="edit"><i class="glyphicon glyphicon-edit"></i>
+        </a> <button class="btn-sm btn btn-danger" id="'.$users->id.'"  title="delete"><i class="glyphicon glyphicon-remove"></i></button>' ;
+    })
         ->make(true);
     }
     /**
@@ -123,5 +124,6 @@ class UserController extends Controller
      */
     public function destroy()
     {
+        dd("hello");
     }
 }
