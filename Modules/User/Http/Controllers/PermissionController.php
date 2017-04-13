@@ -59,10 +59,9 @@ class PermissionController extends Controller
      * Show the form for editing the specified resource.
      * @return Response
      */
-    public function edit()
-    {
-        // return view('user::edit');
-        dd("sla;");
+    public function edit(Permission $permission)
+    { 
+        return view('user::edit_permission',['permission'=>$permission]);
     }
 
     /**
@@ -70,16 +69,18 @@ class PermissionController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function update(Request $request)
-    {
+    public function update(\Modules\User\Http\Requests\PermissionRequest $request,Permission $permission)
+    { 
+        $permission->update($request->all());    
+        return back();
     }
 
     /**
      * Remove the specified resource from storage.
      * @return Response
      */
-    public function destroy(User $user)
+    public function destroy(Permission $permission)
     {
-        dd($user);
+        $permission->delete(); 
     }
 }
