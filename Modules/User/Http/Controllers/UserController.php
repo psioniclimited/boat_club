@@ -123,7 +123,7 @@ class UserController extends Controller
      * @return Response
      */
     public function destroy(User $user)
-    {
-        dd($user);
+    { 
+        $user->delete(); 
     }
 }
