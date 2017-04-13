@@ -7,4 +7,5 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Use
 	Route::post('/login', ['uses'=>'UserController@login']);
 	Route::resource('user', 'UserController'); 
 	Route::resource('permission', 'PermissionController'); 
+	Route::resource('role', 'RoleController'); 
 });

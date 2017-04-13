@@ -5,7 +5,10 @@ namespace Modules\User\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-
+use Modules\User\Entities\User;
+use Modules\User\Entities\Role;
+use Datatables;
+use \Modules\Helpers\DatatableHelper;
 class RoleController extends Controller
 {
     /**
@@ -14,16 +17,21 @@ class RoleController extends Controller
      */
     public function index()
     {
-        return view('user::index');
+        return view('user::role');
     }
 
     /**
      * Show the form for creating a new resource.
      * @return Response
      */
-    public function create()
+    public function create(DatatableHelper $databaseHelper)
     {
-        return view('user::create');
+        $roles = Role::all(); 
+        return Datatables::of($roles)
+        ->addColumn('action', function ($roles) use ($databaseHelper){
+            return $databaseHelper->editButton('role',$roles->id).' '.$databaseHelper->deleteButton($roles->id);
+        })
+        ->make(true);
     }
 
     /**
@@ -31,8 +39,10 @@ class RoleController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(\Modules\User\Http\Requests\PermissionRequest $request)
     {
+        $role = Role::create($request->all());
+        return back();
     }
 
     /**
@@ -48,9 +58,9 @@ class RoleController extends Controller
      * Show the form for editing the specified resource.
      * @return Response
      */
-    public function edit()
+    public function edit(Role $role)
     {
-        return view('user::edit');
+        return view('user::edit_role',['role'=>$role]);
     }
 
     /**
@@ -58,15 +68,19 @@ class RoleController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function update(Request $request)
-    {
+    public function update(\Modules\User\Http\Requests\PermissionRequest $request,Role $role)
+    { 
+        $role->update($request->all());    
+        return back();
     }
+
 
     /**
      * Remove the specified resource from storage.
      * @return Response
      */
-    public function destroy()
+    public function destroy($id)
     {
+        Role::whereId($id)->delete();
     }
 }

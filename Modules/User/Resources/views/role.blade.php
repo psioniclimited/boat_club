@@ -4,13 +4,13 @@
 <link rel="stylesheet" href="{{asset('bower_components/AdminLTE')}}/plugins/datatables/dataTables.bootstrap.css"> 
 @endsection
 @section('page_header')
-Permission
+Role
 @endsection
 @section('page_description')
-Register new permission
+Register new Role
 @endsection
 @section('breadcrumb')
-{!! Breadcrumbs::render('permission') !!}
+{!! Breadcrumbs::render('role') !!}
 @endsection
 @section('content')
 <!-- Content Header (Page header) -->
@@ -23,9 +23,9 @@ Register new permission
             <!-- Horizontal Form -->
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Permission Create</h3>
+                    <h3 class="box-title">Role Create</h3>
                 </div>
-                {!! Form::open(array('route'=>'permission.store','id'=>'add_permission_form','class' => 'form-horizontal')) !!}
+                {!! Form::open(array('route'=>'role.store','id'=>'add_role_form','class' => 'form-horizontal')) !!}
                 <div class="box-body">
                     @if (count($errors) > 0)
                     <div class="alert alert-danger alert-login col-md-12">
@@ -66,15 +66,15 @@ Register new permission
         <div class="col-lg-6">
           <div class="box box-info">
             <div class="box-header with-border">
-                <h3 class="box-title">Permission List</h3>
+                <h3 class="box-title">Role List</h3>
             </div>
             <div class="box-body"> 
-                <table id="all_permission_table" class="table table-bordered table-hover">
+                <table id="all_role_table" class="table table-bordered table-hover">
                     <thead>
                       <tr> 
-                        <th>Permission Name</th>
+                        <th>Role Name</th>
                         <th>Display Name</th> 
-                        <th>Permission Description</th>
+                        <th>Role Description</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -102,7 +102,7 @@ Register new permission
          <p>Are you sure about this ?</p>
      </div>
      <div class="modal-footer">
-         <button type="button" class="btn btn-danger" id="delete_permission">Delete</button>
+         <button type="button" class="btn btn-danger" id="delete_role">Delete</button>
          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
      </div>
  </div>
@@ -138,7 +138,7 @@ Register new permission
     });
 
     // initialize validate plugin on the form
-    $('#add_permission_form').validate({
+    $('#add_role_form').validate({
         errorPlacement: function (error, element) { 
             var lastError = $(element).data('lastError'),
             newError = $(error).text();
@@ -167,7 +167,7 @@ Register new permission
 
 
     //Datatable Generation
-    var table = $('#all_permission_table').DataTable({
+    var table = $('#all_role_table').DataTable({
      "paging": true,
      "lengthChange": true,
      "searching": true,
@@ -176,7 +176,7 @@ Register new permission
      "autoWidth": false,
      "processing": true,
      "serverSide": true,
-     "ajax": "{{URL::to('/permission/create')}}",
+     "ajax": "{{URL::to('/role/create')}}",
      "columns": [ 
      {"data": "name"},
      {"data": "display_name"}, 
@@ -197,12 +197,12 @@ $('#confirm_delete').on('show.bs.modal', function(e) {
    var $modal = $(this),
    user_id = e.relatedTarget.id;
 
-   $('#delete_permission').click(function(e){
+   $('#delete_role').click(function(e){
      event.preventDefault();
      $.ajax({
        cache: false,
        type: 'DELETE',
-       url: '/permission/' + user_id,
+       url: '/role/' + user_id,
        data: user_id,
        success: function(data){
          table.ajax.reload(null, false);

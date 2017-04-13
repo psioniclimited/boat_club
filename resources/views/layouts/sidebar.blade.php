@@ -56,6 +56,7 @@
         <ul class="treeview-menu">
           <li><a href="{{URL::to('/')}}/user/create">Create User</a></li>
           <li><a href="{{URL::to('/')}}/user/all_users">All Users</a></li> 
+          <li><a href="{{URL::to('/')}}/role">Role</a></li> 
           <li><a href="{{URL::to('/')}}/permission">Permission</a></li> 
         </ul>
       </li>  

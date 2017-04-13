@@ -41,8 +41,7 @@ class PermissionController extends Controller
      */
     public function store(\Modules\User\Http\Requests\PermissionRequest $request)
     {
-        $user = Permission::create($request->all());
-        $user->save();
+        $permission = Permission::create($request->all());
         return back();
     }
 
