@@ -2,8 +2,8 @@
 namespace Modules\Helpers;
 use Form;
 class DatatableHelper{
-	public function editButton($id){
-		return '<a href="' . url('/').'/user/' . $id.'/edit" class="btn btn-sm btn-info" title="edit"><i class="glyphicon glyphicon-edit"></i>
+	public function editButton($link,$id){
+		return '<a href="' . url('/').'/'.$link.'/' . $id.'/edit" class="btn btn-sm btn-info" title="edit"><i class="glyphicon glyphicon-edit"></i>
 	</a>';
 }
 

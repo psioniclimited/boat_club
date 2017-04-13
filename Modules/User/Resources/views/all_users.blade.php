@@ -97,7 +97,7 @@ A list of all the users
      "order": [[0, 'asc']]
    });  
 
-// Delete Customer
+// Delete User
 $('#confirm_delete').on('show.bs.modal', function(e) {
  var $modal = $(this),
  user_id = e.relatedTarget.id;

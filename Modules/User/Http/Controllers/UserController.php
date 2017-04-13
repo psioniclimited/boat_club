@@ -75,7 +75,7 @@ class UserController extends Controller
         $users = User::all(); 
         return Datatables::of($users)
         ->addColumn('action', function ($users) use ($databaseHelper){
-            return $databaseHelper->editButton($users->id).' '.$databaseHelper->deleteButton($users->id);
+            return $databaseHelper->editButton('user',$users->id).' '.$databaseHelper->deleteButton($users->id);
         })
         ->make(true);
     }

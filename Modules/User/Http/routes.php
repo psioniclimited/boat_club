@@ -6,4 +6,5 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Use
 	Route::get('/user/get_users', ['uses'=>'UserController@getUsers']);
 	Route::post('/login', ['uses'=>'UserController@login']);
 	Route::resource('user', 'UserController'); 
+	Route::resource('permission', 'PermissionController'); 
 });

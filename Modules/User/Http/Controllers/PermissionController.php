@@ -5,7 +5,10 @@ namespace Modules\User\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-
+use Modules\User\Entities\User;
+use Modules\User\Entities\Permission;
+use Datatables;
+use \Modules\Helpers\DatatableHelper;
 class PermissionController extends Controller
 {
     /**
@@ -14,16 +17,21 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        return view('user::index');
+        return view('user::permission');
     }
 
     /**
      * Show the form for creating a new resource.
      * @return Response
      */
-    public function create()
-    {
-        return view('user::create');
+    public function create(DatatableHelper $databaseHelper)
+    { 
+        $permissions = Permission::all(); 
+        return Datatables::of($permissions)
+        ->addColumn('action', function ($permissions) use ($databaseHelper){
+            return $databaseHelper->editButton('permission',$permissions->id).' '.$databaseHelper->deleteButton($permissions->id);
+        })
+        ->make(true);
     }
 
     /**
@@ -31,8 +39,11 @@ class PermissionController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(\Modules\User\Http\Requests\PermissionRequest $request)
     {
+        $user = Permission::create($request->all());
+        $user->save();
+        return back();
     }
 
     /**
@@ -50,7 +61,8 @@ class PermissionController extends Controller
      */
     public function edit()
     {
-        return view('user::edit');
+        // return view('user::edit');
+        dd("sla;");
     }
 
     /**
@@ -66,7 +78,8 @@ class PermissionController extends Controller
      * Remove the specified resource from storage.
      * @return Response
      */
-    public function destroy()
+    public function destroy(User $user)
     {
+        dd($user);
     }
 }
