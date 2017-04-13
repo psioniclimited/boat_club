@@ -40,61 +40,84 @@ A list of all the users
   </div>    
 </section>
 <!-- /.content -->
-
-<!-- Modal for User Delete -->
-<div >
-  <div class="modal" id="delete_user_modal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Delete User</h4>
-          </div>
-          <div class="modal-body">
-            <p>Are you sure, You want to delete this user?</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-          </div>
-        </div>
-        <!-- /.modal-content -->
-      </div>
-      <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
-  </div> 
-  @endsection
+<!-- Delete Customer Modal -->
+<div class="modal fade" id="confirm_delete" role="dialog">
+ <div class="modal-dialog">
+   <!-- Modal content-->
+   <div class="modal-content">
+     <div class="modal-header">
+       <button type="button" class="close" data-dismiss="modal">&times;</button>
+       <h4 class="modal-title">Remove Parmanently</h4>
+     </div>
+     <div class="modal-body">
+       <p>Are you sure about this ?</p>
+     </div>
+     <div class="modal-footer">
+       <button type="button" class="btn btn-danger" id="delete_user">Delete</button>
+       <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+     </div>
+   </div>
+   <!-- /. Modal content ends here -->
+ </div>
+</div>
+<!--  Delete Customer Modal ends here -->
+</div> 
+@endsection
 
 
 
 
 
-  @section('scripts')
-  <!-- DataTables -->
-  <script src="{{asset('bower_components/AdminLTE')}}/plugins/datatables/jquery.dataTables.min.js"></script>
-  <script src="{{asset('bower_components/AdminLTE')}}/plugins/datatables/dataTables.bootstrap.min.js"></script>
-  <script>
-    $('document').ready(function(){
-     var table = $('#all_user_table').DataTable({
-       "paging": true,
-       "lengthChange": true,
-       "searching": true,
-       "ordering": true,
-       "info": true,
-       "autoWidth": false,
-       "processing": true,
-       "serverSide": true,
-       "ajax": "{{URL::to('/user/get_users')}}",
-       "columns": [ 
-       {"data": "name"},
-       {"data": "email"}, 
-       {data: 'action', name: 'action', orderable: false, searchable: false}
-       ],
-       "order": [[0, 'asc']]
-     }); 
-     $('#delete_user_modal').modal('show');
+@section('scripts')
+<!-- DataTables -->
+<script src="{{asset('bower_components/AdminLTE')}}/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="{{asset('bower_components/AdminLTE')}}/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script>
+  $('document').ready(function(){
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    })    
+    var table = $('#all_user_table').DataTable({
+     "paging": true,
+     "lengthChange": true,
+     "searching": true,
+     "ordering": true,
+     "info": true,
+     "autoWidth": false,
+     "processing": true,
+     "serverSide": true,
+     "ajax": "{{URL::to('/user/get_users')}}",
+     "columns": [ 
+     {"data": "name"},
+     {"data": "email"}, 
+     {data: 'action', name: 'action', orderable: false, searchable: false}
+     ],
+     "order": [[0, 'asc']]
+   });  
+
+// Delete Customer
+$('#confirm_delete').on('show.bs.modal', function(e) {
+ var $modal = $(this),
+ user_id = e.relatedTarget.id;
+
+ $('#delete_user').click(function(e){
+   event.preventDefault();
+   $.ajax({
+     cache: false,
+     type: 'DELETE',
+     url: '/user/' + user_id,
+     data: user_id,
+     success: function(data){
+       table.ajax.reload(null, false);
+       $('#confirm_delete').modal('toggle');
+     }
    });
- </script>
- @endsection
+ });
+});
+
+});   
+
+</script>
+@endsection
