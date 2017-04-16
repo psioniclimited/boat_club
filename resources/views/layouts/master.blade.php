@@ -28,7 +28,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         apply the skin class to the body tag so the changes take effect.
       -->
       <link rel="stylesheet" href="{{asset('bower_components/AdminLTE/dist/css/skins/skin-blue.min.css')}}"> 
-  <!--  custom css-->
+      <!--  custom css-->
       <link rel="stylesheet" href="{{asset('css/custom.css')}}"> 
 
 
@@ -57,8 +57,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Main content -->
       <section class="content">
         <!-- Your Page Content Here -->
+        @if (session('status'))
+        <div class="alert alert-success alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <h4><i class="icon fa fa-check"></i> Alert!</h4>
+          {{session('status')}}
+        </div>       
+        @endif 
         @yield('content')
-
       </section>
       <!-- /.content -->
     </div>

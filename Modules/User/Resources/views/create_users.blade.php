@@ -103,8 +103,7 @@ Register a new User with Admin LTE
 
     // initialize validate plugin on the form
     $('#add_user_form').validate({
-        errorPlacement: function (error, element) {
-            alert("asjl");
+        errorPlacement: function (error, element) { 
             var lastError = $(element).data('lastError'),
             newError = $(error).text();
 

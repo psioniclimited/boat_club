@@ -56,6 +56,7 @@ class UserController extends Controller
         $user->password = bcrypt($request->input('password'));
         $user->save();
         $user->roles()->sync($request->input('role')); 
+        $request->session()->flash('status', 'Task was successful!');
         return back();
     }
     /**
@@ -116,6 +117,7 @@ class UserController extends Controller
         }
         $user->save();
         $user->roles()->sync($request->input('role')); 
+        $request->session()->flash('status', 'Task was successful!');
         return back();
     }
     /**
