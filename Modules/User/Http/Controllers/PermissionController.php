@@ -71,7 +71,7 @@ class PermissionController extends Controller
     public function update(\Modules\User\Http\Requests\PermissionRequest $request,Permission $permission)
     { 
         $permission->update($request->all());    
-        return back();
+        return redirect('/permission');
     }
 
     /**

@@ -100,5 +100,5 @@ return [
             'expire' => 60,
         ],
     ],
-
+    'model' => Modules\User\Entities\User::class,    
 ];

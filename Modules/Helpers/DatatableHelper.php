@@ -13,4 +13,11 @@ public function deleteButton($id){
                <i class="glyphicon glyphicon-trash"></i> 
            </a>';
 }
+public function setPermissionButton($id){
+	return '<a class="btn btn-sm btn-success" 
+	href="' . url('/').'/role_permission/' . $id.'/edit"
+             title="set permission">
+               <i class="glyphicon glyphicon-pencil"></i> 
+           </a>';
+}
 }

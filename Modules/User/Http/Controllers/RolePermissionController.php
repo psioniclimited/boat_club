@@ -5,11 +5,10 @@ namespace Modules\User\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Modules\User\Entities\User;
 use Modules\User\Entities\Role;
-use Datatables;
-use \Modules\Helpers\DatatableHelper;
-class RoleController extends Controller
+use Modules\User\Entities\Permission;
+use Modules\User\Repositories\RoleRepository;
+class RolePermissionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,21 +16,16 @@ class RoleController extends Controller
      */
     public function index()
     {
-        return view('user::role');
+        return view('user::role_permission_index');
     }
 
     /**
      * Show the form for creating a new resource.
      * @return Response
      */
-    public function create(DatatableHelper $databaseHelper)
-    {
-        $roles = Role::all(); 
-        return Datatables::of($roles)
-        ->addColumn('action', function ($roles) use ($databaseHelper){
-            return $databaseHelper->editButton('role',$roles->id).' '.$databaseHelper->deleteButton($roles->id).' '.$databaseHelper->setPermissionButton($roles->id);
-        })
-        ->make(true);
+    public function create()
+    {  
+
     }
 
     /**
@@ -39,10 +33,8 @@ class RoleController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function store(\Modules\User\Http\Requests\PermissionRequest $request)
+    public function store(Request $request)
     {
-        $role = Role::create($request->all());
-        return back();
     }
 
     /**
@@ -59,8 +51,9 @@ class RoleController extends Controller
      * @return Response
      */
     public function edit(Role $role)
-    {
-        return view('user::edit_role',['role'=>$role]);
+    {   
+        $permissions = Permission::all();  
+        return view('user::edit_role_permission',['role'=>$role,'permissions'=>$permissions]);
     }
 
     /**
@@ -68,19 +61,23 @@ class RoleController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function update(\Modules\User\Http\Requests\PermissionRequest $request,Role $role)
+    public function update(Request $request, Role $role)
     { 
-        $role->update($request->all());     
-        return redirect('/role');
+        $role->perms()->sync($request->permissions);
+        return back();
     }
-
 
     /**
      * Remove the specified resource from storage.
      * @return Response
      */
-    public function destroy(Role $role)
-    { 
-        $role->delete();
+    public function destroy()
+    {
     }
+
+    public function getRoles(Request $request, RoleRepository $roleRepository)
+    {
+        return $roleRepository->getAllRoles('name', $request->input('term'), ['id', 'name as text']);
+    }
+
 }
