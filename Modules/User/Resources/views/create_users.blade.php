@@ -30,40 +30,36 @@ Register a new User with Admin LTE
  
                 {!! Form::open(array('route'=>'user.store','id'=>'add_user_form','class' => 'form-horizontal')) !!}
                  <div class="box-body">
-                    @if (count($errors) > 0)
-                    <div class="alert alert-danger alert-login col-md-12">
-                        <ul class="list-unstyled">
-                            @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    @endif
                     <div class="col-md-6"> 
-                        <div class="form-group">
+                        <div class="form-group @if ($errors->has('name')) has-error @endif">
                             <label for="name" class="control-label">name*</label> 
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" value="{{old('name')}}"> 
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" value="{{old('name')}}">
+                             @if ($errors->has('name')) <p class="help-block">{{ $errors->first('name') }}</p> @endif 
                         </div>
-                        <div class="form-group">
+                        <div class="form-group @if ($errors->has('email')) has-error @endif">
                             <label for="email" class="control-label">Email*</label> 
                             <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" value="{{old('email')}}"> 
+                             @if ($errors->has('email')) <p class="help-block">{{ $errors->first('email') }}</p> @endif 
                         </div>
-                        <div class="form-group">
+                        <div class="form-group @if ($errors->has('role')) has-error @endif" >
                             <label for="roles" class="control-label">Role*</label> 
                             <select class="form-control" name="role" >
                                 <option value="">Select Role</option>
                                 @foreach($roles as $role)
                                 <option value="{{$role->id}}">{{$role->display_name}}</option>
                                 @endforeach
-                            </select> 
+                            </select>  
+                             @if ($errors->has('role')) <p class="help-block">{{ $errors->first('role') }}</p> @endif 
                         </div>
-                        <div class="form-group">
+                        <div class="form-group @if ($errors->has('password')) has-error @endif">
                             <label for="password" class="control-label">Password*</label> 
                             <input type="password" class="form-control" id="password" name="password" placeholder="Enter password"> 
+                             @if ($errors->has('password')) <p class="help-block">{{ $errors->first('password') }}</p> @endif  
                         </div>
-                        <div class="form-group">
+                        <div class="form-group @if ($errors->has('password_confirmation')) has-error @endif">
                             <label for="password_confirmation" class="control-label">Confirm Password*</label> 
                             <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Enter password again"> 
+                             @if ($errors->has('password_confirmation')) <p class="help-block">{{ $errors->first('password_confirmation') }}</p> @endif 
                         </div> 
                     </div>
                     <!-- /.col -->

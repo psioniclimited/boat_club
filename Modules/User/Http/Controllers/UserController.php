@@ -108,7 +108,9 @@ class UserController extends Controller
      * @return Response
      */
     public function update(\Modules\User\Http\Requests\UserEditRequest $request, User $user){   
-        $this->validate($request, [
+        $this->validate($request, [       
+             'name'=>'required', 
+            'password'=>'confirmed',
             'email' => 'required|unique:users,email,'. $user->id
             ]);
         $user->update($request->all());

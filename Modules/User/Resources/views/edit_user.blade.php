@@ -30,24 +30,26 @@ Edit User
                 {!! Form::open(array('route' => array('user.update', $user->id), 'id' => 'edit_user_form', 'method'=>'PUT')) !!}          
                 <div class="box-body">
                     @if (count($errors) > 0)
-                    <div class="alert alert-danger alert-login col-md-12">
+<!--                     <div class="alert alert-danger alert-login col-md-12">
                         <ul class="list-unstyled">
                             @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
                             @endforeach
                         </ul>
-                    </div>
+                    </div> -->
                     @endif
                     <div class="col-md-6"> 
-                        <div class="form-group">
+                        <div class="form-group @if ($errors->has('name')) has-error @endif">
                             <label for="name" class="control-label">name*</label> 
                             <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" value="{{$user->name}}"> 
+                            @if ($errors->has('name')) <p class="help-block">{{ $errors->first('name') }}</p> @endif 
                         </div>
-                        <div class="form-group">
+                        <div class="form-group @if ($errors->has('email')) has-error @endif">
                             <label for="email" class="control-label">Email*</label> 
                             <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" value="{{$user->email}}"> 
+                            @if ($errors->has('email')) <p class="help-block">{{ $errors->first('email') }}</p> @endif 
                         </div>
-                        <div class="form-group">
+                        <div class="form-group @if ($errors->has('role')) has-error @endif">
                             <label for="roles" class="control-label">Rolea*</label> 
                             <select class="form-control" name="role" >
                                 @foreach($roles as $role)
@@ -58,14 +60,17 @@ Edit User
                                     @endif
                                 @endforeach
                             </select> 
+                            @if ($errors->has('role')) <p class="help-block">{{ $errors->first('role') }}</p> @endif 
                         </div>
-                        <div class="form-group">
+                        <div class="form-group @if ($errors->has('password')) has-error @endif">
                             <label for="password" class="control-label">Password*</label> 
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter password"> 
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
+                            @if ($errors->has('password')) <p class="help-block">{{ $errors->first('password') }}</p> @endif  
                         </div>
-                        <div class="form-group">
+                        <div class="form-group @if ($errors->has('password')) has-error @endif">
                             <label for="password_confirmation" class="control-label">Confirm Password*</label> 
                             <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Enter password again"> 
+                            @if ($errors->has('password')) <p class="help-block">{{ $errors->first('password') }}</p> @endif 
                         </div> 
                     </div>
                     <!-- /.col -->
@@ -119,16 +124,12 @@ Edit User
         },
         rules: {
             name: {required: true, minlength: 4},
-            email: {required: true, email: true},
-            // password: {required: true, minlength: 6},
-            // password_confirmation: {required: true, equalTo: "#password"},
+            email: {required: true, email: true}, 
             role: {required: true}
         },
         messages: {
             name: {required: "Please give name"},
-            email: {required: "Insert email address"},
-            // password: {required: "Six digit password"},
-            // password_confirmation: {required: "Re-enter same password"},
+            email: {required: "Insert email address"}, 
             role: {required: "Please select a role"}
         }
     });

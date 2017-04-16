@@ -28,26 +28,29 @@ Register new permission
                 {!! Form::open(array('route'=>'permission.store','id'=>'add_permission_form','class' => 'form-horizontal')) !!}
                 <div class="box-body">
                     @if (count($errors) > 0)
-                    <div class="alert alert-danger alert-login col-md-12">
+<!--                     <div class="alert alert-danger alert-login col-md-12">
                         <ul class="list-unstyled">
                             @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
                             @endforeach
                         </ul>
-                    </div>
+                    </div> -->
                     @endif
                     <div class="col-md-12"> 
-                        <div class="form-group">
+                        <div class="form-group @if ($errors->has('name')) has-error @endif">
                             <label for="name" class="control-label">name*</label> 
                             <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" value="{{old('name')}}"> 
+                            @if ($errors->has('name')) <p class="help-block">{{ $errors->first('name') }}</p> @endif   
                         </div>
-                        <div class="form-group">
+                        <div class="form-group @if ($errors->has('display_name')) has-error @endif">
                             <label for="display_name" class="control-label">Display Name*</label> 
                             <input type="text" class="form-control" id="display_name" name="display_name" placeholder="Enter Display Name" value="{{old('display_name')}}"> 
+                            @if ($errors->has('display_name')) <p class="help-block">{{ $errors->first('display_name') }}</p> @endif  
                         </div>
-                        <div class="form-group">
+                        <div class="form-group @if ($errors->has('description')) has-error @endif">
                             <label for="description" class="control-label">Description</label> 
                             <input type="text" class="form-control" id="description" name="description" placeholder="Enter Description" value="{{old('description')}}"> 
+                            @if ($errors->has('description')) <p class="help-block">{{ $errors->first('description') }}</p> @endif
                         </div>
                     </div>
                     <!-- /.col -->
