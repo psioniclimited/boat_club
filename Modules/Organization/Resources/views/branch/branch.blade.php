@@ -235,17 +235,18 @@ var parameters = {
 }
 // initialize select2 for district_id
 init_select2(parameters);
-
-var param1=$("#district_id").select2('val');
+var param1=$("#district_id");
 parameters = {
     placeholder: "Post Office",
     url: '{{URL::to("/")}}/branch/get_post_offices',
     selector_id:post_office_id ,
-    data:{ "district_id":param1}
+    value_id:param1
 }
 
 // initialize select2 for post_office_id
-init_select2(parameters);
+init_select2_with_one_parameter(parameters);
+
+
 parameters = {
     placeholder: "Branch Type",
     url: '{{URL::to("/")}}/branch/get_branch_types',
@@ -269,124 +270,6 @@ $('#branch_type_id').change(function(){
       });
 
 
-
-
-
-
-
-
-
-
-
-// console.log(init_select2(parameters))
-
-// var select_district = $('#district_id').select2({
-//   placeholder: "Select a District",
-//   allowClear: true,
-//   ajax: {
-//     dataType: 'json',
-//     url: "{{URL::to('/')}}/branch/get_districts",
-//     delay: 250,
-//     data: function(params) {
-//       return {
-//         term: params.term,
-//         page: params.page
-//     }
-// },
-// processResults: function (data, params) {
-//   params.page = params.page || 1;
-//   return {
-//     results: data,
-//     pagination: {
-//       more: (params.page * 30) < data.total_count
-//   }
-// };
-// },
-// cache: true
-// }
-// });
-
-
-
-
-
-
-
-
-//select2 for district
-// var select_post_office = $('#post_office_id').select2({
-//   placeholder: "Select a Post Office",
-//   allowClear: true,
-//   ajax: {
-//     dataType: 'json',
-//     url: "{{URL::to('/')}}/branch/get_post_offices",
-//     delay: 250,
-//     data: function(params) {
-//       return {
-//         term: params.term,
-//         page: params.page
-//     }
-// },
-// processResults: function (data, params) {
-//   params.page = params.page || 1;
-//   return {
-//     results: data,
-//     pagination: {
-//       more: (params.page * 30) < data.total_count
-//   }
-// };
-// },
-// cache: true
-// }
-// });
-// select_post_office.change(function(){ 
-//     // var role_id=$(this).val();
-//       $(this).valid(); // trigger validation on this element
-//       });// select role change
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//select2 for branch type
-// var select_branch_type = $('#branch_type_id').select2({
-//   placeholder: "Select Branch Type",
-//   allowClear: true,
-//   ajax: {
-//     dataType: 'json',
-//     url: "{{URL::to('/')}}/branch/get_branch_types",
-//     delay: 250,
-//     data: function(params) {
-//       return {
-//         term: params.term,
-//         page: params.page
-//     }
-// },
-// processResults: function (data, params) {
-//   params.page = params.page || 1;
-//   return {
-//     results: data,
-//     pagination: {
-//       more: (params.page * 30) < data.total_count
-//   }
-// };
-// },
-// cache: true
-// }
-// });
-// select_branch_type.change(function(){ 
-//     // var role_id=$(this).val();
-//       $(this).valid(); 
-//       }); 
 
 
 });//document ready

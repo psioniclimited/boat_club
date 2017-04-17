@@ -79,7 +79,7 @@ class BranchController extends Controller
         return $branchRepository->getAllDistricts('district_name', $request->input('term'), ['id', 'district_name as text']); 
     }    
 
-    public function getPostOffices(Request $request, BranchRepository $branchRepository){
-        return $branchRepository->getPostOffices('post_office_name', $request->input('term'), ['id', 'post_office_name as text']); 
+    public function getPostOffices(Request $request, BranchRepository $branchRepository){ 
+        return $branchRepository->getPostOffices('post_office_name', $request->input('term'),$request->input('value_term'), ['id', 'post_office_name as text']); 
     }
 }
