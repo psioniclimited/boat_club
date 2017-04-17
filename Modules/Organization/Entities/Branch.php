@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Branch extends Model
 {
 	protected $table = 'branch';
+	
+
+	public $timestamps = false;
+
+
+
 	protected $fillable = ['branch_name','description','branch_type_id','district_id','post_office_id'];
 
 	public function branch_type(){

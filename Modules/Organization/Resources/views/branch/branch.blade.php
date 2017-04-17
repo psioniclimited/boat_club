@@ -29,10 +29,10 @@ Set up your Organization's Branches
                 {!! Form::open(array('route'=>'branch.store','id'=>'add_branch_form','class' => 'form-horizontal')) !!}
                 <div class="box-body">
                     <div class="col-md-12"> 
-                        <div class="form-group @if ($errors->has('name')) has-error @endif">
+                        <div class="form-group @if ($errors->has('branch_name')) has-error @endif">
                             <label for="name" class="control-label">name*</label> 
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" value="{{old('name')}}"> 
-                            @if ($errors->has('name')) <p class="help-block">{{ $errors->first('name') }}</p> @endif                             
+                            <input type="text" class="form-control" id="branch_name" name="branch_name" placeholder="Enter name" value="{{old('name')}}"> 
+                            @if ($errors->has('branch_name')) <p class="help-block">{{ $errors->first('branch_name') }}</p> @endif                             
                         </div>
                         <div class="form-group @if ($errors->has('description')) has-error @endif">
                             <label for="description" class="control-label">Description</label> 
@@ -78,9 +78,11 @@ Set up your Organization's Branches
                 <table id="all_role_table" class="table table-bordered table-hover">
                     <thead>
                       <tr> 
-                        <th>Role Name</th>
-                        <th>Display Name</th> 
-                        <th>Role Description</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Branch Type</th> 
+                        <th>District</th>
+                        <th>Post Office</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -161,13 +163,13 @@ Set up your Organization's Branches
             $(element).tooltipster('hide');
         },
         rules: {
-            name: {required: true, minlength: 4},
+            branch_name: {required: true, minlength: 4},
             branch_type_id: {required: true},
             district_id: {required: true},
             post_office_id: {required: true},
         },
         messages: {
-            name: {required: "Please give name"},
+            branch_name: {required: "Please give name"},
             branch_type_id: {required: "Please Select a Branch Type"},
             district_id: {required: "Please Select a District"},
             post_office_id: {required: "Please Select a Post Office"}
@@ -185,11 +187,13 @@ Set up your Organization's Branches
      "autoWidth": false,
      "processing": true,
      "serverSide": true,
-     "ajax": "{{URL::to('/role/create')}}",
+     "ajax": "{{URL::to('/branch/get_all_branches')}}",
      "columns": [ 
-     {"data": "name"},
-     {"data": "display_name"}, 
+     {"data": "branch_name"},
      {"data": "description"}, 
+     {"data": "branch_type.branch_type_name"}, 
+     {"data": "district.district_name"}, 
+     {"data": "post_office.post_office_name"}, 
      {data: 'action', name: 'action', orderable: false, searchable: false}
      ],
      "order": [[0, 'asc']]

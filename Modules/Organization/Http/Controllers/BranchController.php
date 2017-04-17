@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Organization\Repositories\BranchRepository;
+use Modules\Organization\Entities\Branch;
+use \Modules\Helpers\DatatableHelper;
+use Datatables;
 class BranchController extends Controller
 {
     /**
@@ -31,9 +34,13 @@ class BranchController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(\Modules\Organization\Http\Requests\BranchCreateRequet $request)
     {
-    }
+        // dd($request->all());
+       $user = Branch::create($request->all());  
+       $request->session()->flash('status', 'Task was successful!');
+       return back();
+   }
 
     /**
      * Show the specified resource.
@@ -82,4 +89,18 @@ class BranchController extends Controller
     public function getPostOffices(Request $request, BranchRepository $branchRepository){ 
         return $branchRepository->getPostOffices('post_office_name', $request->input('term'),$request->input('value_term'), ['id', 'post_office_name as text']); 
     }
+
+    public function getAllBranches(DatatableHelper $databaseHelper)
+    { 
+        $branches = Branch::with('branch_type','district','post_office'); 
+
+        return Datatables::of($branches)
+        ->addColumn('action', function ($branches) use ($databaseHelper){
+            return $databaseHelper->editButton('branch',$branches->id).' '.$databaseHelper->deleteButton($branches->id);
+        })
+        ->make(true);
+    }
+
+
 }
+
