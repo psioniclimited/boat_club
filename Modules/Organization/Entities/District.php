@@ -8,7 +8,7 @@ class District extends Model
 {
 	protected $table = 'district';
 
-	protected $fillable = ['name','district_name'];
+	protected $fillable = ['district_name'];
 
 	public function post_offices(){
 		return $this->hasMany('Modules\Organization\Entities\PostOffice');

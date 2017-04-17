@@ -69,8 +69,17 @@ class BranchController extends Controller
     public function destroy()
     {
     }
-    public function getDistricts(Request $request, BranchRepository $branchRepository)
-    {
-        return $branchRepository->getAllDistricts('name', $request->input('term'), ['id', 'name as text']); 
+    
+    public function getBranchTypes(Request $request, BranchRepository $branchRepository){
+        return $branchRepository->getAllBranchTypes('branch_type_name', $request->input('term'), ['id', 'branch_type_name as text']); 
+    }
+
+
+    public function getDistricts(Request $request, BranchRepository $branchRepository){
+        return $branchRepository->getAllDistricts('district_name', $request->input('term'), ['id', 'district_name as text']); 
+    }    
+
+    public function getPostOffices(Request $request, BranchRepository $branchRepository){
+        return $branchRepository->getPostOffices('post_office_name', $request->input('term'), ['id', 'post_office_name as text']); 
     }
 }

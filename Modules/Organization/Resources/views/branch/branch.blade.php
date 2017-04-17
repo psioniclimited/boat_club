@@ -1,8 +1,8 @@
 @extends('layouts.master')
 @section('css')
+<link rel="stylesheet" href="{{asset('bower_components/AdminLTE/plugins/select2/select2.min.css')}}">
 <link rel="stylesheet" href="{{asset('plugins/tooltipster/tooltipster.css')}}">
-<link rel="stylesheet" href="{{asset('bower_components/AdminLTE')}}/plugins/datatables/dataTables.bootstrap.css"> 
-<link rel="stylesheet" href="{{asset('bower_components/AdminLTE/plugins/select2/select2.min.css')}}"> 
+<link rel="stylesheet" href="{{asset('bower_components/AdminLTE')}}/plugins/datatables/dataTables.bootstrap.css">  
 @endsection
 @section('page_header')
 Branch
@@ -41,8 +41,18 @@ Set up your Organization's Branches
                         </div>
                         <div class="form-group @if ($errors->has('district_id')) has-error @endif">
                             <label for="district_id" class="control-label">District*</label>
-                            <select class="js-example-basic-single js-states form-control" id="district_id"></select>
+                            <select class="js-example-basic-single js-states form-control" name="district_id" id="district_id"></select>
                             @if ($errors->has('district_id')) <p class="help-block">{{ $errors->first('district_id') }}</p> @endif 
+                        </div>
+                        <div class="form-group @if ($errors->has('post_office_id')) has-error @endif">
+                            <label for="district_id" class="control-label">Post Office*</label>
+                            <select class="js-example-basic-single js-states form-control" name="post_office_id" id="post_office_id"></select>
+                            @if ($errors->has('post_office_id')) <p class="help-block">{{ $errors->first('post_office_id') }}</p> @endif 
+                        </div>
+                        <div class="form-group @if ($errors->has('branch_type_id')) has-error @endif">
+                            <label for="district_id" class="control-label">Branch Type*</label>
+                            <select class="js-example-basic-single js-states form-control" name="branch_type_id" id="branch_type_id"></select>
+                            @if ($errors->has('branch_type_id')) <p class="help-block">{{ $errors->first('branch_type_id') }}</p> @endif 
                         </div>
 
                     </div>
@@ -87,22 +97,22 @@ Set up your Organization's Branches
 
 <!-- Delete Customer Modal -->
 <div class="modal fade" id="confirm_delete" role="dialog">
- <div class="modal-dialog">
-   <!-- Modal content-->
-   <div class="modal-content">
-     <div class="modal-header">
-       <button type="button" class="close" data-dismiss="modal">&times;</button>
-       <h4 class="modal-title">Remove Parmanently</h4>
-   </div>
-   <div class="modal-body">
-       <p>Are you sure about this ?</p>
-   </div>
-   <div class="modal-footer">
-       <button type="button" class="btn btn-danger" id="delete_role">Delete</button>
-       <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-   </div>
-</div>
-<!-- /. Modal content ends here -->
+   <div class="modal-dialog">
+     <!-- Modal content-->
+     <div class="modal-content">
+       <div class="modal-header">
+         <button type="button" class="close" data-dismiss="modal">&times;</button>
+         <h4 class="modal-title">Remove Parmanently</h4>
+     </div>
+     <div class="modal-body">
+         <p>Are you sure about this ?</p>
+     </div>
+     <div class="modal-footer">
+         <button type="button" class="btn btn-danger" id="delete_role">Delete</button>
+         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+     </div>
+ </div>
+ <!-- /. Modal content ends here -->
 </div>
 </div>
 <!--  Delete Customer Modal ends here -->
@@ -115,6 +125,7 @@ Set up your Organization's Branches
 <script src="{{asset('bower_components/AdminLTE')}}/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="{{asset('bower_components/AdminLTE')}}/plugins/datatables/dataTables.bootstrap.min.js"></script>
 <script src="{{asset('bower_components/AdminLTE//plugins/select2/select2.min.js')}}"></script>
+<script src="{{asset('js/utils/utils.js')}}"></script>
 
 
 <script>
@@ -151,37 +162,38 @@ Set up your Organization's Branches
         },
         rules: {
             name: {required: true, minlength: 4},
-            display_name: {required: true, minlength: 4} 
+            branch_type_id: {required: true},
+            district_id: {required: true},
+            post_office_id: {required: true},
         },
         messages: {
             name: {required: "Please give name"},
-            display_name: {required: "Please give display name"}
+            branch_type_id: {required: "Please Select a Branch Type"},
+            district_id: {required: "Please Select a District"},
+            post_office_id: {required: "Please Select a Post Office"}
         }
     });
 
 
-
-
     //Datatable Generation
     var table = $('#all_role_table').DataTable({
-       "paging": true,
-       "lengthChange": true,
-       "searching": true,
-       "ordering": true,
-       "info": true,
-       "autoWidth": false,
-       "processing": true,
-       "serverSide": true,
-       "ajax": "{{URL::to('/role/create')}}",
-       "columns": [ 
-       {"data": "name"},
-       {"data": "display_name"}, 
-       {"data": "description"}, 
-       {data: 'action', name: 'action', orderable: false, searchable: false}
-       ],
-       "order": [[0, 'asc']]
-   });  
-
+     "paging": true,
+     "lengthChange": true,
+     "searching": true,
+     "ordering": true,
+     "info": true,
+     "autoWidth": false,
+     "processing": true,
+     "serverSide": true,
+     "ajax": "{{URL::to('/role/create')}}",
+     "columns": [ 
+     {"data": "name"},
+     {"data": "display_name"}, 
+     {"data": "description"}, 
+     {data: 'action', name: 'action', orderable: false, searchable: false}
+     ],
+     "order": [[0, 'asc']]
+ });  
 
 
 
@@ -190,57 +202,191 @@ Set up your Organization's Branches
 
 // Delete Permission
 $('#confirm_delete').on('show.bs.modal', function(e) {
- var $modal = $(this),
- user_id = e.relatedTarget.id;
+   var $modal = $(this),
+   user_id = e.relatedTarget.id;
 
- $('#delete_role').click(function(e){
-   event.preventDefault();
-   $.ajax({
-     cache: false,
-     type: 'DELETE',
-     url: '/role/' + user_id,
-     data: user_id,
-     success: function(data){
-       table.ajax.reload(null, false);
-       $('#confirm_delete').modal('toggle');
-   }
-});
-});
+   $('#delete_role').click(function(e){
+     event.preventDefault();
+     $.ajax({
+       cache: false,
+       type: 'DELETE',
+       url: '/role/' + user_id,
+       data: user_id,
+       success: function(data){
+         table.ajax.reload(null, false);
+         $('#confirm_delete').modal('toggle');
+     }
+ });
+ });
 });
 
 
 
 //select2 for district
-    var select_district = $('#district_id').select2({
-      placeholder: "Select a District",
-      allowClear: true,
-      ajax: {
-        dataType: 'json',
-        url: "{{URL::to('/')}}/branch/get_districts",
-        delay: 250,
-        data: function(params) {
-          return {
-            term: params.term,
-            page: params.page
-          }
-        },
-        processResults: function (data, params) {
-          params.page = params.page || 1;
-          return {
-            results: data,
-            pagination: {
-              more: (params.page * 30) < data.total_count
-            }
-          };
-        },
-        cache: true
-      }
-    });
-    select_roles.change(function(){ 
-        var role_id=$(this).val();
-      });// select role change
+var district_id=$('#district_id');
+var post_office_id=$('#post_office_id');
+var branch_type_id=$('#branch_type_id');
+
+var parameters = {
+    placeholder: "District",
+    url: '{{URL::to("/")}}/branch/get_districts',
+    selector_id:district_id ,
+    data:{}
+}
+// initialize select2 for district_id
+init_select2(parameters);
+
+var param1=$("#district_id").select2('val');
+parameters = {
+    placeholder: "Post Office",
+    url: '{{URL::to("/")}}/branch/get_post_offices',
+    selector_id:post_office_id ,
+    data:{ "district_id":param1}
+}
+
+// initialize select2 for post_office_id
+init_select2(parameters);
+parameters = {
+    placeholder: "Branch Type",
+    url: '{{URL::to("/")}}/branch/get_branch_types',
+    selector_id:branch_type_id, 
+    data:{}
+}
+// initialize select2 for branch_id
+init_select2(parameters);
 
 
+$('#district_id').change(function(){  
+      $(this).valid(); // trigger validation on this element
+      });
+
+$('#post_office_id').change(function(){  
+      $(this).valid(); // trigger validation on this element
+      });
+
+$('#branch_type_id').change(function(){  
+      $(this).valid(); // trigger validation on this element
+      });
+
+
+
+
+
+
+
+
+
+
+
+// console.log(init_select2(parameters))
+
+// var select_district = $('#district_id').select2({
+//   placeholder: "Select a District",
+//   allowClear: true,
+//   ajax: {
+//     dataType: 'json',
+//     url: "{{URL::to('/')}}/branch/get_districts",
+//     delay: 250,
+//     data: function(params) {
+//       return {
+//         term: params.term,
+//         page: params.page
+//     }
+// },
+// processResults: function (data, params) {
+//   params.page = params.page || 1;
+//   return {
+//     results: data,
+//     pagination: {
+//       more: (params.page * 30) < data.total_count
+//   }
+// };
+// },
+// cache: true
+// }
+// });
+
+
+
+
+
+
+
+
+//select2 for district
+// var select_post_office = $('#post_office_id').select2({
+//   placeholder: "Select a Post Office",
+//   allowClear: true,
+//   ajax: {
+//     dataType: 'json',
+//     url: "{{URL::to('/')}}/branch/get_post_offices",
+//     delay: 250,
+//     data: function(params) {
+//       return {
+//         term: params.term,
+//         page: params.page
+//     }
+// },
+// processResults: function (data, params) {
+//   params.page = params.page || 1;
+//   return {
+//     results: data,
+//     pagination: {
+//       more: (params.page * 30) < data.total_count
+//   }
+// };
+// },
+// cache: true
+// }
+// });
+// select_post_office.change(function(){ 
+//     // var role_id=$(this).val();
+//       $(this).valid(); // trigger validation on this element
+//       });// select role change
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//select2 for branch type
+// var select_branch_type = $('#branch_type_id').select2({
+//   placeholder: "Select Branch Type",
+//   allowClear: true,
+//   ajax: {
+//     dataType: 'json',
+//     url: "{{URL::to('/')}}/branch/get_branch_types",
+//     delay: 250,
+//     data: function(params) {
+//       return {
+//         term: params.term,
+//         page: params.page
+//     }
+// },
+// processResults: function (data, params) {
+//   params.page = params.page || 1;
+//   return {
+//     results: data,
+//     pagination: {
+//       more: (params.page * 30) < data.total_count
+//   }
+// };
+// },
+// cache: true
+// }
+// });
+// select_branch_type.change(function(){ 
+//     // var role_id=$(this).val();
+//       $(this).valid(); 
+//       }); 
 
 
 });//document ready
