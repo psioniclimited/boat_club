@@ -31,3 +31,8 @@ Breadcrumbs::register('role_permission', function($breadcrumbs)
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Role Permission', url('/role_permission'));
 });
+Breadcrumbs::register('branch', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Branch', url('/branch'));
+});

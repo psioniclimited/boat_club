@@ -5,7 +5,7 @@ namespace Modules\Organization\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-
+use Modules\Organization\Repositories\BranchRepository;
 class BranchController extends Controller
 {
     /**
@@ -14,7 +14,7 @@ class BranchController extends Controller
      */
     public function index()
     {
-        return view('organization::index');
+        return view('organization::branch.branch');
     }
 
     /**
@@ -68,5 +68,9 @@ class BranchController extends Controller
      */
     public function destroy()
     {
+    }
+    public function getDistricts(Request $request, BranchRepository $branchRepository)
+    {
+        return $branchRepository->getAllDistricts('name', $request->input('term'), ['id', 'name as text']); 
     }
 }

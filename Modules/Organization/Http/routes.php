@@ -1,7 +1,8 @@
 <?php
 
-Route::group(['middleware' => 'web', 'prefix' => 'organization', 'namespace' => 'Modules\Organization\Http\Controllers'], function()
+Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Organization\Http\Controllers'], function()
 {
     // Route::get('/', 'OrganizationController@index');
-    Route::resource('branch', 'BranchController'); 
+	Route::get('/branch/get_districts', 'BranchController@getDistricts'); 
+	Route::resource('branch', 'BranchController');
 });
