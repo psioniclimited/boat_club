@@ -13,15 +13,14 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Org
 	Route::resource('branch', 'BranchController');
 
 
-
-
+  
+	Route::get('/branch_type/get_all_branch_types', 'BranchTypeController@getAllBranchTypes'); 
+	Route::resource('branch_type', 'BranchTypeController');
 
 
 
 	Route::get('/district/get_all_districts', 'DistrictController@getAllDistricts'); 
 	Route::resource('district', 'DistrictController');
-
-
 
 
 

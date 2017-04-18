@@ -6,13 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Organization\Repositories\BranchRepository;
-use Modules\Organization\Entities\Branch;
-use Modules\Organization\Entities\District;
-use Modules\Organization\Entities\PostOffice;
-use Modules\Organization\Entities\BranchType;
+use Modules\Organization\Entities\BranchType;  
 use \Modules\Helpers\DatatableHelper;
 use Datatables;
-class BranchController extends Controller
+class BranchTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,7 +17,7 @@ class BranchController extends Controller
      */
     public function index()
     {
-        return view('organization::branch.branch');
+        return view('organization::branch_type.branch_type');
     }
 
     /**
@@ -37,12 +34,12 @@ class BranchController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function store(\Modules\Organization\Http\Requests\BranchCreateRequest $request)
-    { 
-       $user = Branch::create($request->all());  
-       $request->session()->flash('status', 'Task was successful!');
-       return back();
-   }
+    public function store(\Modules\Organization\Http\Requests\BranchTypeCreateRequest $request)
+    {          
+        $branch_type = BranchType::create($request->all());  
+        $request->session()->flash('status', 'Task was successful!');
+        return back();
+    }
 
     /**
      * Show the specified resource.
@@ -57,13 +54,11 @@ class BranchController extends Controller
      * Show the form for editing the specified resource.
      * @return Response
      */
-    public function edit(Branch $branch)
-    { 
-        $district=District::find($branch->id);
-        return view('organization::branch.edit_branch',
+    public function edit(BranchType $branch_type)
+    {  
+        return view('organization::branch_type.edit_branch_type',
             [
-            'branch'=>$branch,
-            'district'=>$district
+            'branch_type'=>$branch_type
             ]);
     }
 
@@ -72,33 +67,33 @@ class BranchController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function update(\Modules\Organization\Http\Requests\BranchCreateRequest $request,Branch $branch)
-    {
-        $branch->update($request->all());
+    public function update(\Modules\Organization\Http\Requests\BranchTypeCreateRequest $request,BranchType $branch_type)
+    { 
+        $branch_type->update($request->all());
         $request->session()->flash('status', 'Task was successful!');
-        return redirect('/branch');
+        return redirect('/branch_type');
     }
 
     /**
      * Remove the specified resource from storage.
      * @return Response
      */
-    public function destroy(Branch $branch)
+    public function destroy(Request $request, BranchType $branch_type)
     { 
-        $branch->delete();
+        // dd($district);
+        $branch_type->delete();
         $request->session()->flash('status', 'Task was successful!');
-        // return back();
+        // return back(); 
     }
     
 
 
-    public function getAllBranches(DatatableHelper $databaseHelper)
+    public function getAllBranchTypes(DatatableHelper $databaseHelper)
     { 
-        $branches = Branch::with('branch_type','district','post_office'); 
-
-        return Datatables::of($branches)
-        ->addColumn('action', function ($branches) use ($databaseHelper){
-            return $databaseHelper->editButton('branch',$branches->id).' '.$databaseHelper->deleteButton($branches->id);
+        $branch_type = BranchType::all(); 
+        return Datatables::of($branch_type)
+        ->addColumn('action', function ($branch_type) use ($databaseHelper){
+            return $databaseHelper->editButton('branch_type',$branch_type->id).' '.$databaseHelper->deleteButton($branch_type->id);
         })
         ->make(true);
     }

@@ -4,7 +4,7 @@ namespace Modules\Organization\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DistrictCreateRequest extends FormRequest
+class BranchTypeCreateRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -15,7 +15,7 @@ class DistrictCreateRequest extends FormRequest
     {
         return [
             //
-            'district_name'=>'required'
+            'branch_type_name'=>'required'
         ];
     }
 

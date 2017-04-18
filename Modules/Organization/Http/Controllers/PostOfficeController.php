@@ -35,7 +35,7 @@ class PostOfficeController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function store(\Modules\Organization\Http\Requests\PostOfficeCreateRequet $request)
+    public function store(\Modules\Organization\Http\Requests\PostOfficeCreateRequest $request)
     { 
      $user = PostOffice::create($request->all());  
      $request->session()->flash('status', 'Task was successful!');
@@ -68,7 +68,7 @@ class PostOfficeController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function update(\Modules\Organization\Http\Requests\PostOfficeCreateRequet $request,PostOffice $post_office)
+    public function update(\Modules\Organization\Http\Requests\PostOfficeCreateRequest $request,PostOffice $post_office)
     {
         $post_office->update($request->all());
         $request->session()->flash('status', 'Task was successful!');

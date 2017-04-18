@@ -35,7 +35,7 @@ class DistrictController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function store(\Modules\Organization\Http\Requests\DistrictCreateRequet $request)
+    public function store(\Modules\Organization\Http\Requests\DistrictCreateRequest $request)
     { 
        $user = District::create($request->all());  
        $request->session()->flash('status', 'Task was successful!');
@@ -68,7 +68,7 @@ class DistrictController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function update(\Modules\Organization\Http\Requests\DistrictCreateRequet $request,District $district)
+    public function update(\Modules\Organization\Http\Requests\DistrictCreateRequest $request,District $district)
     {
         $district->update($request->all());
         $request->session()->flash('status', 'Task was successful!');

@@ -4,7 +4,7 @@ namespace Modules\Organization\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BranchCreateRequet extends FormRequest
+class BranchCreateRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.

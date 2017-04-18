@@ -47,3 +47,9 @@ Breadcrumbs::register('post_office', function($breadcrumbs)
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Post Office', url('/post_office'));
 });
+
+Breadcrumbs::register('branch_type', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Branch Type', url('/branch_type'));
+});
