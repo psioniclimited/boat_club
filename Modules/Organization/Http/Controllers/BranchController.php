@@ -87,7 +87,7 @@ class BranchController extends Controller
     { 
         $branch->delete();
         $request->session()->flash('status', 'Task was successful!');
-        return back();
+        // return back();
     }
     
 

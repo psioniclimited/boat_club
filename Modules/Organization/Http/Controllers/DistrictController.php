@@ -79,11 +79,12 @@ class DistrictController extends Controller
      * Remove the specified resource from storage.
      * @return Response
      */
-    public function destroy(District $district)
+    public function destroy(Request $request, District $district)
     { 
+        // dd($district);
         $district->delete();
         $request->session()->flash('status', 'Task was successful!');
-        return back();
+        // return back(); 
     }
     
 
