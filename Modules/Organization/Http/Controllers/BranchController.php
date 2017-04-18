@@ -76,7 +76,7 @@ class BranchController extends Controller
     {
         $branch->update($request->all());
         $request->session()->flash('status', 'Task was successful!');
-        return back();
+        return redirect('/branch');
     }
 
     /**
