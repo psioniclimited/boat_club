@@ -93,6 +93,16 @@ class AutoCompleteController extends Controller
         return response()->json($district);
 
     }
+    public function getDistrictOfPostOffice(Request $request)
+    {  
+        $post_office_id = $request->input('post_office');
+        $district = PostOffice::with(['district'=> function($query){
+            $query->select('id', 'district_name as text'); 
+        }])
+        ->find($post_office_id)->district;
+        return response()->json($district);
+
+    }
 
     public function getPostOfficeOfBranch(Request $request)
     {  

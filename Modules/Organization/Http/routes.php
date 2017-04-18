@@ -25,6 +25,7 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Org
 
 
 
+	Route::get('/post_office/auto/get_district', 'AutoCompleteController@getDistrictOfPostOffice'); 
 	Route::get('/post_office/get_all_post_offices', 'PostOfficeController@getAllPostOffices'); 
 	Route::resource('post_office', 'PostOfficeController');
 

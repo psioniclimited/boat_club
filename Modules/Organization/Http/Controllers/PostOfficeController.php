@@ -59,7 +59,7 @@ class PostOfficeController extends Controller
     {  
         return view('organization::post_office.edit_post_office',
             [
-            'posto_ffice'=>$post_office
+            'post_office'=>$post_office
             ]);
     }
 
