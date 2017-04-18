@@ -7,6 +7,9 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Organization\Repositories\BranchRepository;
 use Modules\Organization\Entities\Branch;
+use Modules\Organization\Entities\District;
+use Modules\Organization\Entities\PostOffice;
+use Modules\Organization\Entities\BranchType;
 use \Modules\Helpers\DatatableHelper;
 use Datatables;
 class BranchController extends Controller
@@ -35,8 +38,7 @@ class BranchController extends Controller
      * @return Response
      */
     public function store(\Modules\Organization\Http\Requests\BranchCreateRequet $request)
-    {
-        // dd($request->all());
+    { 
        $user = Branch::create($request->all());  
        $request->session()->flash('status', 'Task was successful!');
        return back();
@@ -55,9 +57,14 @@ class BranchController extends Controller
      * Show the form for editing the specified resource.
      * @return Response
      */
-    public function edit()
-    {
-        return view('organization::edit');
+    public function edit(Branch $branch)
+    { 
+        $district=District::find($branch->id);
+        return view('organization::branch.edit_branch',
+            [
+            'branch'=>$branch,
+            'district'=>$district
+            ]);
     }
 
     /**
@@ -65,30 +72,25 @@ class BranchController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function update(Request $request)
+    public function update(\Modules\Organization\Http\Requests\BranchCreateRequet $request,Branch $branch)
     {
+        $branch->update($request->all());
+        $request->session()->flash('status', 'Task was successful!');
+        return back();
     }
 
     /**
      * Remove the specified resource from storage.
      * @return Response
      */
-    public function destroy()
-    {
+    public function destroy(Branch $branch)
+    { 
+        $branch->delete();
+        $request->session()->flash('status', 'Task was successful!');
+        return back();
     }
     
-    public function getBranchTypes(Request $request, BranchRepository $branchRepository){
-        return $branchRepository->getAllBranchTypes('branch_type_name', $request->input('term'), ['id', 'branch_type_name as text']); 
-    }
 
-
-    public function getDistricts(Request $request, BranchRepository $branchRepository){
-        return $branchRepository->getAllDistricts('district_name', $request->input('term'), ['id', 'district_name as text']); 
-    }    
-
-    public function getPostOffices(Request $request, BranchRepository $branchRepository){ 
-        return $branchRepository->getPostOffices('post_office_name', $request->input('term'),$request->input('value_term'), ['id', 'post_office_name as text']); 
-    }
 
     public function getAllBranches(DatatableHelper $databaseHelper)
     { 
@@ -100,6 +102,7 @@ class BranchController extends Controller
         })
         ->make(true);
     }
+
 
 
 }

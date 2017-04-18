@@ -18,7 +18,8 @@ class BranchCreateRequet extends FormRequest
             'branch_name'=>'required',
             'branch_type_id'=>'required|exists:branch_type,id',
             'district_id'=>'required|exists:district,id',
-            'post_office_id'=>'required|exists:post_office,id'
+            'post_office_id'=>'required|exists:post_office,id',
+            'address'=>'required'
         ];
     }
 

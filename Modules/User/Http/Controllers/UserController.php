@@ -120,7 +120,8 @@ class UserController extends Controller
         $user->save();
         $user->roles()->sync($request->input('role')); 
         $request->session()->flash('status', 'Task was successful!');
-        return back();
+        // return back();
+        return redirect('/user/create');
     }
     /**
      * Remove the specified resource from storage.

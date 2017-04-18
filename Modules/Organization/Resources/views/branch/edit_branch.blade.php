@@ -26,27 +26,30 @@ Set up your Organization's Branches
                 <div class="box-header with-border">
                     <h3 class="box-title">Branch Create</h3>
                 </div>
-                {!! Form::open(array('route'=>'branch.store','id'=>'add_branch_form','class' => 'form-horizontal')) !!}
+                {!! Form::open(array('route' => array('branch.update', $branch->id), 'id' => 'add_branch_form', 'method'=>'PUT')) !!}                  
+                <input type="hidden" name="branch_id" id="branch_id" value="{{$branch->id}}">
                 <div class="box-body">
                     <div class="col-md-12"> 
                         <div class="form-group @if ($errors->has('branch_name')) has-error @endif">
                             <label for="name" class="control-label">Name*</label> 
-                            <input type="text" class="form-control" id="branch_name" name="branch_name" placeholder="Enter name" value="{{old('name')}}"> 
+                            <input type="text" class="form-control" id="branch_name" name="branch_name" placeholder="Enter name" value="{{$branch->branch_name}}"> 
                             @if ($errors->has('branch_name')) <p class="help-block">{{ $errors->first('branch_name') }}</p> @endif                             
                         </div>
                         <div class="form-group @if ($errors->has('description')) has-error @endif">
                             <label for="description" class="control-label">Description</label> 
-                            <input type="text" class="form-control" id="description" name="description" placeholder="Enter Description" value="{{old('description')}}"> 
+                            <input type="text" class="form-control" id="description" name="description" placeholder="Enter Description" value="{{$branch->description}}"> 
                             @if ($errors->has('description')) <p class="help-block">{{ $errors->first('description') }}</p> @endif 
                         </div>
                         <div class="form-group @if ($errors->has('address')) has-error @endif">
                             <label for="description" class="control-label">Address*</label> 
-                            <input type="text" class="form-control" id="address" name="address" placeholder="Enter Description" value="{{old('address')}}"> 
+                            <input type="text" class="form-control" id="address" name="address" placeholder="Enter Description" value="{{$branch->address}}"> 
                             @if ($errors->has('address')) <p class="help-block">{{ $errors->first('address') }}</p> @endif 
                         </div>                        
                         <div class="form-group @if ($errors->has('district_id')) has-error @endif">
                             <label for="district_id" class="control-label">District*</label>
-                            <select class="js-example-basic-single js-states form-control" name="district_id" id="district_id"></select>
+                            <select class="js-example-basic-single js-states form-control" name="district_id" id="district_id"> 
+                            </select>
+
                             @if ($errors->has('district_id')) <p class="help-block">{{ $errors->first('district_id') }}</p> @endif 
                         </div>
                         <div class="form-group @if ($errors->has('post_office_id')) has-error @endif">
@@ -214,15 +217,15 @@ Set up your Organization's Branches
 // Delete Permission
 $('#confirm_delete').on('show.bs.modal', function(e) {
    var $modal = $(this),
-   branch_id = e.relatedTarget.id;
+   user_id = e.relatedTarget.id;
 
    $('#delete_role').click(function(e){
      event.preventDefault();
      $.ajax({
        cache: false,
        type: 'DELETE',
-       url: '/branch/' + branch_id,
-       data: branch_id,
+       url: '/role/' + user_id,
+       data: user_id,
        success: function(data){
          table.ajax.reload(null, false);
          $('#confirm_delete').modal('toggle');
@@ -238,48 +241,55 @@ var district_id=$('#district_id');
 var post_office_id=$('#post_office_id');
 var branch_type_id=$('#branch_type_id');
 
-var parameters = {
-    placeholder: "District",
-    url: '{{URL::to("/")}}/branch/auto/get_districts',
-    selector_id:district_id ,
-    data:{}
-}
 // initialize select2 for district_id
-init_select2(parameters);
-var param1=$("#district_id");
-parameters = {
-    placeholder: "Post Office",
-    url: '{{URL::to("/")}}/branch/auto/get_post_offices',
-    selector_id:post_office_id ,
-    value_id:param1
-}
-
-// initialize select2 for post_office_id
-init_select2_with_one_parameter(parameters);
+$.get( "{{URL::to('/branch/auto/get_branch_district')}}", { branch_id: $('#branch_id').val() } ,function( data ) {
+    init_select2_with_default_value({
+        default_value: data,
+        placeholder: "District",
+        url: '{{URL::to("/")}}/branch/auto/get_districts',
+        selector_id:district_id,
+        data:{}
+    });
+});
 
 
-parameters = {
-    placeholder: "Branch Type",
-    url: '{{URL::to("/")}}/branch/auto/get_branch_types',
-    selector_id:branch_type_id, 
-    data:{}
-}
-// initialize select2 for branch_id
-init_select2(parameters);
+// initialize select2 for post Office
+$.get( "{{URL::to('/branch/auto/get_branch_post_office')}}", { branch_id: $('#branch_id').val() } ,function( data ) {
+    init_select2_with_default_value_with_one_parameter({
+        default_value: data,
+        placeholder: "Post Office",
+        url: '{{URL::to("/")}}/branch/auto/get_post_offices',
+        selector_id:post_office_id,
+        data:{},
+        value_id:district_id
+    });
+});
+
+
+// initialize select2 for post Office
+$.get( "{{URL::to('/branch/auto/get_branch_branch_type')}}", { branch_id: $('#branch_id').val() } ,function( data ) {
+    init_select2_with_default_value({
+        default_value: data,
+        placeholder: "District",
+        url: '{{URL::to("/")}}/branch/auto/get_branch_types',
+        selector_id:branch_type_id,
+        data:{}
+    });
+});
 
 
 $('#district_id').change(function(){  
       $(this).valid(); // trigger validation on this element
-        $('#post_office_id').select2("val"," ");      
-      });
+      $('#post_office_id').select2("val","");  
+  });
 
 $('#post_office_id').change(function(){  
       $(this).valid(); // trigger validation on this element
-      });
+  });
 
 $('#branch_type_id').change(function(){  
       $(this).valid(); // trigger validation on this element
-      });
+  });
 
 
 
