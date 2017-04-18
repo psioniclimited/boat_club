@@ -41,3 +41,9 @@ Breadcrumbs::register('district', function($breadcrumbs)
     $breadcrumbs->parent('home');
     $breadcrumbs->push('District', url('/district'));
 });
+
+Breadcrumbs::register('post_office', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Post Office', url('/post_office'));
+});

@@ -21,4 +21,11 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Org
 	Route::get('/district/get_all_districts', 'DistrictController@getAllDistricts'); 
 	Route::resource('district', 'DistrictController');
 
+
+
+
+
+	Route::get('/post_office/get_all_post_offices', 'PostOfficeController@getAllPostOffices'); 
+	Route::resource('post_office', 'PostOfficeController');
+
 });

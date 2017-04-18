@@ -4,7 +4,7 @@ namespace Modules\Organization\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DistrictCreateRequet extends FormRequest
+class PostOfficeCreateRequet extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -15,7 +15,9 @@ class DistrictCreateRequet extends FormRequest
     {
         return [
             //
-            'district_name'=>'required'
+            'post_office_name'=>'required',
+            'postal_code'=>'required|unique:post_office,postal_code',
+            'district_id'=>'required|exists:district,id'
         ];
     }
 

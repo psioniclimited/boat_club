@@ -57,8 +57,9 @@
           </span>
         </a>
         <ul class="treeview-menu"> 
-         <li><a href="{{URL::to('/branch')}}">Branch</a></li>
          <li><a href="{{URL::to('/district')}}">District</a></li>
+         <li><a href="{{URL::to('/post_office')}}">Post Office</a></li>
+         <li><a href="{{URL::to('/branch')}}">Branch</a></li>
          <li class="treeview">
           <a href="#"><i class=""></i> <span>Multilavel</span>
             <span class="pull-right-container">
