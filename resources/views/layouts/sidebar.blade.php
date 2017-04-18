@@ -34,6 +34,7 @@
       <!-- Optionally, you can add icons to the links -->
       <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
       <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
+      
       <li class="treeview">
         <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
           <span class="pull-right-container">
@@ -47,22 +48,48 @@
       </li>
 
 
+
+
       <li class="treeview">
-        <a href="#"><i class="fa fa-link"></i> <span>Setting</span>
+        <a href="#"><i class="fa fa-link"></i> <span>Organization</span>
           <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
           </span>
         </a>
-        <ul class="treeview-menu">
-          <li><a href="{{URL::to('/')}}/user/create">Create User</a></li>
-          <li><a href="{{URL::to('/')}}/user/all_users">All Users</a></li> 
-          <li><a href="{{URL::to('/')}}/role">Role</a></li> 
-          <li><a href="{{URL::to('/')}}/permission">Permission</a></li> 
-        </ul>
-      </li>  
-    
-    </ul>
-    <!-- /.sidebar-menu -->
-  </section>
-  <!-- /.sidebar -->
+        <ul class="treeview-menu"> 
+         <li><a href="{{URL::to('/branch')}}">Branch</a></li>
+         <li><a href="{{URL::to('/district')}}">District</a></li>
+         <li class="treeview">
+          <a href="#"><i class=""></i> <span>Multilavel</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="#">Link in level 2</a></li>
+            <li><a href="#">Link in level 2</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+
+
+    <li class="treeview">
+      <a href="#"><i class="fa fa-link"></i> <span>Setting</span>
+        <span class="pull-right-container">
+          <i class="fa fa-angle-left pull-right"></i>
+        </span>
+      </a>
+      <ul class="treeview-menu">
+        <li><a href="{{URL::to('/')}}/user/create">Create User</a></li>
+        <li><a href="{{URL::to('/')}}/user/all_users">All Users</a></li> 
+        <li><a href="{{URL::to('/')}}/role">Role</a></li> 
+        <li><a href="{{URL::to('/')}}/permission">Permission</a></li> 
+      </ul>
+    </li>  
+
+  </ul>
+  <!-- /.sidebar-menu -->
+</section>
+<!-- /.sidebar -->
 </aside>

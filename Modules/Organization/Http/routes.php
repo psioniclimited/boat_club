@@ -2,7 +2,7 @@
 
 Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Organization\Http\Controllers'], function()
 {
- 	Route::get('/branch/auto/get_branch_types', 'AutoCompleteController@getBranchTypes'); 
+	Route::get('/branch/auto/get_branch_types', 'AutoCompleteController@getBranchTypes'); 
 	Route::get('/branch/auto/get_districts', 'AutoCompleteController@getDistricts'); 
 	Route::get('/branch/auto/get_post_offices', 'AutoCompleteController@getPostOffices'); 
 	Route::get('/branch/auto/get_branch_district', 'AutoCompleteController@getDistrictOfBranch');
@@ -11,5 +11,14 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Org
 
 	Route::get('/branch/get_all_branches', 'BranchController@getAllBranches'); 
 	Route::resource('branch', 'BranchController');
+
+
+
+
+
+
+
+	Route::get('/district/get_all_districts', 'DistrictController@getAllDistricts'); 
+	Route::resource('district', 'DistrictController');
 
 });

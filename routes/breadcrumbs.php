@@ -36,3 +36,8 @@ Breadcrumbs::register('branch', function($breadcrumbs)
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Branch', url('/branch'));
 });
+Breadcrumbs::register('district', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('District', url('/district'));
+});

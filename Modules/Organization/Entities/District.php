@@ -10,6 +10,9 @@ class District extends Model
 
 	protected $fillable = ['district_name'];
 
+	public $timestamps=false;
+
+	
 	public function post_offices(){
 		return $this->hasMany('Modules\Organization\Entities\PostOffice');
 	}
