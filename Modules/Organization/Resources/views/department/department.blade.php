@@ -1,17 +1,17 @@
 @extends('layouts.master')
 @section('css')
-
+<link rel="stylesheet" href="{{asset('bower_components/AdminLTE/plugins/select2/select2.min.css')}}">
 <link rel="stylesheet" href="{{asset('plugins/tooltipster/tooltipster.css')}}">
 <link rel="stylesheet" href="{{asset('bower_components/AdminLTE')}}/plugins/datatables/dataTables.bootstrap.css">  
 @endsection
 @section('page_header')
-Department Type
+Department
 @endsection
 @section('page_description')
-Set up Department Type
+Set up Department
 @endsection
 @section('breadcrumb')
-{!! Breadcrumbs::render('department_type') !!}
+{!! Breadcrumbs::render('department') !!}
 @endsection
 @section('content')
 <!-- Content Header (Page header) -->
@@ -24,15 +24,31 @@ Set up Department Type
             <!-- Horizontal Form -->
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">District Create</h3>
+                    <h3 class="box-title">Department Create</h3>
                 </div> 
-                {!! Form::open(array('route' => array('department_type.update', $department_type->id), 'id' => 'add_department_type_form', 'method'=>'PUT')) !!}                  
+                {!! Form::open(array('route'=>'department.store','id'=>'add_department_form','class' => 'form-horizontal')) !!}              
                 <div class="box-body">
                     <div class="col-md-12"> 
-                        <div class="form-group @if ($errors->has('department_type_name')) has-error @endif">
-                            <label for="name" class="control-label">Department Type Name*</label> 
-                            <input type="text" class="form-control" id="department_type_name" name="department_type_name" placeholder="Enter name" value="{{$department_type->department_type_name}}"> 
-                            @if ($errors->has('department_type_name')) <p class="help-block">{{ $errors->first('department_type_name') }}</p> @endif                             
+                        <div class="form-group @if ($errors->has('department_name')) has-error @endif">
+                            <label for="name" class="control-label">Department Name*</label> 
+                            <input type="text" class="form-control" id="department_name" name="department_name" placeholder="Enter name" value="{{old('department_name')}}"> 
+                            @if ($errors->has('department_name')) <p class="help-block">{{ $errors->first('department_name') }}</p> @endif                             
+                        </div>
+                        <div class="form-group @if ($errors->has('address')) has-error @endif">
+                            <label for="name" class="control-label">Address*</label> 
+                            <input type="text" class="form-control" id="address" name="address" placeholder="Enter Address" value="{{old('address')}}"> 
+                            @if ($errors->has('address')) <p class="help-block">{{ $errors->first('address') }}</p> @endif                             
+                        </div>
+
+                        <div class="form-group @if ($errors->has('department_type_id')) has-error @endif">
+                            <label for="district_id" class="control-label">Department Type*</label>
+                            <select class="js-example-basic-single js-states form-control" name="department_type_id" id="department_type_id"></select>
+                            @if ($errors->has('department_type_id')) <p class="help-block">{{ $errors->first('department_type_id') }}</p> @endif 
+                        </div>
+                        <div class="form-group @if ($errors->has('branch_id')) has-error @endif">
+                            <label for="branch_id" class="control-label">Branch*</label>
+                            <select class="js-example-basic-single js-states form-control" name="branch_id" id="branch_id"></select>
+                            @if ($errors->has('branch_id')) <p class="help-block">{{ $errors->first('branch_id') }}</p> @endif 
                         </div>
                     </div>
                     <!-- /.col -->
@@ -51,13 +67,16 @@ Set up Department Type
         <div class="col-lg-6">
           <div class="box box-info">
             <div class="box-header with-border">
-                <h3 class="box-title">Department Type List</h3>
+                <h3 class="box-title">Department List</h3>
             </div>
             <div class="box-body"> 
                 <table id="all_role_table" class="table table-bordered table-hover">
                     <thead>
                       <tr> 
                         <th>Name</th> 
+                        <th>Department Type</th> 
+                        <th>Branch</th> 
+                        <th>Address</th> 
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -101,7 +120,8 @@ Set up Department Type
 <script src="{{asset('plugins/tooltipster/tooltipster.js')}}"></script>
 <script src="{{asset('bower_components/AdminLTE')}}/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="{{asset('bower_components/AdminLTE')}}/plugins/datatables/dataTables.bootstrap.min.js"></script>
-
+<script src="{{asset('bower_components/AdminLTE//plugins/select2/select2.min.js')}}"></script>
+<script src="{{asset('js/utils/utils.js')}}"></script>
 
 <script>
 
@@ -120,7 +140,7 @@ Set up Department Type
     });
 
     // initialize validate plugin on the form
-    $('#add_department_type_form').validate({
+    $('#add_department_form').validate({
         errorPlacement: function (error, element) { 
             var lastError = $(element).data('lastError'),
             newError = $(error).text();
@@ -136,10 +156,16 @@ Set up Department Type
             $(element).tooltipster('hide');
         },
         rules: {
-            department_type_name: {required: true, minlength: 2}
+            department_name: {required: true, minlength: 2},
+            department_type_id: {required: true},
+            branch_id: {required: true},
+            address: {required: true}
         },
         messages: {
-            department_type_name: {required: "Please give name"}
+            department_name: {required: "Please give name"},
+            department_type_id: {required: "Please Select a Department Type"},
+            branch_id: {required: "Please Select a Branch"},
+            address: {required: "Please give address"}
         }
     });
 
@@ -154,9 +180,12 @@ Set up Department Type
      "autoWidth": false,
      "processing": true,
      "serverSide": true,
-     "ajax": "{{URL::to('/department_type/get_all_department_types')}}",
+     "ajax": "{{URL::to('/department/get_all_departments')}}",
      "columns": [ 
-     {"data": "department_type_name"}, 
+     {"data": "department_name"}, 
+     {"data": "department_type.department_type_name"}, 
+     {"data": "branch.branch_name"}, 
+     {"data": "address"}, 
      {data: 'action', name: 'action', orderable: false, searchable: false}
      ],
      "order": [[0, 'asc']]
@@ -177,7 +206,7 @@ $('#confirm_delete').on('show.bs.modal', function(e) {
      $.ajax({
        cache: false,
        type: 'DELETE',
-       url: '/department_type/' + branch_id,
+       url: '/department/' + branch_id,
        data: branch_id,
        success: function(data){
          table.ajax.reload(null, false);
@@ -185,6 +214,24 @@ $('#confirm_delete').on('show.bs.modal', function(e) {
      }
  });
  });
+});
+
+ 
+ 
+// initialize select2 for department_type_id
+init_select2({
+    placeholder: "Department Type",
+    url: '{{URL::to("/")}}/department/auto/get_department_types',
+    selector_id:$('#department_type_id'), 
+    data:{}
+});
+
+// initialize select2 for department_type_id
+init_select2({
+    placeholder: "Branch",
+    url: '{{URL::to("/")}}/department/auto/get_branchs',
+    selector_id:$('#branch_id'), 
+    data:{}
 });
 
 

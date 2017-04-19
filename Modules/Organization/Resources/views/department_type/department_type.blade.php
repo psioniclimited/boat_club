@@ -11,7 +11,7 @@ Department Type
 Set up Department Type
 @endsection
 @section('breadcrumb')
-{!! Breadcrumbs::render('departmetn_type') !!}
+{!! Breadcrumbs::render('department_type') !!}
 @endsection
 @section('content')
 <!-- Content Header (Page header) -->

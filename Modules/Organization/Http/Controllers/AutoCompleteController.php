@@ -10,6 +10,8 @@ use Modules\Organization\Entities\Branch;
 use Modules\Organization\Entities\District;
 use Modules\Organization\Entities\PostOffice;
 use Modules\Organization\Entities\BranchType; 
+use Modules\Organization\Entities\DepartmentType; 
+use Modules\Organization\Entities\Department; 
 class AutoCompleteController extends Controller
 {
     /**
@@ -73,10 +75,17 @@ class AutoCompleteController extends Controller
     public function getBranchTypes(Request $request, BranchRepository $branchRepository){
         return $branchRepository->getAllBranchTypes('branch_type_name', $request->input('term'), ['id', 'branch_type_name as text']); 
     }
+    public function getBranchs(Request $request, BranchRepository $branchRepository){
+        return $branchRepository->getAllBranchs('branch_name', $request->input('term'), ['id', 'branch_name as text']); 
+    }
 
 
     public function getDistricts(Request $request, BranchRepository $branchRepository){
         return $branchRepository->getAllDistricts('district_name', $request->input('term'), ['id', 'district_name as text']); 
+    }    
+
+    public function getDepartmentTypes(Request $request, BranchRepository $branchRepository){
+        return $branchRepository->getAllDepartmentTypes('department_type_name', $request->input('term'), ['id', 'department_type_name as text']); 
     }    
 
     public function getPostOffices(Request $request, BranchRepository $branchRepository){ 
@@ -93,6 +102,7 @@ class AutoCompleteController extends Controller
         return response()->json($district);
 
     }
+
     public function getDistrictOfPostOffice(Request $request)
     {  
         $post_office_id = $request->input('post_office');
@@ -122,7 +132,24 @@ class AutoCompleteController extends Controller
         }])
         ->find($branch_id)->branch_type;
         return response()->json($branch_type);
-
+    }
+    public function getDepartmentTypeOfDepartment(Request $request)
+    {  
+        $department_id = $request->input('department_id');
+        $department_type = Department::with(['department_type'=> function($query){
+            $query->select('id', 'department_type_name as text'); 
+        }])
+        ->find($department_id)->department_type;
+        return response()->json($department_type);
+    }
+    public function getBranchOfDepartment(Request $request)
+    {  
+        $department_id = $request->input('department_id');
+        $branch = Department::with(['branch'=> function($query){
+            $query->select('id', 'branch_name as text'); 
+        }])
+        ->find($department_id)->branch;
+        return response()->json($branch);
     }
 
 

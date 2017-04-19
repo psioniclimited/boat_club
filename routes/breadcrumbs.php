@@ -54,8 +54,13 @@ Breadcrumbs::register('branch_type', function($breadcrumbs)
     $breadcrumbs->push('Branch Type', url('/branch_type'));
 });
 
-Breadcrumbs::register('departmetn_type', function($breadcrumbs)
+Breadcrumbs::register('department_type', function($breadcrumbs)
 {
     $breadcrumbs->parent('home');
-    $breadcrumbs->push('Department Type', url('/departmetn_type'));
+    $breadcrumbs->push('Department Type', url('/department_type'));
+});
+Breadcrumbs::register('department', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Department', url('/department'));
 });
