@@ -53,3 +53,9 @@ Breadcrumbs::register('branch_type', function($breadcrumbs)
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Branch Type', url('/branch_type'));
 });
+
+Breadcrumbs::register('departmetn_type', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Department Type', url('/departmetn_type'));
+});
