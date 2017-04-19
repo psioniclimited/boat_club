@@ -36,7 +36,8 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Org
 	Route::get('/department/get_all_departments', 'DepartmentController@getAllDepartments');
 	Route::resource('department', 'DepartmentController');
 
-  
+	Route::get('/designation/get_all_designations', 'DesignationController@getAllDesignations');
+	Route::resource('designation', 'DesignationController');
 
 
 });

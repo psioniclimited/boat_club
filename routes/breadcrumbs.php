@@ -64,3 +64,8 @@ Breadcrumbs::register('department', function($breadcrumbs)
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Department', url('/department'));
 });
+Breadcrumbs::register('designation', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Designation', url('/designation'));
+});
