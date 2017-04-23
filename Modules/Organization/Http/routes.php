@@ -39,5 +39,6 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Org
 	Route::get('/designation/get_all_designations', 'DesignationController@getAllDesignations');
 	Route::resource('designation', 'DesignationController');
 
-
+	Route::get('/work_shift/get_all_work_shifts', 'WorkShiftController@getAllWorkShifts');
+	Route::resource('/work_shift', 'WorkShiftController');
 });

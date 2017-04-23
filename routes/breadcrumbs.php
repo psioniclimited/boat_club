@@ -69,3 +69,9 @@ Breadcrumbs::register('designation', function($breadcrumbs)
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Designation', url('/designation'));
 });
+
+Breadcrumbs::register('work_shift', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Work Shift', url('/work_shift'));
+});

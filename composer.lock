@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a4c1097d98a1e61b9ab529aea322ce29",
-    "content-hash": "f5b22a1bda50780b048dd0e7bb8b947c",
+    "hash": "75299a0f3a343021bce1b62cf57fc4a3",
+    "content-hash": "14153c4f6266432c477c58b0d77cb80a",
     "packages": [
         {
             "name": "davejamesmiller/laravel-breadcrumbs",
@@ -2302,12 +2302,12 @@
             "version": "0.9.9",
             "source": {
                 "type": "git",
-                "url": "https://github.com/padraic/mockery.git",
+                "url": "https://github.com/mockery/mockery.git",
                 "reference": "6fdb61243844dc924071d3404bb23994ea0b6856"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/padraic/mockery/zipball/6fdb61243844dc924071d3404bb23994ea0b6856",
+                "url": "https://api.github.com/repos/mockery/mockery/zipball/6fdb61243844dc924071d3404bb23994ea0b6856",
                 "reference": "6fdb61243844dc924071d3404bb23994ea0b6856",
                 "shasum": ""
             },

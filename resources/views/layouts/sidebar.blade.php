@@ -63,6 +63,8 @@
          <li><a href="{{URL::to('/branch')}}">Branch</a></li>
          <li><a href="{{URL::to('/department_type')}}">Department Type</a></li>
          <li><a href="{{URL::to('/department')}}">Department</a></li>
+         <li><a href="{{URL::to('/designation')}}">Designation</a></li>
+         <li><a href="{{URL::to('/work_shift')}}">Work Shift</a></li>
          <li class="treeview">
           <a href="#"><i class=""></i> <span>Multilavel</span>
             <span class="pull-right-container">
