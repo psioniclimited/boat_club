@@ -26,7 +26,8 @@ Set up Work Shift
                 <div class="box-header with-border">
                     <h3 class="box-title">WorkShift Create</h3>
                 </div>
-                {!! Form::open(array('route'=>'work_shift.store','id'=>'add_work_shift_form','class' => 'form-horizontal')) !!}
+                <!-- {!! Form::open(array('route'=>'work_shift.store','id'=>'add_work_shift_form','class' => 'form-horizontal')) !!} -->
+                {!! Form::open(array('route' => array('work_shift.update', $work_shift->id), 'id' => 'add_work_shift_form', 'method'=>'PUT')) !!}                    
                 <div class="box-body">
                     <div class="col-md-12"> 
                         <div class="form-group @if ($errors->has('shift_name')) has-error @endif">

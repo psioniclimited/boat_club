@@ -57,33 +57,35 @@ class WorkShiftController extends Controller
      * Show the form for editing the specified resource.
      * @return Response
      */
-    public function edit(Designation $designation)
+    public function edit(WorkShift $workshift)
     {       
-     return view('organization::designation.edit_designation',
+       return view('organization::work_shift.edit_work_shift',
         [
-        'designation'=>$designation
+        'work_shift'=>$work_shift
         ]);
- }
+   }
 
     /**
      * Update the specified resource in storage.
      * @param  Request $request
      * @return Response
      */
-    public function update(\Modules\Organization\Http\Requests\DesignationCreateRequest $request,Designation $designation)
-    {
-        $designation->update($request->all());
+    public function update(\Modules\Organization\Http\Requests\WorkShiftCreateRequest $request,WorkShift $work_shift)
+    {   
+        $array=$request->all();
+        $array['time_duration']='';
+        WorkShift::update($array);  
         $request->session()->flash('status', 'Task was successful!');
-        return redirect('/designation');
+        return redirect('/work_shift');
     }
 
     /**
      * Remove the specified resource from storage.
      * @return Response
      */
-    public function destroy(Request $request, Designation $designation)
+    public function destroy(Request $request, WorkShift $work_shift)
     { 
-        $designation->delete();
+        $work_shift->delete();
         $request->session()->flash('status', 'Task was successful!'); 
     }
 

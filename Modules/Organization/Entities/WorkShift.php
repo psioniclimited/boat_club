@@ -38,22 +38,16 @@ class WorkShift extends Model
 		$this->attributes['end_to'] = \Carbon\Carbon::createFromFormat('h:i A', $value)->toTimeString();
 	}
 
- 
+	
 	public function setTimeDurationAttribute($value){
-		// var_dump($this->attributes['start_from']);
-		// dd($this->attributes['end_to']);
-		$start_from = \Carbon\Carbon::createFromFormat('Y-m-d H:m:s', '2000-01-01' . $this->attributes['start_from']);
-		$end_to = \Carbon\Carbon::createFromFormat('Y-m-d H:m:s', '2000-01-01' . $this->attributes['end_to']);
-		// $end_to = \Carbon\Carbon::createFromFormat('Y-m-d H:m:s', '2000-01-01' . $this->attributes['end_to']);
-
-		var_dump($start_from);
-		dd($end_to);
+		$start_from = new \Carbon\Carbon($this->attributes['start_from']);
+		$end_to = new \Carbon\Carbon($this->attributes['end_to']);
 
 		$time_diff = $start_from->diffInMinutes($end_to);
-		
+		$this->attributes['time_duration'] = $time_diff;
 
-		$difference=strtotime($this->attributes['end_to'])-strtotime($this->attributes['start_from']);
-		$time_duration=date('H:i:s',$difference); 
-		$this->attributes['time_duration'] = $time_duration;
+		// $difference=strtotime($this->attributes['end_to'])-strtotime($this->attributes['start_from']);
+		// $time_duration=date('H:i:s',); 
+		// $this->attributes['time_duration'] = \Carbon\Carbon::createFromFormat('h:i A',$time_diff)->toTimeString();
 	}
 }
