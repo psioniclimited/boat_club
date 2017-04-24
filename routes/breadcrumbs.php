@@ -75,3 +75,9 @@ Breadcrumbs::register('work_shift', function($breadcrumbs)
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Work Shift', url('/work_shift'));
 });
+
+Breadcrumbs::register('salary_head', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Salary Head', url('/salary_head'));
+});

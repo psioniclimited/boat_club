@@ -41,4 +41,7 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Org
 
 	Route::get('/work_shift/get_all_work_shifts', 'WorkShiftController@getAllWorkShifts');
 	Route::resource('/work_shift', 'WorkShiftController');
+
+	Route::get('/salary_head/get_all_salary_heads', 'SalaryHeadController@getAllSalaryHeads');
+	Route::resource('/salary_head', 'SalaryHeadController');
 });
