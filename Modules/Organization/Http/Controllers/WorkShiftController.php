@@ -57,9 +57,9 @@ class WorkShiftController extends Controller
      * Show the form for editing the specified resource.
      * @return Response
      */
-    public function edit(WorkShift $workshift)
+    public function edit(WorkShift $work_shift)
     {       
-       return view('organization::work_shift.edit_work_shift',
+       return view('organization::workshift.edit_work_shift',
         [
         'work_shift'=>$work_shift
         ]);
@@ -74,7 +74,7 @@ class WorkShiftController extends Controller
     {   
         $array=$request->all();
         $array['time_duration']='';
-        WorkShift::update($array);  
+        $work_shift->update($array);  
         $request->session()->flash('status', 'Task was successful!');
         return redirect('/work_shift');
     }

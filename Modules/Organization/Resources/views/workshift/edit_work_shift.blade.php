@@ -25,21 +25,20 @@ Set up Work Shift
             <div class="box box-info">
                 <div class="box-header with-border">
                     <h3 class="box-title">WorkShift Create</h3>
-                </div>
-                <!-- {!! Form::open(array('route'=>'work_shift.store','id'=>'add_work_shift_form','class' => 'form-horizontal')) !!} -->
+                </div> 
                 {!! Form::open(array('route' => array('work_shift.update', $work_shift->id), 'id' => 'add_work_shift_form', 'method'=>'PUT')) !!}                    
                 <div class="box-body">
                     <div class="col-md-12"> 
                         <div class="form-group @if ($errors->has('shift_name')) has-error @endif">
                             <label for="name" class="control-label">Work Shift Name*</label> 
-                            <input type="text" class="form-control" id="shift_name" name="shift_name" placeholder="Enter name" value="{{old('shift_name')}}"> 
+                            <input type="text" class="form-control" id="shift_name" name="shift_name" placeholder="Enter name" value="{{$work_shift->shift_name}}"> 
                             @if ($errors->has('shift_name')) <p class="help-block">{{ $errors->first('shift_name') }}</p> @endif                             
                         </div>
                         <div class="bootstrap-timepicker">
                             <div class="form-group @if ($errors->has('start_from')) has-error @endif">
                               <label>Starting Time*</label>
                               <div class="input-group"> 
-                                <input type="text" class="form-control pull-right" id="start_from" name="start_from" placeholder="Select Start Time" value="{{old('start_from')}}" readonly="">
+                                <input type="text" class="form-control pull-right" id="start_from" name="start_from" placeholder="Select Start Time" value="{{$work_shift->start_from}}" readonly="">
                                 <div class="input-group-addon">
                                     <i class="fa fa-clock-o"></i>
                                 </div>
@@ -51,7 +50,7 @@ Set up Work Shift
                         <div class="form-group @if ($errors->has('end_to')) has-error @endif">
                           <label>Finish Time*</label>
                           <div class="input-group"> 
-                          <input type="text" class="form-control pull-right" id="end_to" name="end_to" placeholder="Select Finish Time" value="{{old('end_to')}}" readonly="">
+                          <input type="text" class="form-control pull-right" id="end_to" name="end_to" placeholder="Select Finish Time" value="{{$work_shift->end_to}}" readonly="">
                             <div class="input-group-addon">
                                 <i class="fa fa-clock-o"></i>
                             </div>

@@ -42,12 +42,8 @@ class WorkShift extends Model
 	public function setTimeDurationAttribute($value){
 		$start_from = new \Carbon\Carbon($this->attributes['start_from']);
 		$end_to = new \Carbon\Carbon($this->attributes['end_to']);
-
 		$time_diff = $start_from->diffInMinutes($end_to);
 		$this->attributes['time_duration'] = $time_diff;
 
-		// $difference=strtotime($this->attributes['end_to'])-strtotime($this->attributes['start_from']);
-		// $time_duration=date('H:i:s',); 
-		// $this->attributes['time_duration'] = \Carbon\Carbon::createFromFormat('h:i A',$time_diff)->toTimeString();
 	}
 }
