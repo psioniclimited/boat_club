@@ -81,3 +81,9 @@ Breadcrumbs::register('salary_head', function($breadcrumbs)
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Salary Head', url('/salary_head'));
 });
+
+Breadcrumbs::register('salary_grade', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Salary Grade', url('/salary_grade'));
+});

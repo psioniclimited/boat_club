@@ -17,8 +17,12 @@ class SalaryHead extends Model
 
 	protected $fillable = ['salary_head_name','tax_type','acc_code', 'salary_head_type_id'];
 
- 	public function salary_head_type(){ 
+	public function salary_head_type(){ 
 		return $this->belongsTo('Modules\Organization\Entities\SalaryHeadType','salary_head_type_id');
+	}
+
+	public function salary_grade_info(){ 
+		return $this->hasMany('Modules\Organization\Entities\SalaryGradeInfo');
 	}
 
 	public function getTaxTypeAttribute($value)

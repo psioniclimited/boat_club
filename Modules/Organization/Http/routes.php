@@ -44,4 +44,21 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Org
 
 	Route::get('/salary_head/get_all_salary_heads', 'SalaryHeadController@getAllSalaryHeads');
 	Route::resource('/salary_head', 'SalaryHeadController');
+
+	Route::get('/salary_grade/get_all_salary_grades', 'SalaryGradeController@getAllSalaryGrades');
+	Route::resource('/salary_grade', 'SalaryGradeController');
+
+	Route::get('testmultiple', function(){
+		$salary_grade = Modules\Organization\Entities\SalaryGradeMaster::find(1);
+		dd([
+			array('amount' => 2000, 'salary_head_id' => 2),
+			array('amount' => 3000, 'salary_head_id' => 3),
+		]);
+		
+		$salary_grade->salary_grade_info()->createMany([
+			array('amount' => 2000, 'salary_head_id' => 2),
+			array('amount' => 3000, 'salary_head_id' => 3),
+		]);
+		dd($salary_grade);
+	});
 });
