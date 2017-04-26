@@ -3,6 +3,10 @@
 <link rel="stylesheet" href="{{asset('plugins/tooltipster/tooltipster.css')}}"> 
 <link rel="stylesheet" href="{{asset('bower_components/AdminLTE/plugins/iCheck/all.css')}}"> 
 <link rel="stylesheet" href="{{asset('bower_components/AdminLTE')}}/plugins/datatables/dataTables.bootstrap.css">  
+<link rel="stylesheet" href="https://cdn.datatables.net/select/1.2.2/css/select.bootstrap.min.css">  
+<style>
+
+</style>
 @endsection
 @section('page_header')
 Salary Grade
@@ -63,70 +67,55 @@ Set up new Salary Grade
         </div>
         <div class="box-body">
           <div class="col-md-12"> 
-           <table id="all_salary_head_table" class="table table-bordered table-hover">
-            <thead>
-              <tr> 
-                <th>Salary Head Name</th> 
-                <th>Salary Head Type</th> 
-                <th>Select</th> 
-                <th>Amount</th>
-                <th>Amount Type</th>
+            <table id="all_salary_head_table" class="display table table-bordered table-hover">
+              <thead>
+                <tr> 
+                  <th>Salary Head Name</th> 
+                  <th>Salary Head Type</th>  
+                  <th>Amount</th>
+                  <th>Amount Type</th>
+                </tr>
+              </thead>
+              <tbody>
+<!--                 @foreach($salary_heads as $salary_head)
+                <tr>
+
+                 <td>
+                   <input type="text" value="{{$salary_head->salary_head_name}}" class="form-control" name="{{$salary_head->id}}" readonly="">
+                 </td>
+                 <td>{{$salary_head->salary_head_type->type_name}}</td>
+                 <td>
+                   <input type="number" class="form-control" placeholder="Enter Amount" value="0.0">  
+                 </td>
+                 <td>
+                  <select class="form-control" id="drop_down">
+                    <option value="1">Taka</option>
+                    <option value="0">% of Basic Salary</option>
+                  </select>
+                </td>               
               </tr>
-            </thead>
-            <tbody>
-              @foreach($salary_heads as $salary_head)
-              <tr>
-<!--                 <td>{{$salary_head->salary_head_name}}</td>
-                <td>{{$salary_head->salary_head_type->type_name}}</td>
-                <td>
-                  <label>
-                    <input type="checkbox" id="select[]" name="select[]" value="{{$salary_head->id}}" class="flat-red" checked>
-                  </label>
-                </td>
-                <td>
-                 <input type="number" class="form-control" id="amount_{{$salary_head->id}}" name="amount_{{$salary_head->id}}" placeholder="Enter Amount" value="0.0">  
-               </td>
-               <td>
-                 <select class="form-control" name="amount_type_{{$salary_head->id}}" id="amount_type_{{$salary_head->id}}">
-                   <option value="1">Taka</option>
-                   <option value="0"> % of Basic Salary</option>
-                 </select>
-               </td> -->
-               <td>{{$salary_head->salary_head_name}}</td>
-               <td>{{$salary_head->salary_head_type->type_name}}</td>
-               <td>
-                <label>
-                  <input type="checkbox" value="{{$salary_head->id}}" class="flat-red" >
-                </label>
-              </td>
-              <td>
-               <input type="number" class="form-control" placeholder="Enter Amount" value="0.0">  
-             </td>
-             <td>
-              <select class="form-control">
-                <option value="1">Taka</option>
-                <option value="0"> % of Basic Salary</option>
-              </select>
-            </td>               
-          </tr>
-          @endforeach
-        </tbody> 
-      </table>
-    </div><!-- /.col-md-12 -->
-  </div> <!-- /.box-body --> 
-  <div class="box-footer"> 
-    <button type="submit" id="btn_submit" class="btn btn-primary pull-left">Submit</button>
-  </div> <!-- /.box-footer -->
+              @endforeach -->
+            </tbody> 
+            <tfoot>
+            <td><button>asd</button></td>
+              
+            </tfoot>
+          </table>
+        </div><!-- /.col-md-12 -->
+      </div> <!-- /.box-body --> 
+      <div class="box-footer"> 
+        <button type="submit" id="btn_submit" class="btn btn-primary pull-left">Submit</button>
+      </div> <!-- /.box-footer -->
 
-</div><!-- /.box -->
-</div><!-- /col-md-6 -->
+    </div><!-- /.box -->
+  </div><!-- /col-md-6 -->
 
 
 
 
 
 
-<!-- {!! Form::close() !!}     -->
+  <!-- {!! Form::close() !!}     -->
 </div>  <!--row-->
 </section>
 <!-- /.content -->
@@ -181,104 +170,43 @@ Set up new Salary Grade
 
 
 
+    var table = $('#all_salary_head_table').DataTable();
+
+    var selected_table_data = [];
+
+    $('#all_salary_head_table tbody').on('click', 'tr', function () {
+      $(this).toggleClass('selected'); 
+    });
 
 
 
+    $('#btn_submit').click(function() { 
 
+        // var data = table.$('input, select').serialize();
+        
+       table.rows('.selected').data().each(function(){
+        var data = $(this).$('input, select').serialize();
+        console.log(
+            "The following data would have been submitted to the server: \n\n"+
+            data.substr( 0, 120 )+'...'
+        );
+       });
 
+      // var ids = $.map(table.rows('.selected').data(), function (item) { 
+      //   json = {};
+      //   json["salary_head_id"]= $(item[0]).html(item[0]).contents().attr('name');
+      //   json["amount"]= $(item[2]).html(item[2]).contents().val();
+      //   json["amount_type"]= $(item[3]).html(item[3]).contents().val();
 
+      //   console.log($(item[3]).html(item[3]).contents());
+      //   // return $(item[3]).html(item[3]).contents().val();
+      //   return $(item[3]).html(item[3]).contents("#drop_down option:selected").val();
+      //   selected_table_data.push(json);
 
-
-
-
-
-
-//array creation for post data
-
-// var rows_selected = []; 
-   var table = $('#all_salary_head_table').DataTable({
-      // 'ajax': '/lab/jquery-datatables-checkboxes/ids-arrays.txt',
-      'columnDefs': [
-         {
-            'targets': 0,
-            'checkboxes': {
-               'selectRow': true
-            }
-         }
-      ],
-      'select': {
-         'style': 'multi'
-      },
-      'order': [[1, 'asc']]
-   });
-
-// Handle click on table cells with checkboxes
-$('#all_salary_head_table').on('click', 'tbody td, thead th:first-child', function(e){
-  $(this).parent().find('input[type="checkbox"]').trigger('click');
-});
-
-
-
-
-
- //   // Handle click on checkbox
- //   $('#all_salary_head_table tbody').on('click', 'input[type="checkbox"]', function(e){
- //     var $row = $(this);
- //     var index = $.inArray($row, rows_selected);
-
- //      // If checkbox is checked and row ID is not in list of selected row IDs
- //      if(this.checked && index === -1){
- //       rows_selected.push($row);
-
- //      // Otherwise, if checkbox is not checked and row ID is in list of selected row IDs
- //    } else if (!this.checked && index !== -1){
- //     rows_selected.splice(index, 1);
- //   }
-
- //   if(this.checked){
- //     $row.addClass('selected');
- //   } else {
- //     $row.removeClass('selected');
- //   } 
- //   e.stopPropagation();
- // });
-
- //   $('#btn_submit').click(function() { 
- //    // console.log($('all_salary_head_table input, select').serialize());
-
-
- //    // $('#all_salary_head_table tr').filter(':has(:checkbox:checked)').each(function() {
- //    //   console.log($(this).val());
- //    //   $tr = $(this);
-
- //    //   $('td', $tr).each(function() {
- //    //     console.log($(this));
- //    //   });
-
- //    //   TableData[row]={
- //    //     "salary_head_id" : $(tr).find('td:eq(2)').text()
- //    //     , "amount" :$(tr).find('td:eq(3)').text()
- //    //     , "description" : $(tr).find('td:eq(2)').text()
- //    //     , "task" : $(tr).find('td:eq(3)').text()
- //    //   }
-
- //    // });
- //    // console.log(rows_selected);
- //    jQuery.each(rows_selected, function(index, item) {
- //    // do something with `item` (or `this` is also `item` if you like)
-
- //    var $row = item.closest('tr');
- //    var data = table.row($row);
-
- //    console.log(data);
- //  });
- //  });
-
-   $('#btn_submit').click(function() { 
-    // var rows_selected = table.column(2).checkboxes.selected();
-    var rows_selected = table.column(2);
-    console.log(rows_selected);
-  });
+      // });
+      // console.log(ids);
+      // console.log(selected_table_data);
+    });
 
 
 
