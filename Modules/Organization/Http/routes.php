@@ -48,6 +48,15 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Org
 	Route::get('/salary_grade/get_all_salary_grades', 'SalaryGradeController@getAllSalaryGrades');
 	Route::resource('/salary_grade', 'SalaryGradeController');
 
+
+	Route::get('/week_holiday/get_all_week_holidays', 'WeekHolidayController@getAllWeekHolidays');
+
+	// Route::resource('/week_holiday', 'WeekHolidayController');
+
+	Route::resource('/week_holiday', 'WeekHolidayController', ['parameters' => [
+    	'week_holiday' => 'week_holiday_master'
+	]]);
+
 	Route::get('testmultiple', function(){
 		$salary_grade = Modules\Organization\Entities\SalaryGradeMaster::find(1);
 		dd([

@@ -77,24 +77,6 @@ Set up new Salary Grade
                 </tr>
               </thead>
               <tbody>
-<!--                 @foreach($salary_heads as $salary_head)
-                <tr>
-
-                 <td>
-                   <input type="text" value="{{$salary_head->salary_head_name}}" class="form-control" name="{{$salary_head->id}}" readonly="">
-                 </td>
-                 <td>{{$salary_head->salary_head_type->type_name}}</td>
-                 <td>
-                   <input type="number" class="form-control" placeholder="Enter Amount" value="0.0">  
-                 </td>
-                 <td>
-                  <select class="form-control" id="drop_down">
-                    <option value="1">Taka</option>
-                    <option value="0">% of Basic Salary</option>
-                  </select>
-                </td>               
-              </tr>
-              @endforeach -->
             </tbody> 
             <tfoot>
             <td><button>asd</button></td>

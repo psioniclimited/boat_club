@@ -87,3 +87,9 @@ Breadcrumbs::register('salary_grade', function($breadcrumbs)
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Salary Grade', url('/salary_grade'));
 });
+
+Breadcrumbs::register('week_holiday', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Week Holiday', url('/week_holiday'));
+});
