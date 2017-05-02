@@ -153,8 +153,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <!-- REQUIRED JS SCRIPTS -->
 
+<script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.12.4.js"></script>
+
 <!-- jQuery 2.2.3 -->
-<script src="{{asset('bower_components/AdminLTE')}}/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- <script src="{{asset('bower_components/AdminLTE')}}/plugins/jQuery/jquery-2.2.3.min.js"></script> -->
+
+
+
 <!-- Bootstrap 3.3.6 -->
 <script src="{{asset('bower_components/AdminLTE')}}/bootstrap/js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->

@@ -31,6 +31,7 @@ class SalaryGradeController extends Controller
     {  
         $salary_heads=SalaryHead::all(); 
         return view('organization::salary_grade.create_salary_grade',['salary_heads'=>$salary_heads]);        
+        // return view('organization::salary_grade.test',['salary_heads'=>$salary_heads]);        
     }
 
     /**
