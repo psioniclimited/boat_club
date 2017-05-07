@@ -106,5 +106,17 @@ class SalaryGradeController extends Controller
         //     return $databaseHelper->editButton('salary_head',$salary_head->id).' '.$databaseHelper->deleteButton($salary_head->id);
         // })
         // ->make(true);
+    }
+    public function validateTable(Request $request)
+    { 
+        dd($request);
+        // $salary_head = SalaryHead::with('salary_head_type'); 
+
+        // return Datatables::of($salary_head)
+        // ->addColumn('action', function ($salary_head) use ($databaseHelper){
+        //     return $databaseHelper->editButton('salary_head',$salary_head->id).' '.$databaseHelper->deleteButton($salary_head->id);
+        // })
+        // ->make(true);
     }    
+
 }

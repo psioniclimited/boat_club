@@ -13,6 +13,9 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Org
 	Route::get('/department/auto/get_department_types', 'AutoCompleteController@getDepartmentTypes');
 	Route::get('/department/auto/get_department/department_type', 'AutoCompleteController@getDepartmentTypeOfDepartment');
 	Route::get('/department/auto/get_department/branch', 'AutoCompleteController@getBranchOfDepartment');
+	
+
+	Route::get('/testdb', 'AutoCompleteController@returnTestJson');
 
 
 
@@ -46,6 +49,7 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Org
 	Route::resource('/salary_head', 'SalaryHeadController');
 
 	Route::get('/salary_grade/get_all_salary_grades', 'SalaryGradeController@getAllSalaryGrades');
+	Route::post('/salary_grade/validate_table', 'SalaryGradeController@validateTable');
 	Route::resource('/salary_grade', 'SalaryGradeController');
 
 

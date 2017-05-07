@@ -123,6 +123,7 @@ _fieldTypes.select2 = {
 	},
 
 	create: function ( conf ) {
+		// console.log(conf.options);
 		conf._input = $('<select/>')
 			.attr( $.extend( {
 				id: DataTable.Editor.safeId( conf.id )

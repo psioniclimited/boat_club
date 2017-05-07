@@ -2,24 +2,23 @@
 @section('css') 
 <link rel="stylesheet" href="{{asset('plugins/tooltipster/tooltipster.css')}}"> 
 <link rel="stylesheet" href="{{asset('bower_components/AdminLTE/plugins/iCheck/all.css')}}"> 
-
-<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.14/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.14/css/jquery.dataTables.min.css">
+<!-- <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+<!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.14/css/dataTables.bootstrap.min.css"> -->
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.3.1/css/buttons.bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.2.2/css/select.bootstrap.min.css">
-
-<link rel="stylesheet" href="{{asset('editor_datatable')}}/css/editor.bootstrap.css">  
+<!-- <link rel="stylesheet" href="{{asset('editor_datatable')}}/css/editor.bootstrap.css">   -->
 <link rel="stylesheet" href="{{asset('editor_datatable')}}/css/dataTables.editor.css">  
-
-<link rel="stylesheet" href="{{asset('editor_datatable')}}/css/editor.bootstrap.css">   
-
-<!-- <link rel="stylesheet" href="{{asset('bower_components/AdminLTE/plugins/select2/select2.min.css')}}">  -->
 <link rel="stylesheet" href="{{asset('editor_datatable/select2/css/select2.min.css')}}">
 
-<style>
 
+<style>
+  div.modal-dialog {
+    left: 1em !important;
+    right: 1em !important;
+    margin-left: 0 !important;
+    width: auto !important;
+  }
 </style>
 @endsection
 @section('page_header')
@@ -84,15 +83,17 @@ Set up new Salary Grade
             <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
               <thead>
                 <tr>
-                  <th>Salary Head Name</th>
+                  <th>Amount Type1</th>
                   <th>Amount Type</th>
+                  <th>Salary Head Name</th>
                   <th>Amount</th> 
                 </tr>
               </thead>
               <tfoot>
                 <tr>
-                  <th>Salary Head Name</th>
+                  <th>Amount Type1</th>
                   <th>Amount Type</th>
+                  <th>Salary Head Name</th>
                   <th>Amount</th> 
                 </tr>
               </tfoot>
@@ -127,7 +128,7 @@ Set up new Salary Grade
 <script src="{{asset('plugins/tooltipster/tooltipster.js')}}"></script>
 <script src="{{asset('bower_components/AdminLTE/plugins/iCheck/icheck.min.js')}}"></script>
 
-<script type="text/javascript" language="javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
+<!-- <script type="text/javascript" language="javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"> -->
 </script>
 <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.14/js/jquery.dataTables.min.js">
 </script>
@@ -146,7 +147,7 @@ Set up new Salary Grade
 
 <!-- <script src="{{asset('bower_components/AdminLTE//plugins/select2/select2.min.js')}}"></script> -->
 
-<script src="{{asset('editor_datatable')}}/js/editor.bootstrap.min.js"></script>
+<!-- <script src="{{asset('editor_datatable')}}/js/editor.bootstrap.min.js"></script> -->
 <script src="{{asset('editor_datatable')}}/select2/js/select2.min.js"></script>
 <script src="{{asset('editor_datatable')}}/select2/editor.select2.js"></script>
 <script src="{{asset('js/utils/utils.js')}}"></script>
@@ -156,7 +157,11 @@ Set up new Salary Grade
 
 
   $(document).ready(function () {
-
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });  
     // initialize tooltipster on form input elements
     $('form input, select').tooltipster({// <-  USE THE PROPER SELECTOR FOR YOUR INPUTs
         trigger: 'custom', // default is 'hover' which is no good here
@@ -249,22 +254,78 @@ Set up new Salary Grade
 var editor; // use a global for the submit and return data rendering in the examples
 
 $(document).ready(function() {
-  editor = new $.fn.dataTable.Editor( {
-    // ajax: "https://api.myjson.com/bins/t95m1",
-    table: "#example",
-    fields: []
+
+  $.extend( true, $.fn.dataTable.Editor.classes, {
+    "field": {
+      "wrapper": "col-lg-4",
+      "label":   "col-lg-12",
+      "input":   "col-lg-12"
+    }
   } );
+
+  editor = new $.fn.dataTable.Editor( {
+    // ajax: "{{URL::to("/")}}/salary_grade/validate_table",
+    table: "#example",
+    fields: [
+    {
+      label: "Foo:",
+      name: "asdf.amount_type1",
+      "type": "select2",
+
+      opts: {
+       ajax: {
+        dataType: "json",
+        url: "{{URL::to("/")}}/branch/auto/get_branchs",
+
+        data: function(params) {
+          return {
+            term: params.term || '',
+            page: params.page || 1
+          }
+        },
+        processResults: function (data, params) {
+          params.page = params.page || 1;
+          return {
+            results: data,
+            pagination: {
+              more: (params.page * 30) < data.total_count
+            }
+          };
+        },
+      },
+    }
+  }
+
+  ]
+} );
 
   var table = $('#example').DataTable( {
     lengthChange: false,
     // ajax: "https://api.myjson.com/bins/t95m1",
     columns: [
-    { data: "salary_head_id"},
-    { data: "amount_type" },
-    { data: "amount" }, 
-    ],
-    select: true
-  } );
+    { data: 'asdf',editField: "amount.amount_type1",
+      render:function(val,type,key){
+        console.log(key);
+    }
+  },    
+  {
+    "class": "center",
+    "data": "amount_type",
+    "render": function (val, type, row) {
+      return val == 0 ? " % of Basic Salary" : "Taka";
+    }
+  }, 
+  { data: "salary_head_id" }, 
+  { data: "amount" }, 
+  ],
+  select: true
+} );
+
+
+
+
+
+
 
   // Display the buttons
   new $.fn.dataTable.Buttons( table, [
@@ -283,13 +344,40 @@ $(document).ready(function() {
 
 
 
-    editor.add( {
-      label: "Amount:",
-      name: "amount",
-      attr: {
-        type: "number"
-      }
-    } );  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  editor.add( {
+    label: "Amount Type:",
+    name: "amount_type",
+    type: "select",
+    options: [
+    { "label": "Taka", "value": "1" },
+    { "label": "% of Basic Salary",  "value": "0" }
+    ]
+  } ); 
 
   editor.add( {
     label: "Salary Head Name",
@@ -322,16 +410,16 @@ $(document).ready(function() {
     }
   } );
 
-
   editor.add( {
-    label: "Amount Type:",
-    name: "amount_type",
-    type: "select",
-    options: [
-    { "label": "Taka", "value": "1" },
-    { "label": "% of Basic Salary",  "value": "0" }
-    ]
-  } ); 
+    label: "Amount: ",
+    name: "amount",
+    attr: {
+      type: "number"
+    }
+  } );  
+
+
+
 
 
 } );
