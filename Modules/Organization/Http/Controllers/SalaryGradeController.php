@@ -18,9 +18,8 @@ class SalaryGradeController extends Controller
      * @return Response
      */
     public function index()
-    {
-        // $salary_head_type=SalaryGradeMaster::all();
-        // return view('organization::salary_head.salary_head',['salary_head_type'=>$salary_head_type]);
+    { 
+        return view('organization::salary_grade.salary_grade');   
     }
 
     /**
@@ -29,9 +28,7 @@ class SalaryGradeController extends Controller
      */
     public function create()
     {  
-        $salary_heads=SalaryHead::all(); 
-        return view('organization::salary_grade.create_salary_grade',['salary_heads'=>$salary_heads]);        
-        // return view('organization::salary_grade.test',['salary_heads'=>$salary_heads]);        
+
     }
 
     /**
@@ -40,15 +37,12 @@ class SalaryGradeController extends Controller
      * @return Response
      */
     public function store(\Modules\Organization\Http\Requests\SalaryGradeCreateRequest $request){
-        dd($request->all());
-        $salary_grade_master=SalaryGradeMaster::create($request->all());  
-        foreach ($request->select as $key => $value) { 
-            SalaryGradeInfo::create([
-                'salary_head_id'=>intval($value),
-                'salary_grade_master_id'=>$salary_grade_master->id,
-                'amount'=>$request->amount_.$value,
-                ]);
+        $salary_grade_master=SalaryGradeMaster::create($request->all());
+
+        if(isset($request->submit_and_edit)){ 
+            $this->edit($salary_grade_master);
         }
+
         $request->session()->flash('status', 'Task was successful!');
         return back();
     }
@@ -66,14 +60,9 @@ class SalaryGradeController extends Controller
      * Show the form for editing the specified resource.
      * @return Response
      */
-    public function edit(SalaryGradeMaster $salary_grade_master, SalaryGradeInfo $salary_grade_info)
-    {         
-       // return view('organization::salary_head.edit_salary_head',
-       //  [
-       //  'salary_head'=>$salary_head,
-       //  'salary_head_type'=>SalaryHeadType::all()
-       //  ]);
-    }
+    public function edit(SalaryGradeMaster $salary_grade_master) {
+     return view('organization::salary_grade.edit_salary_grade',['salary_grade_master'=>$salary_grade_master]);
+ }
 
     /**
      * Update the specified resource in storage.
@@ -97,26 +86,34 @@ class SalaryGradeController extends Controller
         // $request->session()->flash('status', 'Task was successful!'); 
     }
 
-    public function getAllSalaryHeads(DatatableHelper $databaseHelper)
+    public function getAllSalaryGrades(DatatableHelper $databaseHelper)
     { 
-        // $salary_head = SalaryHead::with('salary_head_type'); 
+        $salary_grades = SalaryGradeMaster::all(); 
 
-        // return Datatables::of($salary_head)
-        // ->addColumn('action', function ($salary_head) use ($databaseHelper){
-        //     return $databaseHelper->editButton('salary_head',$salary_head->id).' '.$databaseHelper->deleteButton($salary_head->id);
-        // })
-        // ->make(true);
+        return Datatables::of($salary_grades)
+        ->addColumn('action', function ($salary_grades) use ($databaseHelper){
+            return $databaseHelper->editButton('salary_grade',$salary_grades->id).' '.$databaseHelper->deleteButton($salary_grades->id);
+        })
+        ->make(true);
     }
-    public function validateTable(Request $request)
-    { 
-        dd($request);
-        // $salary_head = SalaryHead::with('salary_head_type'); 
 
-        // return Datatables::of($salary_head)
-        // ->addColumn('action', function ($salary_head) use ($databaseHelper){
-        //     return $databaseHelper->editButton('salary_head',$salary_head->id).' '.$databaseHelper->deleteButton($salary_head->id);
-        // })
-        // ->make(true);
-    }    
+    public function gradeInfo(Request $request)
+    { 
+        // $salary_grade_infos=SalaryGradeInfo::where('salary_grade_master_id','=',$request->salary_grade_master_id)->get();
+        $salary_grade_infos = SalaryGradeMaster::find($request->salary_grade_master_id)->salary_grade_info;
+        return response()->json($salary_grade_infos);
+
+    }
+
+    public function createNewGradeInfo(Request $request)
+    {  
+        // dd($request->all()['data'][0]);
+        $salary_grade_info = SalaryGradeInfo::create($request->all()['data'][0]);
+        $salary_grade_info->DT_RowId = "row_" . $salary_grade_info->id;
+        return response()->json($salary_grade_info);
+
+    }
+
+
 
 }

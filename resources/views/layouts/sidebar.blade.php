@@ -67,17 +67,7 @@
          <li><a href="{{URL::to('/work_shift')}}">Work Shift</a></li>
          <li><a href="{{URL::to('/salary_head')}}">Salary Head</a></li>
          <li><a href="{{URL::to('/week_holiday')}}">Week Holiday</a></li>
-         <li class="treeview">
-          <a href="#"><i class=""></i> <span>Salary Grade</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="{{URL::to('/salary_grade')}}">Salary Grade List</a></li>
-            <li><a href="{{URL::to('/salary_grade/create')}}">Create New Salary Grade</a></li>
-          </ul>
-        </li>
+         <li><a href="{{URL::to('/salary_grade')}}">Salary Grade</a></li>
       </ul>
     </li>
 
