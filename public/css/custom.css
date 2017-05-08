@@ -1,3 +1,13 @@
 .delete_form_inline_datatable{
     display: inline;
 }
+.table-form{
+	width:100%;
+}
+ 
+#table-remarks{
+	background: #DC143C;
+	padding: 5px 15px;
+	display: none;
+	margin-bottom: 10px;
+}

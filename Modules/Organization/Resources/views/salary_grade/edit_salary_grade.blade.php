@@ -2,11 +2,14 @@
 @section('css')  
 
 <link rel="stylesheet" href="{{asset('bower_components/AdminLTE/plugins/select2/select2.min.css')}}">
-<link rel="stylesheet" href="{{asset('plugins/tooltipster/tooltipster.css')}}">
-<link rel="stylesheet" href="{{asset('bower_components/AdminLTE')}}/plugins/datatables/jquery.dataTables.css">  
-<link rel="stylesheet" href="{{asset('bower_components/AdminLTE')}}/plugins/datatables/dataTables.bootstrap.css">  
-<link rel="stylesheet" href="{{asset('editor_datatable/select2/css/select2.min.css')}}">
 
+<link rel="stylesheet" href="{{asset('bower_components/AdminLTE')}}/plugins/datatables/jquery.dataTables.css">  
+<link rel="stylesheet" href="{{asset('bower_components/AdminLTE')}}/plugins/datatables/dataTables.bootstrap.css">
+
+<!-- <link rel="stylesheet" href="{{asset('editor_datatable/select2/css/select2.min.css')}}"> -->
+<style>
+
+</style>
 @endsection
 @section('page_header')
 {{$salary_grade_master->salary_grade_name}}
@@ -30,24 +33,27 @@ Set up new Salary Grade
       <div class="box box-info">
         <div class="box-header with-border">
           <!-- <h3 class="box-title">Salary Grade Details</h3> -->
+          <button class="btn btn-xs btn-info pull-left" id="addRow">Add New Row</button>  
         </div>
         <div class="box-body"> 
-        
+
           <div class="col-md-12"> 
-          <button class="btn btn-xs btn-info pull-left" id="addRow">Add new row</button>  
+            <div id="table-remarks" >
+
+            </div>
             <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
               <thead>
                 <tr> 
-                  <th>Amount Type</th>
                   <th>Salary Head Name</th>
+                  <th>Amount Type</th>
                   <th>Amount</th> 
                   <th>Action</th> 
                 </tr>
               </thead>
               <tfoot>
                 <tr> 
-                  <th>Amount Type</th>
                   <th>Salary Head Name</th>
+                  <th>Amount Type</th>
                   <th>Amount</th> 
                   <th>Action</th> 
                 </tr>
@@ -70,14 +76,12 @@ Set up new Salary Grade
 
 @section('scripts')
 
-<script src="{{asset('plugins/validation/dist/jquery.validate.js')}}"></script>
-<script src="{{asset('plugins/tooltipster/tooltipster.js')}}"></script>
-<script src="{{asset('bower_components/AdminLTE')}}/plugins/datatables/jquery.dataTables.js"></script>
 <script src="{{asset('bower_components/AdminLTE')}}/plugins/datatables/jquery.dataTables.min.js"></script>
+<!-- <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script> -->
 <script src="{{asset('bower_components/AdminLTE')}}/plugins/datatables/dataTables.bootstrap.min.js"></script>
 <script src="{{asset('bower_components/AdminLTE//plugins/select2/select2.min.js')}}"></script>
-<script src="{{asset('js/utils/utils.js')}}"></script>
 
+<script src="{{asset('js/utils/utils.js')}}"></script>
 
 <script>
   $(document).ready(function () {
@@ -85,42 +89,99 @@ Set up new Salary Grade
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
-    });  
+    });   
 });//document ready
 
 
-  $(document).ready(function() {
-    var table = $('#example').DataTable();
-    var counter = 1;
 
+  $(document).ready(function() {
+
+    // var table = $('#example').DataTable(); 
+    var table = $('#example').DataTable( {
+      "ajax": "{{URL::to('/salary_grade/salary_grade_info/').'/'.$salary_grade_master->id}}",
+      "columns": [
+      { "data": "salary_head_id" },
+      { "data": "amount_type" },
+      { "data": "amount" },
+      {
+        "render": function ( data, type, row ) {
+          return '<button class="btn btn-xs btn-danger pull-left deleteButton" >Delete Row</button>';
+        },
+        "targets": 0
+      },
+      ]
+    }); 
+
+    var readyToPost=0; //0 for error 1 for ready 
+    // var counter=0;
     $('#addRow').on( 'click', function () {
       table.row.add( [
-        counter +'.1',
-        counter +'.2',
-        counter +'.3', 
-        '<button class="btn btn-xs btn-danger pull-left deleteButton"  style="margin-left:10px">Delete row</button>', 
+        '<select  class="salary_head_id form-control table-form"></select>',
+        '<select class="amount_type form-control"><option value="1">Taka</option><option value="0">% of Basic Salary</option></select>',
+        '<input type="number"  class="amount form-control" placeholder="Amount">', 
+        '<button class="btn btn-xs btn-danger pull-left deleteButton" >Delete Row</button>', 
         ] ).draw( false );
 
-      counter++;
+      var salary_head_id=$('.salary_head_id');
+      parameters = {
+        placeholder: "Salary Head Id",
+        url: '{{URL::to("/")}}/branch/auto/get_districts',
+        selector_id:salary_head_id, 
+        data:{}
+      }
+      init_select2_dynamic(parameters); 
     } );
+
 
     // Automatically add a first row of data
     $('#addRow').click();
-    // $('#example tbody').on( 'click', 'tr', function () {
-    //     if ( $(this).hasClass('selected') ) {
-    //         $(this).removeClass('selected');
-    //     }
-    //     else {
-    //         table.$('tr.selected').removeClass('selected');
-    //         $(this).addClass('selected');
-    //     }
-    // } );
- 
-    $('body').on('click', '.deleteButton', function() {
-      // alert("asd");
-        $(this).parents("tr").remove(); 
-    });    
-} );
+
+    $('body').on('click', '.deleteButton', function(e) {
+      var tr=$(this).parents("tr");
+      table.row(tr).remove().draw(false);  
+    }); 
+
+
+    $('body').on('click', '#btn_submit', function() {
+      $('#example > tbody  > tr').each(function() {
+        if ($(this).find(".salary_head_id").val()==null || $(this).find(".amount").val()=="") {
+          $("#table-remarks").html('<h1>The form is incomplete. </h1>').css("display","block").delay(5000).fadeOut(400);
+          readyToPost=0;
+          return;
+        }
+        readyToPost=1;
+      });
+      if (readyToPost==1) {
+        postTableData();
+      }
+    }); 
+
+
+    function postTableData(){
+      // alert("asndk");
+      var jsonObj=[];
+      var item;
+      $('#example > tbody  > tr').each(function() {
+        item={};
+        item["salary_head_id"]=$(this).find(".salary_head_id").val();
+        item["amount_type"]=$(this).find(".amount_type").val();
+        item["amount"]=$(this).find(".amount").val();
+        item["salary_grade_master_id"]={{$salary_grade_master->id}};
+        jsonObj.push(item);
+      });
+      jsonObj=JSON.stringify(jsonObj);
+      console.log(jsonObj);
+      $.ajax({
+        type: "POST",
+        data: {"salary_grade_master_id":{{$salary_grade_master->id}},"data":jsonObj},
+        url: "{{URL::to('/salary_grade/store_grade_info')}}",
+      });
+    }
+
+
+
+
+  } );
 
 
 

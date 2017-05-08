@@ -52,6 +52,8 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Org
 	Route::post('/salary_grade/create_new_grade_info/', 'SalaryGradeController@createNewGradeInfo');
 
 	Route::get('/salary_grade/grade_info/', 'SalaryGradeController@gradeInfo'); 
+	Route::get('/salary_grade/salary_grade_info/{salary_grade_master_id}', 'SalaryGradeController@salaryGradeInfo'); 
+	Route::get('/salary_grade/store_grade_info/', 'SalaryGradeController@storeGradeInfo');  
 	
 	Route::resource('/salary_grade', 'SalaryGradeController',['parameters' => [
     	'salary_grade' => 'salary_grade_master'

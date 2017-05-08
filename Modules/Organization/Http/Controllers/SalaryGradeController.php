@@ -37,6 +37,7 @@ class SalaryGradeController extends Controller
      * @return Response
      */
     public function store(\Modules\Organization\Http\Requests\SalaryGradeCreateRequest $request){
+
         $salary_grade_master=SalaryGradeMaster::create($request->all());
 
         if(isset($request->submit_and_edit)){ 
@@ -98,11 +99,9 @@ class SalaryGradeController extends Controller
     }
 
     public function gradeInfo(Request $request)
-    { 
-        // $salary_grade_infos=SalaryGradeInfo::where('salary_grade_master_id','=',$request->salary_grade_master_id)->get();
+    {  
         $salary_grade_infos = SalaryGradeMaster::find($request->salary_grade_master_id)->salary_grade_info;
         return response()->json($salary_grade_infos);
-
     }
 
     public function createNewGradeInfo(Request $request)
@@ -113,7 +112,17 @@ class SalaryGradeController extends Controller
         return response()->json($salary_grade_info);
 
     }
+    public function storeGradeInfo(Request $request)
+    {   
+        // dd();
+        $salary_grade_master=SalaryGradeMaster::find($request->salary_grade_master_id);
+        $salary_grade_master->salary_grade_info()->createMany(json_decode($request->data,true));
+    }
 
-
+    public function salaryGradeInfo($salary_grade_master_id)
+    {   
+        $salary_grade_infos = SalaryGradeMaster::find(intval($salary_grade_master_id))->salary_grade_info; 
+        return response()->json($salary_grade_infos);
+    }
 
 }
