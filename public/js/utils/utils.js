@@ -136,7 +136,7 @@ var init_select2_dynamic= function(parameters){
   var placeholder_text = 'Enter ';
   parameters.selector_id.select2({
     data: [parameters.default_value],
-    allowClear: true, 
+    allowClear: true,      
     width:'auto',
     placeholder: placeholder_text + parameters.placeholder,
     ajax: {

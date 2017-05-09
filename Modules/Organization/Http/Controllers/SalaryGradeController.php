@@ -114,14 +114,19 @@ class SalaryGradeController extends Controller
     }
     public function storeGradeInfo(Request $request)
     {   
-        // dd();
+        // dd($request->all());
         $salary_grade_master=SalaryGradeMaster::find($request->salary_grade_master_id);
+        $salary_grade_master->salary_grade_info()->delete();
         $salary_grade_master->salary_grade_info()->createMany(json_decode($request->data,true));
     }
 
     public function salaryGradeInfo($salary_grade_master_id)
     {   
-        $salary_grade_infos = SalaryGradeMaster::find(intval($salary_grade_master_id))->salary_grade_info; 
+
+        $salary_grade_infos = SalaryGradeInfo::where('salary_grade_master_id','=',intval($salary_grade_master_id))
+                                ->join('salary_head', 'salary_grade_info.salary_head_id', '=', 'salary_head.id')
+                                ->select('salary_grade_info.amount','salary_grade_info.amount_type','salary_head.salary_head_name','salary_grade_info.salary_head_id')
+                            ->get(); 
         return response()->json($salary_grade_infos);
     }
 

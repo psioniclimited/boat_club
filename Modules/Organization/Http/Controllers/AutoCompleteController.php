@@ -91,6 +91,9 @@ class AutoCompleteController extends Controller
     public function getPostOffices(Request $request, BranchRepository $branchRepository){ 
         return $branchRepository->getPostOffices('post_office_name', $request->input('term'),$request->input('value_term'), ['id', 'post_office_name as text']); 
     }
+    public function getSalaryHead(Request $request, BranchRepository $branchRepository){ 
+        return $branchRepository->getSalaryHeads('salary_head_name', $request->input('term'),$request->input('value_term'), ['id', 'salary_head_name as text']); 
+    }
 
     public function getDistrictOfBranch(Request $request)
     {  

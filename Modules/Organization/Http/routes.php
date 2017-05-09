@@ -15,6 +15,9 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Org
 	Route::get('/department/auto/get_department/branch', 'AutoCompleteController@getBranchOfDepartment');
 	
 
+	Route::get('/salary_head/auto/salary_head', 'AutoCompleteController@getSalaryHead');
+	
+
 	Route::get('/testdb', 'AutoCompleteController@returnTestJson');
 
 
@@ -53,7 +56,7 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Org
 
 	Route::get('/salary_grade/grade_info/', 'SalaryGradeController@gradeInfo'); 
 	Route::get('/salary_grade/salary_grade_info/{salary_grade_master_id}', 'SalaryGradeController@salaryGradeInfo'); 
-	Route::get('/salary_grade/store_grade_info/', 'SalaryGradeController@storeGradeInfo');  
+	Route::post('/salary_grade/store_grade_info/', 'SalaryGradeController@storeGradeInfo');  
 	
 	Route::resource('/salary_grade', 'SalaryGradeController',['parameters' => [
     	'salary_grade' => 'salary_grade_master'
