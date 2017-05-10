@@ -33,9 +33,14 @@ Set up new Salary Grade
         <div class="box-body"> 
 
           <div class="col-md-12"> 
-            <div id="table-remarks" >
 
+            <div class="alert alert-danger alert-dismissible" id="table-remarks">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <h4><i class="icon fa fa-ban"></i> Alert!</h4> 
+              <span class="alert_message"></span>
             </div>
+
+
             <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
               <thead>
                 <tr> 
@@ -88,6 +93,8 @@ Set up new Salary Grade
 
   $(document).ready(function() {
     var table = $('#example').DataTable(); 
+    var readyToPost=0; //0 for error 1 for ready 
+
     $.ajax("{{URL::to('/salary_grade/salary_grade_info/').'/'.$salary_grade_master->id}}", {
       data: {
         format: 'json'
@@ -96,56 +103,55 @@ Set up new Salary Grade
       },type: 'GET',
       success: function(data) { 
        $.each(data, function(i, item) { 
-        renderTheTable(item);
+        renderTheTable(item,1); //first parameter for data second parameter for instruction
       });
      }
    });
 
-    var readyToPost=0; //0 for error 1 for ready 
 
-
+    //add row
     $('#addRow').on( 'click', function () {
-      table.row.add([
-        '<select  class="salary_head_id form-control table-form"></select>',
-        '<select class="amount_type form-control"><option value="1">Taka</option><option value="0">% of Basic Salary</option></select>',
-        '<input type="number"  class="amount form-control" placeholder="Amount">', 
-        '<button class="btn btn-xs btn-danger pull-left deleteButton" >Delete Row</button>', 
-        ]).draw( false );
-
-      var salary_head_id=$('.salary_head_id');
-      parameters = {
-        placeholder: "Salary Head Id",
-        url: '{{URL::to("/")}}/salary_head/auto/salary_head',
-        selector_id:salary_head_id, 
-        data:{}
-      }
-      init_select2_dynamic(parameters); 
-    } );
-
-
-    // Automatically add a first row of data
-    // $('#addRow').click();
-
+         renderTheTable(null,2); //first parameter for data second parameter for instruction
+       } );
+    //delete row
     $('body').on('click', '.deleteButton', function(e) {
       var tr=$(this).parents("tr");
       table.row(tr).remove().draw(false);  
     }); 
 
-
+    //submit
     $('body').on('click', '#btn_submit', function() {
-      $('#example > tbody  > tr').each(function() {
-        if ($(this).find(".salary_head_id").val()==null || $(this).find(".amount").val()=="") {
-          $("#table-remarks").html('<h1>The form is incomplete. </h1>').css("display","block").delay(5000).fadeOut(400);
-          readyToPost=0;
-          return;
-        }
-        readyToPost=1;
-      });
-      if (readyToPost==1) {
+
+      var validationResult=validateTableData(); 
+
+      if (validationResult[0]==true) {
         postTableData();
+      }else{
+        $("#table-remarks .alert_message").html(validationResult[1]);
+        $("#table-remarks").css("display","block").delay(5000).fadeOut(400);
       }
+
     }); 
 
+    function validateTableData(){
+      var storedIds=[]; 
+      var returnMessage=[true,'validation complete'];
+
+      $('#example > tbody  > tr').each(function() {        
+        if ($(this).find(".salary_head_id").val()==null || $(this).find(".amount").val()=="") {
+          return returnMessage=[false,'The form is incomplete. Check if you missed giving any input.'];
+        }else{
+          storedIds.push($(this).find(".salary_head_id").val());
+        } 
+      }); 
+      var normalarray_length=storedIds.length; 
+      var uniqarray_length=$.unique(storedIds).length; 
+
+      if (normalarray_length != uniqarray_length) {
+        returnMessage=[false,'The form has repeated inputs. Check if you inserted two similar salary heads.'];
+      }
+      return returnMessage;
+    }
 
     function postTableData(){ 
       var jsonObj=[];
@@ -169,17 +175,24 @@ Set up new Salary Grade
         }
       });
     }
-    function renderTheTable(item){ 
-      table.row.add([
-        '<select  class="salary_head_id form-control table-form"></select>',
 
-        '<select class="amount_type form-control"></select>' 
-        ,
-        '<input type="number"  class="amount form-control" placeholder="Amount">', 
-        '<button class="btn btn-xs btn-danger pull-left deleteButton" >Delete Row</button>', 
-        ]).draw( false );
 
-      // console.log(item);
+
+    function renderTheTable(item,mode){ 
+      var stringAr;
+
+      if (mode==1) {
+        if (item.amount_type==1) {
+          stringAr=arrayForTableGeneration(1,item.amount);
+        }else{ 
+          stringAr=arrayForTableGeneration(0,item.amount);
+        } 
+      }else{
+        stringAr=arrayForTableGeneration(null,null); 
+      }
+      
+      table.row.add(stringAr).draw( false );
+
       var salary_head_id=$('.salary_head_id');
       parameters = {
         placeholder: "Salary Head Id",
@@ -189,36 +202,31 @@ Set up new Salary Grade
       }
       init_select2_dynamic(parameters);
 
-      $newOption = $("<option></option>").val(item.salary_head_id).text(item.salary_head_name)
-      salary_head_id.append($newOption).trigger('change'); 
+      if (mode==1) {
+        $newOption = $("<option></option>").val(item.salary_head_id).text(item.salary_head_name)
+        salary_head_id.append($newOption).trigger('change');         
 
-      if (item.amount_type==1) {
-
-        $('.amount_type').append('<option value="1">Taka</option><option value="0">% of Basic Salary</option>'); 
-      }else{ 
-        $('.amount_type').append('<option value="0">% of Basic Salary</option><option value="1">Taka</option>'); 
-      }
-      $('.amount').val(item.amount); 
+      } 
     }
 
 
-    $('body').on('change', '.salary_head_id', function() { 
-      var id=$(this).val();
-      if(xyz(id)){ 
-        $("this option[value='"+id+"']").remove();
+    function arrayForTableGeneration(amount_type,amount){
+      var arr=[];
+      arr.push('<select  class="salary_head_id form-control table-form"></select>');
+      if(amount_type==0){
+        arr.push('<select class="amount_type form-control"><option value="0">% of Basic Salary</option><option value="1">Taka</option></select>');
+      }else{
+        arr.push('<select class="amount_type form-control"><option value="1">Taka</option><option value="0">% Of Basic Salary</option></select>');
       }
-    }); 
-
-    function xyz(id){
-      console.log(id);
-      var returnValue=false;
-      $('#example > tbody  > tr').each(function(){
-        if ($(this).find(".salary_head_id").val()==id) { 
-          returnValue=true;
-        } 
-      });
-      return returnValue;
+      if (amount!=null) {
+        arr.push('<input type="number"  class="amount form-control" placeholder="Amount"  value="'+amount+'">')
+      }else{
+        arr.push('<input type="number"  class="amount form-control" placeholder="Amount"  value="">')
+      }
+      arr.push('<button class="btn btn-xs btn-danger pull-left deleteButton" >Delete Row</button>');
+      return arr;
     }
+
 
   });
 
