@@ -164,6 +164,9 @@ Set up new Salary Grade
         type: "POST",
         data: {"salary_grade_master_id":{{$salary_grade_master->id}},"data":jsonObj},
         url: "{{URL::to('/salary_grade/store_grade_info')}}",
+        success:function(data){ 
+          window.location.reload();
+        }
       });
     }
     function renderTheTable(item){ 
@@ -199,12 +202,11 @@ Set up new Salary Grade
     }
 
 
-    $('body').on('change', '.salary_head_id', function() {
-       var id=$(this).val();
+    $('body').on('change', '.salary_head_id', function() { 
+      var id=$(this).val();
       if(xyz(id)){ 
-        console.log($("this").child("option[value="+id+"]")).value(); 
+        $("this option[value='"+id+"']").remove();
       }
-
     }); 
 
     function xyz(id){
