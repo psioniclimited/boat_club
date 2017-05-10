@@ -3,14 +3,21 @@
 <link rel="stylesheet" href="{{asset('bower_components/AdminLTE/plugins/select2/select2.min.css')}}">
 <link rel="stylesheet" href="{{asset('bower_components/AdminLTE')}}/plugins/datatables/jquery.dataTables.css">  
 <link rel="stylesheet" href="{{asset('bower_components/AdminLTE')}}/plugins/datatables/dataTables.bootstrap.css">
-
+<style>
+  .select2-container--default {
+    width: 100% !important;
+  }
+  .paginate_button{
+    padding: 0px !important;
+  }
+</style>
 
 @endsection
 @section('page_header')
 {{$salary_grade_master->salary_grade_name}}
 @endsection
 @section('page_description')
-Set up new Salary Grade
+Set up Salary Grade
 @endsection
 @section('breadcrumb')
 {!! Breadcrumbs::render('salary_grade') !!}
@@ -190,7 +197,7 @@ Set up new Salary Grade
       }else{
         stringAr=arrayForTableGeneration(null,null); 
       }
-      
+
       table.row.add(stringAr).draw( false );
 
       var salary_head_id=$('.salary_head_id');
@@ -200,7 +207,7 @@ Set up new Salary Grade
         selector_id:salary_head_id, 
         data:{}
       }
-      init_select2_dynamic(parameters);
+      init_select2(parameters);
 
       if (mode==1) {
         $newOption = $("<option></option>").val(item.salary_head_id).text(item.salary_head_name)
@@ -212,7 +219,8 @@ Set up new Salary Grade
 
     function arrayForTableGeneration(amount_type,amount){
       var arr=[];
-      arr.push('<select  class="salary_head_id form-control table-form"></select>');
+      arr.push('<div><select  class="salary_head_id form-control table-form"></select></div>');
+
       if(amount_type==0){
         arr.push('<select class="amount_type form-control"><option value="0">% of Basic Salary</option><option value="1">Taka</option></select>');
       }else{
