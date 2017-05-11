@@ -98,3 +98,10 @@ Breadcrumbs::register('holiday', function($breadcrumbs)
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Holiday', url('/holiday'));
 });
+
+
+Breadcrumbs::register('job_opening', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Job Opening', url('/job_opening'));
+});

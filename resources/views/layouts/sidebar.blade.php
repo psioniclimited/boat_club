@@ -77,7 +77,7 @@
             <li><a href="{{URL::to('/salary_grade/create')}}">Create Salary Grade</a></li>
           </ul>
         </li>
-         <li><a href="{{URL::to('/week_holiday')}}">Week Holiday</a></li> 
+        <li><a href="{{URL::to('/week_holiday')}}">Week Holiday</a></li> 
 
         <li class="treeview">
          <a href="#"> <span>Holiday</span>
@@ -93,20 +93,40 @@
     </ul>
   </li>
 
-
   <li class="treeview">
-    <a href="#"><i class="fa fa-link"></i> <span>Setting</span>
+    <a href="#"><i class="fa fa-link"></i> <span>Employee</span>
       <span class="pull-right-container">
         <i class="fa fa-angle-left pull-right"></i>
       </span>
     </a>
-    <ul class="treeview-menu">
-      <li><a href="{{URL::to('/')}}/user/create">Create User</a></li>
-      <li><a href="{{URL::to('/')}}/user/all_users">All Users</a></li> 
-      <li><a href="{{URL::to('/')}}/role">Role</a></li> 
-      <li><a href="{{URL::to('/')}}/permission">Permission</a></li> 
-    </ul>
-  </li>  
+    <ul class="treeview-menu">  
+     <li class="treeview">
+       <a href="#"> <span>Job Opening</span>
+        <span class="pull-right-container">
+          <i class="fa fa-angle-left pull-right"></i>
+        </span>
+      </a>
+      <ul class="treeview-menu">
+        <li><a href="{{URL::to('/job_opening')}}">Job Opening List</a></li>
+        <li><a href="{{URL::to('/job_opening/create')}}">Create new Job Opening</a></li>
+      </ul>
+    </li> 
+  </ul>
+</li>
+
+<li class="treeview">
+  <a href="#"><i class="fa fa-link"></i> <span>Setting</span>
+    <span class="pull-right-container">
+      <i class="fa fa-angle-left pull-right"></i>
+    </span>
+  </a>
+  <ul class="treeview-menu">
+    <li><a href="{{URL::to('/')}}/user/create">Create User</a></li>
+    <li><a href="{{URL::to('/')}}/user/all_users">All Users</a></li> 
+    <li><a href="{{URL::to('/')}}/role">Role</a></li> 
+    <li><a href="{{URL::to('/')}}/permission">Permission</a></li> 
+  </ul>
+</li>  
 
 </ul>
 <!-- /.sidebar-menu -->
