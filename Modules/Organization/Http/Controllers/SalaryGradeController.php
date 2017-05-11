@@ -19,7 +19,7 @@ class SalaryGradeController extends Controller
      */
     public function index()
     { 
-        return view('organization::salary_grade.salary_grade');   
+        return view('organization::salary_grade.salary_grade_list');   
     }
 
     /**
@@ -28,7 +28,7 @@ class SalaryGradeController extends Controller
      */
     public function create()
     {  
-
+        return view('organization::salary_grade.create_salary_grade');
     }
 
     /**
@@ -115,6 +115,7 @@ class SalaryGradeController extends Controller
     public function storeGradeInfo(Request $request)
     {   
         $salary_grade_master=SalaryGradeMaster::find($request->salary_grade_master_id);
+        $salary_grade_master->update($request->all());
         $salary_grade_master->salary_grade_info()->delete();
         $salary_grade_master->salary_grade_info()->createMany(json_decode($request->data,true));
         $request->session()->flash('status', 'Task was successful!');

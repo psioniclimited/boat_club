@@ -1,5 +1,7 @@
 @extends('layouts.master')
 @section('css')  
+
+<link rel="stylesheet" href="{{asset('plugins/tooltipster/tooltipster.css')}}"> 
 <link rel="stylesheet" href="{{asset('bower_components/AdminLTE/plugins/select2/select2.min.css')}}">
 <link rel="stylesheet" href="{{asset('bower_components/AdminLTE')}}/plugins/datatables/jquery.dataTables.css">  
 <link rel="stylesheet" href="{{asset('bower_components/AdminLTE')}}/plugins/datatables/dataTables.bootstrap.css">
@@ -31,7 +33,40 @@ Set up Salary Grade
 <!-- Main content -->
 <section class="content">
   <div class="row">
-    <div class="col-md-12"> 
+    <div class="col-md-12">
+      <div class="box box-info">
+        <div class="box-header with-border">
+          <h3 class="box-title">Salary Grade Details</h3>
+        </div>
+        <div class="box-body">
+          <div class="col-md-12">
+          <form action="" id="add_salary_grade_form">
+ 
+              <div class="form-group @if ($errors->has('salary_grade_name')) has-error @endif">
+                <label for="name" class="control-label">Salary Grade Name*</label> 
+                <input type="text" class="form-control" id="salary_grade_name" name="salary_grade_name" placeholder="Enter name" value="{{$salary_grade_master->salary_grade_name}}"> 
+                @if ($errors->has('salary_grade_name')) <p class="help-block">{{ $errors->first('salary_grade_name') }}</p> @endif                             
+              </div>
+              <div class="form-group @if ($errors->has('basic_salary')) has-error @endif">
+                <label for="name" class="control-label">Basic Salary*</label> 
+                <input type="text" class="form-control" id="basic_salary" name="basic_salary" placeholder="Enter Basic Salary" value="{{$salary_grade_master->basic_salary}}"> 
+                @if ($errors->has('basic_salary')) <p class="help-block">{{ $errors->first('basic_salary') }}</p> @endif                             
+              </div>                           
+            </div>
+          </form>          
+          <!-- /.col -->
+        </div>
+        <!-- /.box-body -->
+      </div>
+
+
+
+
+
+
+
+
+
       <div class="box box-info">
         <div class="box-header with-border">
           <!-- <h3 class="box-title">Salary Grade Details</h3> -->
@@ -82,6 +117,8 @@ Set up Salary Grade
 
 
 @section('scripts')
+<script src="{{asset('plugins/validation/dist/jquery.validate.js')}}"></script>
+<script src="{{asset('plugins/tooltipster/tooltipster.js')}}"></script>
 
 <script src="{{asset('bower_components/AdminLTE')}}/plugins/datatables/jquery.dataTables.min.js"></script> 
 <script src="{{asset('bower_components/AdminLTE')}}/plugins/datatables/dataTables.bootstrap.min.js"></script>
@@ -95,6 +132,49 @@ Set up Salary Grade
       }
     });   
 });//document ready
+
+
+
+  $(document).ready(function () { 
+    // initialize tooltipster on form input elements
+    $('form input, select').tooltipster({// <-  USE THE PROPER SELECTOR FOR YOUR INPUTs
+        trigger: 'custom', // default is 'hover' which is no good here
+        onlyOne: false, // allow multiple tips to be open at a time
+        position: 'right'  // display the tips to the right of the element
+      });
+
+    // initialize validate plugin on the form
+    $('#add_salary_grade_form').validate({
+      errorPlacement: function (error, element) { 
+        var lastError = $(element).data('lastError'),
+        newError = $(error).text();
+
+        $(element).data('lastError', newError);
+
+        if (newError !== '' && newError !== lastError) {
+          $(element).tooltipster('content', newError);
+          $(element).tooltipster('show');
+        }
+      },
+      success: function (label, element) {
+        $(element).tooltipster('hide');
+      },
+      rules: {
+        salary_grade_name: {required: true, minlength: 4},
+        basic_salary: {required: true}
+      },
+      messages: {
+        salary_grade_name: {required: "Please give name"},
+        basic_salary: {required: "Please give a Basic Salary"}, 
+      }
+    });
+});//document ready
+
+
+
+
+
+
 
 
 
@@ -141,9 +221,12 @@ Set up Salary Grade
     }); 
 
     function validateTableData(){
+      
       var storedIds=[]; 
       var returnMessage=[true,'validation complete'];
-
+      if (!$('#add_salary_grade_form').valid()) {
+        returnMessage=[false,'Some Error Found'];
+      }
       $('#example > tbody  > tr').each(function() {        
         if ($(this).find(".salary_head_id").val()==null || $(this).find(".amount").val()=="") {
           return returnMessage=[false,'The form is incomplete. Check if you missed giving any input.'];
@@ -175,7 +258,11 @@ Set up Salary Grade
       // console.log(jsonObj);
       $.ajax({
         type: "POST",
-        data: {"salary_grade_master_id":{{$salary_grade_master->id}},"data":jsonObj},
+        data: {"salary_grade_master_id":{{$salary_grade_master->id}},
+                "data":jsonObj,
+                "salary_grade_name":$("#salary_grade_name").val(),
+                "basic_salary":$("#basic_salary").val()
+              },
         url: "{{URL::to('/salary_grade/store_grade_info')}}",
         success:function(data){ 
           window.location.reload();
