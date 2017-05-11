@@ -68,7 +68,7 @@
          <li><a href="{{URL::to('/salary_head')}}">Salary Head</a></li>
          <li><a href="{{URL::to('/week_holiday')}}">Week Holiday</a></li> 
          <li class="treeview">
-         <a href="#"> <span>Salary Grade</span>
+           <a href="#"> <span>Salary Grade</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>

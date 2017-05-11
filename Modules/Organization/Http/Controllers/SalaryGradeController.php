@@ -11,6 +11,7 @@ use Modules\Organization\Entities\SalaryGradeInfo;
 use Modules\Organization\Entities\SalaryHead;  
 use \Modules\Helpers\DatatableHelper;
 use Datatables; 
+use Validator;
 class SalaryGradeController extends Controller
 {
     /**
@@ -62,8 +63,8 @@ class SalaryGradeController extends Controller
      * @return Response
      */
     public function edit(SalaryGradeMaster $salary_grade_master) {
-       return view('organization::salary_grade.edit_salary_grade',['salary_grade_master'=>$salary_grade_master]);
-   }
+     return view('organization::salary_grade.edit_salary_grade',['salary_grade_master'=>$salary_grade_master]);
+ }
 
     /**
      * Update the specified resource in storage.
@@ -112,25 +113,47 @@ class SalaryGradeController extends Controller
         return response()->json($salary_grade_info);
 
     }
-    public function storeGradeInfo(Request $request)
-    {   
+    public function storeGradeInfo(\Modules\Organization\Http\Requests\SalaryGradeCreateRequest $request)
+    {    
+        foreach (json_decode($request->data,true) as $row) {  
+            if($this->validateGradeInfoData($row)){
+                $request->session()->flash('alert-class', 'Could not save data!');
+                return response()->json(['link'=>'/salary_grade']);
+            }
+        } 
+
         $salary_grade_master=SalaryGradeMaster::find($request->salary_grade_master_id);
         $salary_grade_master->update($request->all());
         $salary_grade_master->salary_grade_info()->delete();
         $salary_grade_master->salary_grade_info()->createMany(json_decode($request->data,true));
+        
         $request->session()->flash('status', 'Task was successful!');
         return response()->json(['link'=>'/salary_grade']);
-
     }
 
     public function salaryGradeInfo($salary_grade_master_id)
     {   
-
         $salary_grade_infos = SalaryGradeInfo::where('salary_grade_master_id','=',intval($salary_grade_master_id))
         ->join('salary_head', 'salary_grade_info.salary_head_id', '=', 'salary_head.id')
         ->select('salary_grade_info.amount','salary_grade_info.amount_type','salary_head.salary_head_name','salary_grade_info.salary_head_id')
         ->get(); 
         return response()->json($salary_grade_infos);
     }
+
+    public function validateGradeInfoData($data){
+
+       $validator = Validator::make($data, array(
+        'salary_head_id' =>'required|exists:salary_head,id' , 
+        'amount_type' =>'required|numeric' , 
+        'amount' =>'required|numeric' , 
+        'salary_grade_master_id' =>'required|exists:salary_grade_master,id' , 
+        ));
+
+       if ($validator->fails())
+       { 
+        return false;
+    }
+    return true;
+}
 
 }

@@ -40,8 +40,8 @@ Set up Salary Grade
         </div>
         <div class="box-body">
           <div class="col-md-12">
-          <form action="" id="add_salary_grade_form">
- 
+            <form action="" id="add_salary_grade_form">
+             
               <div class="form-group @if ($errors->has('salary_grade_name')) has-error @endif">
                 <label for="name" class="control-label">Salary Grade Name*</label> 
                 <input type="text" class="form-control" id="salary_grade_name" name="salary_grade_name" placeholder="Enter name" value="{{$salary_grade_master->salary_grade_name}}"> 
@@ -58,14 +58,6 @@ Set up Salary Grade
         </div>
         <!-- /.box-body -->
       </div>
-
-
-
-
-
-
-
-
 
       <div class="box box-info">
         <div class="box-header with-border">
@@ -208,7 +200,7 @@ Set up Salary Grade
 
     //submit
     $('body').on('click', '#btn_submit', function() {
-
+ 
       var validationResult=validateTableData(); 
 
       if (validationResult[0]==true) {
@@ -259,15 +251,15 @@ Set up Salary Grade
       $.ajax({
         type: "POST",
         data: {"salary_grade_master_id":{{$salary_grade_master->id}},
-                "data":jsonObj,
-                "salary_grade_name":$("#salary_grade_name").val(),
-                "basic_salary":$("#basic_salary").val()
-              },
-        url: "{{URL::to('/salary_grade/store_grade_info')}}",
-        success:function(data){ 
-          window.location.reload();
-        }
-      });
+        "data":jsonObj,
+        "salary_grade_name":$("#salary_grade_name").val(),
+        "basic_salary":$("#basic_salary").val()
+      },
+      url: "{{URL::to('/salary_grade/store_grade_info')}}",
+      success:function(data){ 
+        window.location.reload();
+      }
+    });
     }
 
 
