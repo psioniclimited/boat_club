@@ -93,3 +93,8 @@ Breadcrumbs::register('week_holiday', function($breadcrumbs)
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Week Holiday', url('/week_holiday'));
 });
+Breadcrumbs::register('holiday', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Holiday', url('/holiday'));
+});

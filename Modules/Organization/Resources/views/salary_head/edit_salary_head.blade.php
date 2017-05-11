@@ -26,7 +26,8 @@ Set up Salary Head
                 <div class="box-header with-border">
                     <h3 class="box-title">SalaryHead Create</h3>
                 </div> 
-                {!! Form::open(array('route'=>'salary_head.store','id'=>'add_salary_head_form','class' => 'form-horizontal')) !!}              
+<!--                 {!! Form::open(array('route'=>'salary_head.store','id'=>'add_salary_head_form','class' => 'form-horizontal')) !!}   -->  
+                {!! Form::open(array('route' => array('salary_head.update', $salary_head->id), 'id' => 'add_salary_head_form', 'method'=>'PUT')) !!}                    
                 <div class="box-body">
                     <div class="col-md-12"> 
                         <div class="form-group @if ($errors->has('salary_head_name')) has-error @endif">

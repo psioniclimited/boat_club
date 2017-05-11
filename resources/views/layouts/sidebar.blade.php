@@ -66,7 +66,6 @@
          <li><a href="{{URL::to('/designation')}}">Designation</a></li>
          <li><a href="{{URL::to('/work_shift')}}">Work Shift</a></li>
          <li><a href="{{URL::to('/salary_head')}}">Salary Head</a></li>
-         <li><a href="{{URL::to('/week_holiday')}}">Week Holiday</a></li> 
          <li class="treeview">
            <a href="#"> <span>Salary Grade</span>
             <span class="pull-right-container">
@@ -78,26 +77,39 @@
             <li><a href="{{URL::to('/salary_grade/create')}}">Create Salary Grade</a></li>
           </ul>
         </li>
-      </ul>
-    </li>
+         <li><a href="{{URL::to('/week_holiday')}}">Week Holiday</a></li> 
+
+        <li class="treeview">
+         <a href="#"> <span>Holiday</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="{{URL::to('/holiday/create')}}">Create Holiday</a></li>
+          <li><a href="{{URL::to('/holiday')}}">Holiday List</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
 
 
-    <li class="treeview">
-      <a href="#"><i class="fa fa-link"></i> <span>Setting</span>
-        <span class="pull-right-container">
-          <i class="fa fa-angle-left pull-right"></i>
-        </span>
-      </a>
-      <ul class="treeview-menu">
-        <li><a href="{{URL::to('/')}}/user/create">Create User</a></li>
-        <li><a href="{{URL::to('/')}}/user/all_users">All Users</a></li> 
-        <li><a href="{{URL::to('/')}}/role">Role</a></li> 
-        <li><a href="{{URL::to('/')}}/permission">Permission</a></li> 
-      </ul>
-    </li>  
+  <li class="treeview">
+    <a href="#"><i class="fa fa-link"></i> <span>Setting</span>
+      <span class="pull-right-container">
+        <i class="fa fa-angle-left pull-right"></i>
+      </span>
+    </a>
+    <ul class="treeview-menu">
+      <li><a href="{{URL::to('/')}}/user/create">Create User</a></li>
+      <li><a href="{{URL::to('/')}}/user/all_users">All Users</a></li> 
+      <li><a href="{{URL::to('/')}}/role">Role</a></li> 
+      <li><a href="{{URL::to('/')}}/permission">Permission</a></li> 
+    </ul>
+  </li>  
 
-  </ul>
-  <!-- /.sidebar-menu -->
+</ul>
+<!-- /.sidebar-menu -->
 </section>
 <!-- /.sidebar -->
 </aside>

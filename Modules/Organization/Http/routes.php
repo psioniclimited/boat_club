@@ -53,35 +53,32 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Org
 
 	Route::get('/salary_grade/get_all_salary_grades', 'SalaryGradeController@getAllSalaryGrades'); 
 	Route::post('/salary_grade/create_new_grade_info/', 'SalaryGradeController@createNewGradeInfo');
-
 	Route::get('/salary_grade/grade_info/', 'SalaryGradeController@gradeInfo'); 
 	Route::get('/salary_grade/salary_grade_info/{salary_grade_master_id}', 'SalaryGradeController@salaryGradeInfo'); 
-	Route::post('/salary_grade/store_grade_info/', 'SalaryGradeController@storeGradeInfo');  
-	
+	Route::post('/salary_grade/store_grade_info/', 'SalaryGradeController@storeGradeInfo');  	
 	Route::resource('/salary_grade', 'SalaryGradeController',['parameters' => [
-    	'salary_grade' => 'salary_grade_master'
-	]]);
-
+		'salary_grade' => 'salary_grade_master'
+		]]);
 
 	Route::get('/week_holiday/get_all_week_holidays', 'WeekHolidayController@getAllWeekHolidays');
-
-	// Route::resource('/week_holiday', 'WeekHolidayController');
-
 	Route::resource('/week_holiday', 'WeekHolidayController', ['parameters' => [
-    	'week_holiday' => 'week_holiday_master'
-	]]);
+		'week_holiday' => 'week_holiday_master'
+		]]);
+	
+	Route::get('/holiday/get_all_holidays', 'HolidayController@getAllHolidays');
+	Route::resource('/holiday', 'HolidayController');
 
-	Route::get('testmultiple', function(){
-		$salary_grade = Modules\Organization\Entities\SalaryGradeMaster::find(1);
-		dd([
-			array('amount' => 2000, 'salary_head_id' => 2),
-			array('amount' => 3000, 'salary_head_id' => 3),
-		]);
-		
-		$salary_grade->salary_grade_info()->createMany([
-			array('amount' => 2000, 'salary_head_id' => 2),
-			array('amount' => 3000, 'salary_head_id' => 3),
-		]);
-		dd($salary_grade);
-	});
+	// Route::get('testmultiple', function(){
+	// 	$salary_grade = Modules\Organization\Entities\SalaryGradeMaster::find(1);
+	// 	dd([
+	// 		array('amount' => 2000, 'salary_head_id' => 2),
+	// 		array('amount' => 3000, 'salary_head_id' => 3),
+	// 	]);
+
+	// 	$salary_grade->salary_grade_info()->createMany([
+	// 		array('amount' => 2000, 'salary_head_id' => 2),
+	// 		array('amount' => 3000, 'salary_head_id' => 3),
+	// 	]);
+	// 	dd($salary_grade);
+	// });
 });
