@@ -80,7 +80,11 @@ Set up Salary Grade
 
   $(document).ready(function () {
   
- 
+     $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });   
 
     //Datatable Generation
     var table = $('#all_role_table').DataTable({
@@ -110,13 +114,15 @@ Set up Salary Grade
 $('#confirm_delete').on('show.bs.modal', function(e) {
  var $modal = $(this),
  branch_id = e.relatedTarget.id;
+ // console.log(branch_id);
 
  $('#delete_role').click(function(e){
+  // console.log("sa");
    event.preventDefault();
    $.ajax({
      cache: false,
      type: 'DELETE',
-     url: '/post_office/' + branch_id,
+     url: '/salary_grade/' + branch_id,
      data: branch_id,
      success: function(data){
        table.ajax.reload(null, false);

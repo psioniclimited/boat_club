@@ -83,9 +83,10 @@ class SalaryGradeController extends Controller
      * @return Response
      */
     public function destroy(Request $request, SalaryGradeMaster $salary_grade_master)
-    { 
-        // $salary_head->delete();
-        // $request->session()->flash('status', 'Task was successful!'); 
+    {  
+        $salary_grade_master->delete();
+        $request->session()->flash('status', 'Task was successful!'); 
+        // return redirect()->back();
     }
 
     public function getAllSalaryGrades(DatatableHelper $databaseHelper)
@@ -126,7 +127,7 @@ class SalaryGradeController extends Controller
         $salary_grade_master->update($request->all());
         $salary_grade_master->salary_grade_info()->delete();
         $salary_grade_master->salary_grade_info()->createMany(json_decode($request->data,true));
-        
+
         $request->session()->flash('status', 'Task was successful!');
         return response()->json(['link'=>'/salary_grade']);
     }

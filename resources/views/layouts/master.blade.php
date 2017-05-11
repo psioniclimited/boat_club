@@ -32,7 +32,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <link rel="stylesheet" href="{{asset('bower_components/AdminLTE/dist/css/skins/skin-blue.min.css')}}"> 
       <!--  custom css-->
       <link rel="stylesheet" href="{{asset('css/custom.css')}}"> 
-   
+      
       <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
       <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -63,16 +63,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
           <h4><i class="icon fa fa-check"></i> Alert!</h4>
           {{session('status')}}
-        </div>       
-        @endif 
-
-        @if (session('alert-class'))
+        </div>  
+        @elseif(session('alert-class')) 
         <div class="alert alert-danger alert-dismissible">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
           <h4><i class="icon fa fa-ban"></i> Alert!</h4>
           {{session('alert-class')}}
-        </div>       
-        @endif         
+        </div>    
+        @endif 
+        
         @yield('content')
       </section>
       <!-- /.content -->
