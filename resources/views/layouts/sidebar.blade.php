@@ -30,9 +30,11 @@
 
     <!-- Sidebar Menu -->
     <ul class="sidebar-menu">
-      <li class="header">HEADER</li>
+      
+      <!-- <li class="header">HEADER</li> -->
       <!-- Optionally, you can add icons to the links -->
-      <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
+      
+      <!-- <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
       <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
       
       <li class="treeview">
@@ -46,7 +48,7 @@
           <li><a href="#">Link in level 2</a></li>
         </ul>
       </li>
-
+ -->
 
 
 
@@ -94,7 +96,7 @@
   </li>
 
   <li class="treeview">
-    <a href="#"><i class="fa fa-link"></i> <span>Employee</span>
+    <a href="#"><i class="fa fa-link"></i> <span>Job Management</span>
       <span class="pull-right-container">
         <i class="fa fa-angle-left pull-right"></i>
       </span>
@@ -111,6 +113,17 @@
         <li><a href="{{URL::to('/job_opening/create')}}">Create new Job Opening</a></li>
       </ul>
     </li> 
+     <li class="treeview">
+       <a href="#"> <span>Job Applicant</span>
+        <span class="pull-right-container">
+          <i class="fa fa-angle-left pull-right"></i>
+        </span>
+      </a>
+      <ul class="treeview-menu">
+        <li><a href="{{URL::to('/job_applicant')}}">Job Applicant List</a></li>
+        <li><a href="{{URL::to('/job_applicant/create')}}">Create new Job Applicant</a></li>
+      </ul>
+    </li>     
   </ul>
 </li>
 

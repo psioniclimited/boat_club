@@ -105,3 +105,9 @@ Breadcrumbs::register('job_opening', function($breadcrumbs)
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Job Opening', url('/job_opening'));
 });
+
+Breadcrumbs::register('job_applicant', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Job Applicant', url('/job_applicant'));
+});

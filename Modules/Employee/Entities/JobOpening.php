@@ -15,11 +15,8 @@ class JobOpening extends Model
 	protected $dates = ['deleted_at'];
 
 	public function getCreatedAtAttribute($value)
-	{ 
-
-		// return \Carbon\Carbon::createFromFormat('y:m:s', $value)->format('h:i A');
-		return (new \Carbon\Carbon($value))->toRfc1123String();
-		// return \Carbon\Carbon::createFromFormat('y:m:s', $value)->format('h:i A');
+	{  
+		return (new \Carbon\Carbon($value))->toRfc1123String(); 
 	}
 
  

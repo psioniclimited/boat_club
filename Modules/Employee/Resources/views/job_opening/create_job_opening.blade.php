@@ -88,8 +88,8 @@ Set up Job Opening
     <script src="{{asset('bower_components/AdminLTE/plugins/datepicker/bootstrap-datepicker.js')}}"></script>
 
     <script src="{{asset('bower_components/AdminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js')}}"></script>
-    <script src="https://cdn.ckeditor.com/4.5.7/standard/ckeditor.js"></script>
-
+    <!-- <script src="https://cdn.ckeditor.com/4.5.7/standard/ckeditor.js"></script> -->
+    <script src="{{asset('bower_components/AdminLTE/plugins/ckeditor/ckeditor.js')}}"></script>
     <script>
 
       $(document).ready(function () {
