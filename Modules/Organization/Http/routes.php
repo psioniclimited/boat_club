@@ -5,6 +5,7 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Org
 	Route::get('/branch/auto/get_branch_types', 'AutoCompleteController@getBranchTypes'); 
 	Route::get('/branch/auto/get_branchs', 'AutoCompleteController@getBranchs'); 
 	Route::get('/branch/auto/get_districts', 'AutoCompleteController@getDistricts'); 
+	Route::get('/branch/auto/get_departments', 'AutoCompleteController@getDepartmentOfBranch'); 
 	Route::get('/branch/auto/get_post_offices', 'AutoCompleteController@getPostOffices'); 
 	Route::get('/branch/auto/get_branch_district', 'AutoCompleteController@getDistrictOfBranch');
 	Route::get('/branch/auto/get_branch_post_office', 'AutoCompleteController@getPostOfficeOfBranch');
@@ -14,6 +15,10 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Org
 	Route::get('/department/auto/get_department/department_type', 'AutoCompleteController@getDepartmentTypeOfDepartment');
 	Route::get('/department/auto/get_department/branch', 'AutoCompleteController@getBranchOfDepartment');
 	
+	Route::get('/designation/auto/get_designations', 'AutoCompleteController@getDesignations');
+	
+
+
 
 	Route::get('/salary_head/auto/salary_head', 'AutoCompleteController@getSalaryHead');
 	

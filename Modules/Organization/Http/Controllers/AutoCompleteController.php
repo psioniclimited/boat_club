@@ -87,6 +87,9 @@ class AutoCompleteController extends Controller
     public function getDepartmentTypes(Request $request, BranchRepository $branchRepository){
         return $branchRepository->getAllDepartmentTypes('department_type_name', $request->input('term'), ['id', 'department_type_name as text']); 
     }    
+    public function getDesignations(Request $request, BranchRepository $branchRepository){ 
+        return $branchRepository->getDesignations('designation_name', $request->input('term'),['id','designation_name as text']); 
+    }    
 
     public function getPostOffices(Request $request, BranchRepository $branchRepository){ 
         return $branchRepository->getPostOffices('post_office_name', $request->input('term'),$request->input('value_term'), ['id', 'post_office_name as text']); 
@@ -153,6 +156,14 @@ class AutoCompleteController extends Controller
         }])
         ->find($department_id)->branch;
         return response()->json($branch);
+    }
+
+    public function getDepartmentOfBranch(Request $request)
+    {   
+        $branch_id = intval($request->input('value_term')); 
+ 
+        $departments = Department::where('branch_id','=',$branch_id)->get(array('id','department_name as text'));        
+        return response()->json($departments);
     }
 
 

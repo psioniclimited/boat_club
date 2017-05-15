@@ -7,9 +7,10 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller; 
 
 use Modules\Employee\Entities\JobApplicant;  
+use Modules\Employee\Entities\OfferLetter;  
 use Modules\Employee\Entities\JobOpening;  
 use Modules\Employee\Entities\JobApplicantStatus; 
- 
+
 use \Modules\Helpers\DatatableHelper;
 use Datatables;
 
@@ -21,7 +22,7 @@ class OfferLetterController extends Controller
      */
     public function index()
     {
-        return view('employee::job_applicant.job_applicant_list');
+        return view('employee::offer_letter.offer_letter_list');
     }
 
     /**
@@ -29,9 +30,8 @@ class OfferLetterController extends Controller
      * @return Response
      */
     public function create()
-    {
-        $job_applicant_status=JobApplicantStatus::all();
-        return view('employee::job_applicant.create_job_applicant',['job_applicant_status'=>$job_applicant_status]);
+    { 
+        return view('employee::offer_letter.create_offer_letter');
     }
 
     /**
@@ -39,8 +39,8 @@ class OfferLetterController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function store(\Modules\Employee\Http\Requests\JobApplicantCreateRequest $request){  
-       JobApplicant::create($request->all());  
+    public function store(\Modules\Employee\Http\Requests\OfferLetterCreateRequest $request){  
+       OfferLetter::create($request->all());  
        $request->session()->flash('status', 'Task was successful!');
        return back();
    }
@@ -88,12 +88,12 @@ class OfferLetterController extends Controller
         $request->session()->flash('status', 'Task was successful!'); 
     }
 
-    public function getAllJobApplicants(DatatableHelper $databaseHelper)
+    public function getAllOfferLetters(DatatableHelper $databaseHelper)
     { 
-        $job_applicants = JobApplicant::with('job_openings','job_applicant_status');  
-        return Datatables::of($job_applicants)
-        ->addColumn('action', function ($job_applicants) use ($databaseHelper){
-            return $databaseHelper->editButton('job_applicant',$job_applicants->id).' '.$databaseHelper->deleteButton($job_applicants->id);
+        $offer_letters = OfferLetter::with('job_applicant','department','designation','branch');  
+        return Datatables::of($offer_letters)
+        ->addColumn('action', function ($offer_letters) use ($databaseHelper){
+            return $databaseHelper->editButton('offer_letter',$offer_letters->id).' '.$databaseHelper->deleteButton($offer_letters->id);
         })
         ->make(true);
     }    

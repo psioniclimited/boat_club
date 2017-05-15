@@ -111,3 +111,9 @@ Breadcrumbs::register('job_applicant', function($breadcrumbs)
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Job Applicant', url('/job_applicant'));
 });
+
+Breadcrumbs::register('offer_letter', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Offer Letter', url('/offer_letter'));
+});

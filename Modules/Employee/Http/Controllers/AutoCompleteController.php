@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use Modules\Employee\Entities\JobOpening;
 use Modules\Employee\Entities\JobApplicant;
 use Modules\Employee\Repositories\JobOpeningRepository;
+use Modules\Employee\Repositories\JobApplicantRepository;
 
 class AutoCompleteController extends Controller
 { 
@@ -15,8 +16,9 @@ class AutoCompleteController extends Controller
 		return $jobOpeningRepository->all('job_title', $request->input('term'), ['id', 'job_title as text']); 
 	}
 
-
-
+	public function getJobApplicants(Request $request, JobApplicantRepository $jobApplicantRepository){ 
+		return $jobApplicantRepository->all('applicant_name', $request->input('term'), ['id', 'applicant_name as text']); 
+	}
 
 	public function getJobOpeningsOfApplicant(Request $request)
 	{  

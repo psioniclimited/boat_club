@@ -29,4 +29,9 @@ class Branch extends Model
 	public function post_office(){
 		return $this->belongsTo('Modules\Organization\Entities\PostOffice','post_office_id');
 	}
+	
+	public function department(){
+		return $this->hasMany('Modules\Organization\Entities\Department');
+	}
+
 }

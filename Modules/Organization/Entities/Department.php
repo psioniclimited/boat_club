@@ -22,4 +22,5 @@ class Department extends Model
 	public function branch(){
 		return $this->belongsTo('Modules\Organization\Entities\Branch','branch_id');
 	}
+	
 }

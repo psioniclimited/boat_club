@@ -4,6 +4,7 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Emp
 { 
 	Route::get('/job_opening/auto', 'AutoCompleteController@getJobOpenings'); 
 	Route::get('/job_applicant/auto/get_job_opening', 'AutoCompleteController@getJobOpeningsOfApplicant'); 
+	Route::get('/job_applicant/auto', 'AutoCompleteController@getJobApplicants'); 
 
 
 
