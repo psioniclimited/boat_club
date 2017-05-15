@@ -17,7 +17,8 @@ class JobApplicantCreateRequest extends FormRequest
             //
             'applicant_name'=>'required',
             'applicant_contact'=>'required', 
-            'job_openings_id'=>'required|exists:job_openings,id' 
+            'job_openings_id'=>'required|exists:job_openings,id' ,
+            'resume' => 'mimes:txt,docx,pdf,odt'
         ];
     }
 

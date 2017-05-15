@@ -5,13 +5,15 @@ namespace Modules\Employee\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller; 
+
 use Modules\Employee\Entities\JobApplicant;  
 use Modules\Employee\Entities\JobOpening;  
-use Modules\Employee\Entities\JobApplicantStatus;  
+use Modules\Employee\Entities\JobApplicantStatus; 
+ 
 use \Modules\Helpers\DatatableHelper;
 use Datatables;
 
-class JobApplicantController extends Controller
+class OfferLetterController extends Controller
 {
     /**
      * Display a listing of the resource.

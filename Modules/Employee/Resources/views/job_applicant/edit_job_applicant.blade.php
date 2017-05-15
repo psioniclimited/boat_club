@@ -35,7 +35,7 @@ Edit Job Applicant
           <h3 class="box-title">Create Job Opening</h3>
         </div>
 
-        {!! Form::open(array('route' => array('job_applicant.update', $job_applicant->id,'files' => true,), 'id' => 'add_job_applicant_form', 'method'=>'PUT')) !!}         
+        {!! Form::open(array('route' => array('job_applicant.update', $job_applicant->id),'files' => true, 'id' => 'add_job_applicant_form', 'method'=>'PUT')) !!}         
         <div class="box-body">
 
           <div class="col-md-6">  
