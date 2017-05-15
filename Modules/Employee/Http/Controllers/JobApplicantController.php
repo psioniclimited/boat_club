@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller; 
 use Modules\Employee\Entities\JobApplicant;  
+use Modules\Employee\Entities\JobOpening;  
 use Modules\Employee\Entities\JobApplicantStatus;  
 use \Modules\Helpers\DatatableHelper;
 use Datatables;
@@ -55,9 +56,11 @@ class JobApplicantController extends Controller
      * Show the form for editing the specified resource.
      * @return Response
      */
-    public function edit(JobOpening $job_opening)
+    public function edit(JobApplicant $job_applicant)
     {       
-       return view('employee::job_opening.edit_job_opening',['job_opening'=>$job_opening]);
+        $job_applicant_status=JobApplicantStatus::all();
+       return view('employee::job_applicant.edit_job_applicant',['job_applicant'=>$job_applicant,
+        'job_applicant_status'=>$job_applicant_status]);
    }
 
     /**
@@ -65,11 +68,11 @@ class JobApplicantController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function update(\Modules\Employee\Http\Requests\JobOpenningCreateRequest $request,JobOpening $job_opening)
+    public function update(\Modules\Employee\Http\Requests\JobApplicantCreateRequest $request,JobApplicant $job_applicant)
     {
-        $job_opening->update($request->all());
+        $job_applicant->update($request->all());
         $request->session()->flash('status', 'Task was successful!');
-        return redirect('/job_opening');
+        return redirect('/job_applicant');
     }
 
     /**
