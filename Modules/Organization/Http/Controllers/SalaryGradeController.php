@@ -63,8 +63,8 @@ class SalaryGradeController extends Controller
      * @return Response
      */
     public function edit(SalaryGradeMaster $salary_grade_master) {
-     return view('organization::salary_grade.edit_salary_grade',['salary_grade_master'=>$salary_grade_master]);
- }
+       return view('organization::salary_grade.edit_salary_grade',['salary_grade_master'=>$salary_grade_master]);
+   }
 
     /**
      * Update the specified resource in storage.
@@ -117,7 +117,7 @@ class SalaryGradeController extends Controller
     public function storeGradeInfo(\Modules\Organization\Http\Requests\SalaryGradeCreateRequest $request)
     {    
         foreach (json_decode($request->data,true) as $row) {  
-            if($this->validateGradeInfoData($row)){
+            if(!$this->validateGradeInfoData($row)){
                 $request->session()->flash('alert-class', 'Could not save data!');
                 return response()->json(['link'=>'/salary_grade']);
             }
@@ -143,15 +143,15 @@ class SalaryGradeController extends Controller
 
     public function validateGradeInfoData($data){
 
-       $validator = Validator::make($data, array(
+     $validator = Validator::make($data, array(
         'salary_head_id' =>'required|exists:salary_head,id' , 
         'amount_type' =>'required|numeric' , 
         'amount' =>'required|numeric' , 
         'salary_grade_master_id' =>'required|exists:salary_grade_master,id' , 
         ));
 
-       if ($validator->fails())
-       { 
+     if ($validator->fails())
+     { 
         return false;
     }
     return true;
