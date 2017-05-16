@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Organization\Repositories\BranchRepository; 
 use Modules\Organization\Entities\Holiday;   
+use Modules\Organization\Entities\HolidayList;   
 use \Modules\Helpers\DatatableHelper;
 use Datatables;
 use DB;
@@ -18,7 +19,9 @@ class HolidayController extends Controller
      */
     public function index()
     {
-        return view('organization::holiday.holiday_list');
+        // return view('organization::holiday.holiday_list');
+
+        return view('organization::holiday.create_holiday_new');
     }
 
     /**
@@ -27,7 +30,7 @@ class HolidayController extends Controller
      */
     public function create()
     {
-        return view('organization::holiday.create_holiday');
+        // return view('organization::holiday.create_holiday');
     }
 
     /**
@@ -35,8 +38,8 @@ class HolidayController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function store(\Modules\Organization\Http\Requests\HolidayCreateRequest $request){ 
-        $holiday=Holiday::create($request->all());
+    public function store(\Modules\Organization\Http\Requests\HolidayListCreateRequest $request){ 
+        HolidayList::create($request->all());
         $request->session()->flash('status', 'Task was successful!');
         return back();
     }
@@ -56,8 +59,8 @@ class HolidayController extends Controller
      */
     public function edit(Holiday $holiday)
     {             
-       return view('organization::holiday.edit_holiday',['holiday'=>$holiday ]);
-   }
+     return view('organization::holiday.edit_holiday',['holiday'=>$holiday ]);
+ }
 
     /**
      * Update the specified resource in storage.
@@ -69,7 +72,7 @@ class HolidayController extends Controller
         $holiday->update($request->all());  
         $request->session()->flash('status', 'Task was successful!');
         return redirect('/holiday');
- }
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -88,6 +91,21 @@ class HolidayController extends Controller
         return Datatables::of($holiday)
         ->addColumn('action', function ($holiday) use ($databaseHelper){
             return $databaseHelper->editButton('holiday',$holiday->id).' '.$databaseHelper->deleteButton($holiday->id);
+        })
+        ->make(true);
+
+    }   
+
+ 
+
+
+    public function getAllHolidayLists(DatatableHelper $databaseHelper)
+    { 
+
+        $holidayList = HolidayList::all();
+        return Datatables::of($holidayList)
+        ->addColumn('action', function ($holidayList) use ($databaseHelper){
+            return $databaseHelper->editButton('holiday',$holidayList->id).' '.$databaseHelper->deleteButton($holidayList->id);
         })
         ->make(true);
 

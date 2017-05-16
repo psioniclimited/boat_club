@@ -78,8 +78,9 @@
           </ul>
         </li>
          <li><a href="{{URL::to('/week_holiday')}}">Week Holiday</a></li> 
+         <li><a href="{{URL::to('/holiday')}}">Holiday</a></li>
 
-        <li class="treeview">
+<!--         <li class="treeview">
          <a href="#"> <span>Holiday</span>
           <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
@@ -89,7 +90,7 @@
           <li><a href="{{URL::to('/holiday/create')}}">Create Holiday</a></li>
           <li><a href="{{URL::to('/holiday')}}">Holiday List</a></li>
         </ul>
-      </li>
+      </li> -->
     </ul>
   </li>
 

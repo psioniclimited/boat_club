@@ -31,7 +31,7 @@ Set up Holiday
         <div class="box-body">
           <div class="col-md-12"> 
 
-            <div class="form-group @if ($errors->has('description')) has-error @endif">
+            <div class="form-group @if ($errors->has('holiday_name')) has-error @endif">
               <label for="name" class="control-label">Holiday Name*</label> 
               <input type="text" class="form-control" id="description" name="description" placeholder="Enter name" value="{{old('description')}}" > 
               @if ($errors->has('description')) <p class="help-block">{{ $errors->first('description') }}</p> @endif                             
