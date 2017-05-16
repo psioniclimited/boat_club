@@ -192,6 +192,7 @@ Edit Job Applicant
     var job_openings=$('#job_openings_id');
 // initialize select2 for post Office
 $.get( "{{URL::to('/job_applicant/auto/get_job_opening')}}", { job_applicant_id: {{$job_applicant->id}} } ,function( data ) {
+  // console.log(data);
   init_select2_with_default_value({
     default_value: data,
     placeholder: "Job Opening",

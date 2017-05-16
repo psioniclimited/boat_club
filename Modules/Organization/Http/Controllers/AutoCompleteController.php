@@ -166,7 +166,6 @@ class AutoCompleteController extends Controller
         return response()->json($departments);
     }
 
-
     public function returnTestJson(Request $request)
     {  
         return json_encode(['label'=>'sada','value'=>10]);

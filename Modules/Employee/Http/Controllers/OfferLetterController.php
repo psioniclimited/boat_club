@@ -43,7 +43,7 @@ class OfferLetterController extends Controller
        OfferLetter::create($request->all());  
        $request->session()->flash('status', 'Task was successful!');
        return back();
-   }
+    }
 
     /**
      * Show the specified resource.
@@ -58,11 +58,9 @@ class OfferLetterController extends Controller
      * Show the form for editing the specified resource.
      * @return Response
      */
-    public function edit(JobApplicant $job_applicant)
-    {       
-        $job_applicant_status=JobApplicantStatus::all();
-       return view('employee::job_applicant.edit_job_applicant',['job_applicant'=>$job_applicant,
-        'job_applicant_status'=>$job_applicant_status]);
+    public function edit(OfferLetter $offer_letter)
+    {        
+       return view('employee::offer_letter.edit_offer_letter',['offer_letter'=>$offer_letter]);
    }
 
     /**
@@ -70,21 +68,20 @@ class OfferLetterController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function update(\Modules\Employee\Http\Requests\JobApplicantCreateRequest $request,JobApplicant $job_applicant)
+    public function update(\Modules\Employee\Http\Requests\OfferLetterCreateRequest $request,OfferLetter $offer_letter)
     {
-        // dd($request->all());
-        $job_applicant->update($request->all());
+         $offer_letter->update($request->all());
         $request->session()->flash('status', 'Task was successful!');
-        return redirect('/job_applicant');
+        return redirect('/offer_letter');
     }
 
     /**
      * Remove the specified resource from storage.
      * @return Response
      */
-    public function destroy(Request $request, JobApplicant $job_applicant)
+    public function destroy(Request $request, OfferLetter $offer_letter)
     { 
-        $job_applicant->delete();
+        $offer_letter->delete();
         $request->session()->flash('status', 'Task was successful!'); 
     }
 

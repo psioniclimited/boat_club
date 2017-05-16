@@ -36,4 +36,9 @@ class JobApplicant extends Model
 	{  
 		return $this->belongsTo('Modules\Employee\Entities\JobApplicantStatus','job_applicant_status_id'); 
 	}
+		public function offer_letter()
+	{  
+		return $this->hasMany('Modules\Employee\Entities\OfferLetter'); 
+	}
+
 }

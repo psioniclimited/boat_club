@@ -109,10 +109,11 @@ list of Offer Letters
      {
       "data": "status", 
       "render":
-      function (data, type, row) {                            
-       if (data.status==2) {
+      function (data, type, row) {  
+        // console.log(data);                          
+       if (data==2) {
         return 'On Hold';
-      }else if(data.status==1){
+      }else if(data==1){
         return 'Accepted';
       }else{
         return 'Rejected';

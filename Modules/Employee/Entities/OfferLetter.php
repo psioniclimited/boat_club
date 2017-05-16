@@ -19,10 +19,16 @@ class OfferLetter extends Model
 		return (new \Carbon\Carbon($value))->toRfc1123String(); 
 	}
 	
-	public function getOfferDateAttribute($value)
-	{  
-		return (new \Carbon\Carbon($value))->toRfc1123String(); 
-	}
+	// public function getOfferDateAttribute($value)
+	// {  
+	// 	return (new \Carbon\Carbon($value))->toRfc1123String(); 
+	// }
+	// 	public function setOfferDateAttribute($value)
+	// {  
+	// 	dd(date('Y-m-d',strtotime($value)));
+	// 	return (new \Carbon\Carbon($value))->toRfc1123String(); 
+		
+	// }
 	
 	public function job_applicant()
 	{  
