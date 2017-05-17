@@ -4,7 +4,7 @@ namespace Modules\Organization\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class HolidayCreateRequest extends FormRequest
+class HolidayListCreateRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,9 +14,8 @@ class HolidayCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
-            'description'=>'required',
-            'holiday_date'=>'required|date', 
+            // 
+            'holiday_list_name'=>'required', 
         ];
     }
 

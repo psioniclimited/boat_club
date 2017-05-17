@@ -71,6 +71,9 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Org
 		]]);
 	
 	Route::get('/holiday/get_all_holidays', 'HolidayController@getAllHolidays');
+	Route::get('/holiday/details/{id}', 'HolidayController@holidayDetails');
+	Route::get('/holiday/get_all_holiday_lists', 'HolidayController@getAllHolidayLists');
+	Route::post('/holiday/store_holiday_info', 'HolidayController@storeHolidayInfo');
 	Route::resource('/holiday', 'HolidayController');
 
 	// Route::get('testmultiple', function(){
