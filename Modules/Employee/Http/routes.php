@@ -24,6 +24,9 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Emp
 
 	Route::get('/offer_letter/get_all_offer_letters', 'OfferLetterController@getAllOfferLetters');  
 	Route::resource('/offer_letter', 'OfferLetterController');
+	
+
+	Route::resource('/employee', 'EmployeeController');
 
 
 });
