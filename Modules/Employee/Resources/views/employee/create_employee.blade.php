@@ -35,77 +35,42 @@ Create Employee
           <div class="box-body">
             <div class="container-fluid">
               <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  bhoechie-tab-container">
-                  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3 bhoechie-tab-menu">
-                    <div class="list-group">
-                      <a href="#" class="list-group-item active text-center">
-                        <h4 class="glyphicon glyphicon-user"></h4><br/>Personal Info
-                      </a>
-                      <a href="#" class="list-group-item text-center">
-                        <h4 class="glyphicon glyphicon-road"></h4><br/>Train
-                      </a>
-                      <a href="#" class="list-group-item text-center">
-                        <h4 class="glyphicon glyphicon-home"></h4><br/>Hotel
-                      </a>
-                      <a href="#" class="list-group-item text-center">
-                        <h4 class="glyphicon glyphicon-cutlery"></h4><br/>Restaurant
-                      </a>
-                      <a href="#" class="list-group-item text-center">
-                        <h4 class="glyphicon glyphicon-credit-card"></h4><br/>Credit Card
-                      </a>
-                    </div>
-                  </div>
-                  <div class="col-lg-10 col-md-10 col-sm-10 col-xs-9 bhoechie-tab">
-                    <!--Personal Info -->
-                    <div class="bhoechie-tab-content active">
-                       @include('employee::employee.employees_personal_details_sub_view')
-                    </div>
 
-                    <!-- train section -->
-                    <div class="bhoechie-tab-content">
-                      <center>
-                        <h1 class="glyphicon glyphicon-road" style="font-size:12em;color:#55518a"></h1>
-                        <h2 style="margin-top: 0;color:#55518a">Cooming Soon</h2>
-                        <h3 style="margin-top: 0;color:#55518a">Train Reservation</h3>
-                      </center>
-                    </div>
 
-                    <!-- hotel search -->
+                <ul class="nav nav-tabs">
+                  <li class="active"><a data-toggle="tab" href="#personal_info">Personal Info</a></li>
+                  <li><a data-toggle="tab" href="#menu1">Menu 1</a></li>
+                  <li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
+                </ul>
+
+                <div class="tab-content">
+                  <div id="personal_info" class="tab-pane fade in active">
                     <div class="bhoechie-tab-content">
-                      <center>
-                        <h1 class="glyphicon glyphicon-home" style="font-size:12em;color:#55518a"></h1>
-                        <h2 style="margin-top: 0;color:#55518a">Cooming Soon</h2>
-                        <h3 style="margin-top: 0;color:#55518a">Hotel Directory</h3>
-                      </center>
-                    </div>
-                    <div class="bhoechie-tab-content">
-                      <center>
-                        <h1 class="glyphicon glyphicon-cutlery" style="font-size:12em;color:#55518a"></h1>
-                        <h2 style="margin-top: 0;color:#55518a">Cooming Soon</h2>
-                        <h3 style="margin-top: 0;color:#55518a">Restaurant Diirectory</h3>
-                      </center>
-                    </div>
-                    <div class="bhoechie-tab-content">
-                      <center>
-                        <h1 class="glyphicon glyphicon-credit-card" style="font-size:12em;color:#55518a"></h1>
-                        <h2 style="margin-top: 0;color:#55518a">Cooming Soon</h2>
-                        <h3 style="margin-top: 0;color:#55518a">Credit Card</h3>
-                      </center>
-                    </div>
-                  </div>
+                     @include('employee::employee.employees_personal_details_sub_view')
+                   </div> 
+                 </div>
+                 <div id="menu1" class="tab-pane fade">
+                  <h3>Menu 1</h3>
+                  <p>Some content in menu 1.</p>
+                </div>
+                <div id="menu2" class="tab-pane fade">
+                  <h3>Menu 2</h3>
+                  <p>Some content in menu 2.</p>
                 </div>
               </div>
+
             </div>
-          </div> <!-- /.box-body --> 
+          </div>
+        </div> <!-- /.box-body --> 
 
 
-          <div class="box-footer"> 
-            <!-- <button type="submit" id="btn-submit" class="btn btn-primary pull-left">Submit</button> -->
-          </div> <!-- /.box-footer -->
-        </form>
-      </div><!-- /.box -->
-    </div><!-- /col-md-6 -->
-  </div>  <!--row-->
+        <div class="box-footer"> 
+          <!-- <button type="submit" id="btn-submit" class="btn btn-primary pull-left">Submit</button> -->
+        </div> <!-- /.box-footer -->
+      </form>
+    </div><!-- /.box -->
+  </div><!-- /col-md-6 -->
+</div>  <!--row-->
 </section>
 <!-- /.content -->
 
