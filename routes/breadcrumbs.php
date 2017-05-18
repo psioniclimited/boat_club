@@ -117,3 +117,9 @@ Breadcrumbs::register('offer_letter', function($breadcrumbs)
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Offer Letter', url('/offer_letter'));
 });
+
+Breadcrumbs::register('employee', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Employee', url('/employee'));
+});
