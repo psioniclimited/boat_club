@@ -47,7 +47,7 @@ Create Employee
                 <ul class="nav nav-tabs">
                   <li class="active"><a data-toggle="tab" href="#personal_info">Personal Info</a></li>
                   <li><a data-toggle="tab" href="#job_info">Job Info</a></li>
-                  <li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
+                  <li><a data-toggle="tab" href="#salary_info">Salary Info</a></li>
                 </ul>
 
                 <div class="tab-content">
@@ -64,9 +64,91 @@ Create Employee
                   </div> 
                 </div>
                 
-                <div id="menu2" class="tab-pane fade">
-                  <h3>Menu 2</h3>
-                  <p>Some content in menu 2.</p>
+                <div id="salary_info" class="tab-pane fade">
+                  <div class="bhoechie-tab-content"> 
+
+                    <div class="col-md-6"> 
+                      <div class="form-group @if ($errors->has('salary_grade_master_id')) has-error @endif">
+                        <label for="name" class="control-label">Salary Grade*</label>
+                        <select class="form-control" id="salary_grade_master_id" name="salary_grade_master_id" > 
+                        </select>                 
+                        @if ($errors->has('salary_grade_master_id')) <p class="help-block">{{ $errors->first('salary_grade_master_id') }}</p> @endif                             
+                      </div> 
+                    </div><!-- /.col-md-6 -->
+
+
+                    <div class="col-md-6">  
+                      <div class="form-group @if ($errors->has('basic_salary')) has-error @endif">  
+                        <label for="name" class="control-label">Basic Salary</label> 
+                        <input type="number" class="form-control" id="basic_salary" name="basic_salary" placeholder="Basic Salary" value="{{old('basic_salary')}}"> 
+                        @if ($errors->has('basic_salary')) <p class="help-block">{{ $errors->first('basic_salary') }}</p> @endif                             
+                      </div>
+                    </div><!-- /.col-md-6 -->
+                    <div class="col-md-12"></div>
+
+                    <div class="col-md-6">  
+                      <div class="form-group @if ($errors->has('hourly_pay_rate')) has-error @endif">  
+                        <label for="name" class="control-label">Hourly Pay Rate</label> 
+                        <input type="number" class="form-control" id="hourly_pay_rate" name="hourly_pay_rate" placeholder="Hourly Pay Rate" value="{{old('hourly_pay_rate')}}"> 
+                        @if ($errors->has('hourly_pay_rate')) <p class="help-block">{{ $errors->first('hourly_pay_rate') }}</p> @endif                             
+                      </div>
+                    </div><!-- /.col-md-6 -->
+
+
+                    <div class="col-md-6">  
+                      <div class="form-group @if ($errors->has('overtime_rate')) has-error @endif">  
+                        <label for="name" class="control-label">OverTime Rate</label> 
+                        <input type="number" class="form-control" id="overtime_rate" name="overtime_rate" placeholder="Overtime Pay Rate" value="{{old('overtime_rate')}}"> 
+                        @if ($errors->has('overtime_rate')) <p class="help-block">{{ $errors->first('overtime_rate') }}</p> @endif                             
+                      </div>
+                    </div><!-- /.col-md-6 -->
+
+                    <div class="col-md-6">  
+                      <div class="form-group @if ($errors->has('weekly_overtime_hour_limit')) has-error @endif">  
+                        <label for="name" class="control-label">Weekly Overtime Limit</label> 
+                        <input type="number" class="form-control" id="weekly_overtime_hour_limit" name="weekly_overtime_hour_limit" placeholder="Overtime Limit (Hour)" value="{{old('weekly_overtime_hour_limit')}}"> 
+                        @if ($errors->has('weekly_overtime_hour_limit')) <p class="help-block">{{ $errors->first('weekly_overtime_hour_limit') }}</p> @endif                             
+                      </div>
+                    </div><!-- /.col-md-6 -->
+
+                    <div class="col-md-12"></div>
+                    <div class="col-md-6"> 
+                      <div class="form-group @if ($errors->has('payment_mode_id')) has-error @endif">
+                        <label for="name" class="control-label">Payment Mode*</label>
+                        <select class="form-control" id="payment_mode_id" name="payment_mode_id" > 
+                          <option value="1">Cash</option>
+                          <option value="2">Bamk</option>
+                        </select>                 
+                        @if ($errors->has('payment_mode_id')) <p class="help-block">{{ $errors->first('payment_mode_id') }}</p> @endif                             
+                      </div> 
+                    </div><!-- /.col-md-6 -->
+                    
+                    <div class="col-md-12"></div>
+
+                    <div class="col-md-6">  
+                      <div class="form-group @if ($errors->has('employee_bank_name')) has-error @endif">  
+                        <label for="name" class="control-label">Employee's Bank Name</label> 
+                        <input type="number" class="form-control" id="employee_bank_name" name="employee_bank_name" placeholder="Employee Bank Name" value="{{old('employee_bank_name')}}"> 
+                        @if ($errors->has('employee_bank_name')) <p class="help-block">{{ $errors->first('employee_bank_name') }}</p> @endif                             
+                      </div>
+                    </div><!-- /.col-md-6 -->
+                    <div class="col-md-6">  
+                      <div class="form-group @if ($errors->has('employee_bank_branch')) has-error @endif">  
+                        <label for="name" class="control-label">Employee's Bank Branch</label> 
+                        <input type="number" class="form-control" id="employee_bank_branch" name="employee_bank_branch" placeholder="Employee's Bank Branch'" value="{{old('employee_bank_branch')}}"> 
+                        @if ($errors->has('employee_bank_branch')) <p class="help-block">{{ $errors->first('employee_bank_branch') }}</p> @endif                             
+                      </div>
+                    </div><!-- /.col-md-6 -->
+                    <div class="col-md-6">  
+                      <div class="form-group @if ($errors->has('employee_bank_acc')) has-error @endif">  
+                        <label for="name" class="control-label">Employee's Bank Account No.</label> 
+                        <input type="number" class="form-control" id="employee_bank_acc" name="employee_bank_acc" placeholder="Employee's Bank Account'" value="{{old('employee_bank_acc')}}"> 
+                        @if ($errors->has('employee_bank_acc')) <p class="help-block">{{ $errors->first('employee_bank_acc') }}</p> @endif                             
+                      </div>
+                    </div><!-- /.col-md-6 -->
+                    <div class="col-md-12"></div>
+ 
+                  </div>
                 </div>
 
               </div>
@@ -167,7 +249,7 @@ Create Employee
         retirement_date : {required: "Please give Employee's Retirement Date"}, 
         department_branch_id : {required: "Please give Employee's Branch Name"}, 
         department_branch_id : {required: "Please give Employee's Department Name"}, 
-        department_branch_id : {required: "Please give Employee's Designation Name"}, 
+        department_branch_id : {required: "Please give Employee's Branch Name"}, 
         holiday_list_id : {required: "Please give Employee's Holiday List"}, 
         week_holiday_master_id : {required: "Please give Employee's Week Holiday"}, 
       }
@@ -250,6 +332,16 @@ parameters = {
   placeholder: "Week Holiday",
   url: '{{URL::to("/")}}/week_holiday/auto/get_week_holiday_masters',
   selector_id:week_holiday_master_id, 
+  data:{}
+}
+
+init_select2(parameters);
+
+var salary_grade_master_id=$('#salary_grade_master_id'); 
+parameters = { 
+  placeholder: "Salary Grade Holiday",
+  url: '{{URL::to("/")}}/salary_grade/auto/get_salary_grades',
+  selector_id:salary_grade_master_id, 
   data:{}
 }
 

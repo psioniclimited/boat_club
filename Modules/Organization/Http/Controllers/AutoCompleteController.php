@@ -97,6 +97,9 @@ class AutoCompleteController extends Controller
     public function getSalaryHead(Request $request, BranchRepository $branchRepository){ 
         return $branchRepository->getSalaryHeads('salary_head_name', $request->input('term'),$request->input('value_term'), ['id', 'salary_head_name as text']); 
     }
+    public function getSalaryGrades(Request $request, BranchRepository $branchRepository){ 
+        return $branchRepository->getSalaryGradess('salary_grade_name', $request->input('term'), ['id', 'salary_grade_name as text']); 
+    }
 
     public function getHolidayLists(Request $request, BranchRepository $branchRepository){ 
         // dd($request->all());

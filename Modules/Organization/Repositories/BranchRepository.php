@@ -9,9 +9,10 @@ use Modules\Organization\Entities\DepartmentType;
 use Modules\Organization\Entities\Designation;
 use Modules\Organization\Entities\PostOffice;
 use Modules\Organization\Entities\SalaryHead;
+use Modules\Organization\Entities\SalaryGradeMaster;
 
 use Modules\Organization\Entities\HolidayList;
-use Modules\Organization\Entities\WeekHolidayMaster;
+use Modules\Organization\Entities\WeekHolidayMaster; 
 
 class BranchRepository{
 	public function getAllBranchTypes($attribute, $value, $columns = ['*']){
@@ -38,6 +39,10 @@ class BranchRepository{
 	public function getSalaryHeads($attribute, $value, $district_id, $columns = ['*']){
 		$department_types = SalaryHead::where($attribute, "LIKE", "%{$value}%")->get($columns);
 		return $department_types;
+	}
+	public function getSalaryGradess($attribute, $value,$columns = ['*']){
+		$salary_grades = SalaryGradeMaster::where($attribute, "LIKE", "%{$value}%")->get($columns);
+		return $salary_grades;
 	}
 
 	public function getDesignations($attribute, $value,$columns = ['*']){
