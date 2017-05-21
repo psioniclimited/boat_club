@@ -10,6 +10,9 @@ use Modules\Organization\Entities\Designation;
 use Modules\Organization\Entities\PostOffice;
 use Modules\Organization\Entities\SalaryHead;
 
+use Modules\Organization\Entities\HolidayList;
+use Modules\Organization\Entities\WeekHolidayMaster;
+
 class BranchRepository{
 	public function getAllBranchTypes($attribute, $value, $columns = ['*']){
 		$branch_types = BranchType::where($attribute, "LIKE", "%{$value}%")->get($columns);
@@ -38,9 +41,18 @@ class BranchRepository{
 	}
 
 	public function getDesignations($attribute, $value,$columns = ['*']){
- 
+
 		$designations = Designation::where($attribute, "LIKE", "%{$value}%")->get($columns);
- 		return $designations;
+		return $designations;
+	}
+	public function getHolidayLists($attribute, $value,$columns = ['*']){
+
+		$holiday_lists = HolidayList::where($attribute, "LIKE", "%{$value}%")->get($columns);
+		return $holiday_lists;
+	}
+	public function getWeekHolidayMasters($attribute, $value,$columns = ['*']){
+		$holidays = WeekHolidayMaster::where($attribute, "LIKE", "%{$value}%")->get($columns);
+		return $holidays;
 	}
 }
 

@@ -6,6 +6,13 @@
 <link rel="stylesheet" href="{{asset('css/employee_tab_style.css')}}"> 
 <link rel="stylesheet" href="{{asset('bower_components/AdminLTE')}}/plugins/iCheck/all.css">
 
+<link rel="stylesheet" href="{{asset('bower_components/AdminLTE/plugins/select2/select2.min.css')}}">
+<style>
+  .select2-container--default {
+    width: 100% !important;
+  }
+
+</style>
 @endsection
 @section('page_header')
 Employee
@@ -24,12 +31,12 @@ Create Employee
 <section class="content">
   <div class="row">
 
-    <form action="" name="add_employe_form">
+    <form action="" name="add_employe_form" id="add_employe_form">
       <div class="col-md-12"> 
         <div class="box box-info">
           <div class="box-header with-border">
             <h3 class="box-title">Create Employee</h3>
-            <button id="btn-submit" class="btn btn-primary pull-right">Submit</button>
+            <button type="submit" id="btn-submit" class="btn btn-primary pull-right">Submit</button>
           </div>
 
           <div class="box-body">
@@ -39,24 +46,29 @@ Create Employee
 
                 <ul class="nav nav-tabs">
                   <li class="active"><a data-toggle="tab" href="#personal_info">Personal Info</a></li>
-                  <li><a data-toggle="tab" href="#menu1">Menu 1</a></li>
+                  <li><a data-toggle="tab" href="#job_info">Job Info</a></li>
                   <li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
                 </ul>
 
                 <div class="tab-content">
+
                   <div id="personal_info" class="tab-pane fade in active">
                     <div class="bhoechie-tab-content">
                      @include('employee::employee.employees_personal_details_sub_view')
                    </div> 
                  </div>
-                 <div id="menu1" class="tab-pane fade">
-                  <h3>Menu 1</h3>
-                  <p>Some content in menu 1.</p>
+
+                 <div id="job_info" class="tab-pane fade"> 
+                  <div class="bhoechie-tab-content">
+                    @include('employee::employee.employees_job_info_sub_view')
+                  </div> 
                 </div>
+                
                 <div id="menu2" class="tab-pane fade">
                   <h3>Menu 2</h3>
                   <p>Some content in menu 2.</p>
                 </div>
+
               </div>
 
             </div>
@@ -88,7 +100,8 @@ Create Employee
 <script src="{{asset('bower_components/AdminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js')}}"></script>
 <script src="{{asset('bower_components/AdminLTE/plugins/ckeditor/ckeditor.js')}}"></script>
 <script src="{{asset('bower_components/AdminLTE')}}/plugins/iCheck/icheck.min.js"></script>
-
+<script src="{{asset('bower_components/AdminLTE//plugins/select2/select2.min.js')}}"></script>        
+<script src="{{asset('js/utils/utils.js')}}"></script>
 <script>
 
   $(document).ready(function () {
@@ -96,34 +109,71 @@ Create Employee
 
 
     // initialize tooltipster on form input elements
-    $('form input, select').tooltipster({// <-  USE THE PROPER SELECTOR FOR YOUR INPUTs
+    $('form input, select,textarea,file').tooltipster({// <-  USE THE PROPER SELECTOR FOR YOUR INPUTs
         trigger: 'custom', // default is 'hover' which is no good here
         onlyOne: false, // allow multiple tips to be open at a time
         position: 'right'  // display the tips to the right of the element
       });
 
-    $('#add_job_opening_form').validate({
-      errorPlacement: function (error, element) { 
-        var lastError = $(element).data('lastError'),
-        newError = $(error).text();
+    $('#add_employe_form').validate({
+      highlight : function(label) {
+        $(label).closest('.form-group').addClass('has-error');
+        var tab_content= $(label).parent().parent().parent().parent().parent().parent().parent();
+        if ($(tab_content).find("fieldset.tab-pane.active:has(div.has-error)").length == 0) {                   
+         $(tab_content).find("fieldset.tab-pane:has(div.has-error)").each(function (index, tab) {
+          var id = $(tab).attr("id");
+          $('a[href="#' + id + '"]').tab('show');
+        });
+       }
+     },
+     ignore: [],
+      // errorPlacement: function (error, element) { 
+      //   var lastError = $(element).data('lastError'),
+      //   newError = $(error).text();
 
-        $(element).data('lastError', newError);
+      //   $(element).data('lastError', newError);
 
-        if (newError !== '' && newError !== lastError) {
-          $(element).tooltipster('content', newError);
-          $(element).tooltipster('show');
-        }
-      },
+      //   if (newError !== '' && newError !== lastError) {
+      //     $(element).tooltipster('content', newError);
+      //     $(element).tooltipster('show');
+      //   }
+      // },
       success: function (label, element) {
         $(element).tooltipster('hide');
       },
       rules: {
-        job_title: {required: true, minlength: 4}
+        employee_code: {required: true,remote: '{{URL::to("/check_unique_employee_code")}}'},
+        employee_fullname: {required: true},
+        contact_number: {required: true},
+        date_of_birth: {required: true},
+        present_address: {required: true},
+        permanent_address: {required: true}, 
+        date_of_joining: {required: true}, 
+        retirement_date: {required: true}, 
+        department_branch_id: {required: true}, 
+        department_id: {required: true}, 
+        designation_id: {required: true}, 
+        holiday_list_id: {required: true}, 
+        week_holiday_master_id: {required: true}, 
       },
       messages: {
-        job_title: {required: "Please give Title"}, 
+        employee_code: {required: "Please give Employee Code",remote: "Employee Code is in already use"},  
+        employee_fullname: {required: "Please give Employee Name"},
+        contact_number: {required: "Please give Employee's Contact Number"},
+        date_of_birth: {required: "Please give Employee's Date Of Birth"},
+        present_address : {required: "Please give Employee's Present Address"},
+        permanent_address : {required: "Please give Employee's Permanent Address"}, 
+        date_of_joining : {required: "Please give Employee's Joining Date"}, 
+        retirement_date : {required: "Please give Employee's Retirement Date"}, 
+        department_branch_id : {required: "Please give Employee's Branch Name"}, 
+        department_branch_id : {required: "Please give Employee's Department Name"}, 
+        department_branch_id : {required: "Please give Employee's Designation Name"}, 
+        holiday_list_id : {required: "Please give Employee's Holiday List"}, 
+        week_holiday_master_id : {required: "Please give Employee's Week Holiday"}, 
       }
     });
+
+
     //iCheck for checkbox and radio inputs
     $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
       checkboxClass: 'icheckbox_minimal-blue',
@@ -140,24 +190,102 @@ Create Employee
       radioClass: 'iradio_flat-green'
     });
 
-    // $('#holiday_date').datepicker();
+    $('#date_of_birth').datepicker();
+    $('#passport_issue_date').datepicker();
+    $('#passport_valid_upto').datepicker();
+    $('#offer_date').datepicker();
+    $('#confirmation_date').datepicker();
+    $('#date_of_joining').datepicker();
+    $('#retirement_date').datepicker();
+    $('#contract_end_date').datepicker();
+
+    var department_branch_id=$('#department_branch_id'); 
+    parameters = { 
+      placeholder: "Job Branch",
+      url: '{{URL::to("/")}}/branch/auto/get_branchs',
+      selector_id:department_branch_id, 
+      data:{}
+    }
+
+    init_select2(parameters);
+
+    var department_id=$("#department_id");
+    parameters = {
+      placeholder: "Post Office",
+      url: '{{URL::to("/")}}/branch/auto/get_departments',
+      selector_id:department_id,
+      value_id:$('#department_branch_id')
+    }
+
+// initialize select2 for post_office_id
+init_select2_with_one_parameter(parameters);
+$('#department_branch_id').change(function(){  
+      // $(this).valid(); // trigger validation on this element
+      $('#department_id').select2("val"," ");      
+    });
+
+var designation_id=$('#designation_id'); 
+parameters = { 
+  placeholder: "Job Applicant",
+  url: '{{URL::to("/")}}/designation/auto/get_designations',
+  selector_id:designation_id, 
+  data:{}
+}
+
+init_select2(parameters);
+
+
+var holiday_list_id=$('#holiday_list_id'); 
+parameters = { 
+  placeholder: "Holiday List",
+  url: '{{URL::to("/")}}/holiday/auto/get_holiday_lists',
+  selector_id:holiday_list_id, 
+  data:{}
+}
+
+init_select2(parameters);
+
+var week_holiday_master_id=$('#week_holiday_master_id'); 
+parameters = { 
+  placeholder: "Week Holiday",
+  url: '{{URL::to("/")}}/week_holiday/auto/get_week_holiday_masters',
+  selector_id:week_holiday_master_id, 
+  data:{}
+}
+
+init_select2(parameters);
+
+
+
+//on date of birth selection automatically sets the retirement date adding 60 years
+$("#date_of_birth").change(function(){ 
+  if ($(this).val()=="") {
+    $("#retirement_date").val("");  
+  }else{
+    var birth_date=new Date($(this).val());
+    var follow_date = new Date(birth_date.getFullYear() + 60,birth_date.getMonth(),birth_date.getDate());   
+    $("#retirement_date").val(follow_date.getFullYear()  + '-' + (follow_date.getMonth()+1) + '-' +  follow_date.getDate());
+  }
+});
+
 });//document ready
 
-  $(document).ready(function() {
-    $("div.bhoechie-tab-menu>div.list-group>a").click(function(e) {
-      e.preventDefault();
-      $(this).siblings('a.active').removeClass("active");
-      $(this).addClass("active");
-      var index = $(this).index();
-      $("div.bhoechie-tab>div.bhoechie-tab-content").removeClass("active");
-      $("div.bhoechie-tab>div.bhoechie-tab-content").eq(index).addClass("active");
-    });
-  });
+  // $(document).ready(function() {
+  //   $("div.bhoechie-tab-menu>div.list-group>a").click(function(e) {
+  //     e.preventDefault();
+  //     $(this).siblings('a.active').removeClass("active");
+  //     $(this).addClass("active");
+  //     var index = $(this).index();
+  //     $("div.bhoechie-tab>div.bhoechie-tab-content").removeClass("active");
+  //     $("div.bhoechie-tab>div.bhoechie-tab-content").eq(index).addClass("active");
+  //   });
+  // });
   //
   var previewImage = function(event) {
     var output = document.getElementById('employee_image_preview');
     output.src = URL.createObjectURL(event.target.files[0]);
   };
+
 </script>
 
 @endsection

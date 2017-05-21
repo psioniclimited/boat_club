@@ -18,10 +18,13 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Org
 	Route::get('/designation/auto/get_designations', 'AutoCompleteController@getDesignations');
 	
 
-
-
 	Route::get('/salary_head/auto/salary_head', 'AutoCompleteController@getSalaryHead');
+
+	Route::get('/holiday/auto/get_holiday_lists', 'AutoCompleteController@getHolidayLists');
+	Route::get('/week_holiday/auto/get_week_holiday_masters', 'AutoCompleteController@getWeekHolidayMasters');
 	
+
+
 
 	Route::get('/testdb', 'AutoCompleteController@returnTestJson');
 

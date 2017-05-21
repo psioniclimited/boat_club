@@ -69,4 +69,12 @@ class EmployeeController extends Controller
     public function destroy()
     {
     }
+
+    public function checkUniqueEmployeeCode(Request $request)
+    {  
+        // $employee_code=$request->employee_code;
+       
+        return response()->json(false);
+        
+    }
 }

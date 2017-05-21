@@ -26,7 +26,7 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Emp
 	Route::resource('/offer_letter', 'OfferLetterController');
 	
 
+	Route::get('check_unique_employee_code','EmployeeController@checkUniqueEmployeeCode');
 	Route::resource('/employee', 'EmployeeController');
-
 
 });

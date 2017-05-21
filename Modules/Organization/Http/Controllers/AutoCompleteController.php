@@ -98,6 +98,15 @@ class AutoCompleteController extends Controller
         return $branchRepository->getSalaryHeads('salary_head_name', $request->input('term'),$request->input('value_term'), ['id', 'salary_head_name as text']); 
     }
 
+    public function getHolidayLists(Request $request, BranchRepository $branchRepository){ 
+        // dd($request->all());
+        return $branchRepository->getHolidayLists('holiday_list_name', $request->input('term'), ['id', 'holiday_list_name as text']); 
+    }
+
+    public function getWeekHolidayMasters(Request $request, BranchRepository $branchRepository){ 
+        return $branchRepository->getWeekHolidayMasters('week_holiday_master_name',$request->input('term'), ['id', 'week_holiday_master_name as text']); 
+    }
+
     public function getDistrictOfBranch(Request $request)
     {  
         $branch_id = $request->input('branch_id');
@@ -161,7 +170,7 @@ class AutoCompleteController extends Controller
     public function getDepartmentOfBranch(Request $request)
     {   
         $branch_id = intval($request->input('value_term')); 
- 
+
         $departments = Department::where('branch_id','=',$branch_id)->get(array('id','department_name as text'));        
         return response()->json($departments);
     }

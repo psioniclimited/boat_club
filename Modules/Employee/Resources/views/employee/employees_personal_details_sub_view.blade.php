@@ -1,9 +1,9 @@
              <!-- <center></center> -->
              <div class="col-md-6">  
               <div class="form-group @if ($errors->has('employee_image')) has-error @endif">
-                <img src=" http://placehold.it/220x150" height="150px"  width="220px" id="employee_image_preview" alt="">
+                <img src=" http://placehold.it/220x250" height="250px"  width="220px" id="employee_image_preview" alt="">
                 <br>
-                <label for="name" class="control-label">Employee Image*</label> 
+                <label for="name" class="control-label">Employee Image</label> 
                 <input type="file" id="employee_image" name="employee_image" placeholder="Select Image" value="{{old('employee_image')}}"  onchange="previewImage(event)"> 
                 @if ($errors->has('employee_image')) <p class="help-block">{{ $errors->first('employee_image') }}</p> @endif                             
               </div>
@@ -49,7 +49,7 @@
             <div class="col-md-6"> 
               <div class="form-group @if ($errors->has('employee_fullname')) has-error @endif">
                 <label for="name" class="control-label">Full Name*</label> 
-                <input type="text" class="form-control" id="employee_code" name="employee_code" placeholder="Enter Full Name" value="{{old('employee_fullname')}}" >                           
+                <input type="text" class="form-control" id="employee_fullname" name="employee_fullname" placeholder="Enter Full Name" value="{{old('employee_fullname')}}" >                           
                 @if ($errors->has('employee_fullname')) <p class="help-block">{{ $errors->first('employee_fullname') }}</p> @endif                             
               </div>
             </div>
@@ -70,6 +70,14 @@
             </div>
 
             <div class="col-md-6"> 
+              <div class="form-group @if ($errors->has('date_of_birth')) has-error @endif">
+                <label for="name" class="control-label">Date Of Birth*</label> 
+                <input type="text" class="form-control" id="date_of_birth" name="date_of_birth" placeholder="Employee's Date Of Birth" value="{{old('date_of_birth')}}" data-date-format='yyyy-mm-dd'>                           
+                @if ($errors->has('date_of_birth')) <p class="help-block">{{ $errors->first('date_of_birth') }}</p> @endif                             
+              </div>
+            </div>
+            <div class="col-md-12"></div>
+            <div class="col-md-6"> 
               <div class="form-group @if ($errors->has('passport')) has-error @endif">
                 <label for="name" class="control-label">Passport</label> 
                 <input type="text" class="form-control" id="passport" name="passport" placeholder="Employee's Passport Number" value="{{old('passport')}}" >                           
@@ -88,14 +96,14 @@
             <div class="col-md-6"> 
               <div class="form-group @if ($errors->has('passport_issue_date')) has-error @endif">
                 <label for="name" class="control-label">Passport Issue Date</label> 
-                <input type="text" class="form-control" id="passport_issue_date" name="passport_issue_date" placeholder="Employee's Passport Issue Date" value="{{old('passport_issue_date')}}" >                           
+                <input type="text" class="form-control" id="passport_issue_date" name="passport_issue_date" placeholder="Employee's Passport Issue Date" value="{{old('passport_issue_date')}}" data-date-format='yyyy-mm-dd'>                           
                 @if ($errors->has('passport_issue_date')) <p class="help-block">{{ $errors->first('passport_issue_date') }}</p> @endif                             
               </div>
             </div>
             <div class="col-md-6"> 
               <div class="form-group @if ($errors->has('passport_valid_upto')) has-error @endif">
                 <label for="name" class="control-label">Passport Valid Upto</label> 
-                <input type="text" class="form-control" id="passport_valid_upto" name="passport_valid_upto" placeholder="Employee's Passport Valid Upto" value="{{old('passport_valid_upto')}}" >                           
+                <input type="text" class="form-control" id="passport_valid_upto" name="passport_valid_upto" placeholder="Employee's Passport Valid Upto" value="{{old('passport_valid_upto')}}" data-date-format='yyyy-mm-dd'>                           
                 @if ($errors->has('passport_valid_upto')) <p class="help-block">{{ $errors->first('passport_valid_upto') }}</p> @endif                             
               </div>
             </div>
@@ -187,7 +195,7 @@
             </div>
             <div class="col-md-6"> 
               <div class="form-group @if ($errors->has('emergency_contact_number')) has-error @endif">
-                <label for="name" class="control-label">Contact Number</label> 
+                <label for="name" class="control-label">Emergency Contact Number</label> 
                 <input type="text" class="form-control" id="emergency_contact_number" name="emergency_contact_number" placeholder="Emergency Contact Number" value="{{old('emergency_contact_number')}}" >                           
                 @if ($errors->has('emergency_contact_number')) <p class="help-block">{{ $errors->first('emergency_contact_number') }}</p> @endif                             
               </div>
