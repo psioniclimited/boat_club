@@ -286,6 +286,7 @@ Set up Salary Grade
         selector_id:salary_head_id, 
         data:{}
       }
+      
       init_select2(parameters);
 
       if (mode==1) {

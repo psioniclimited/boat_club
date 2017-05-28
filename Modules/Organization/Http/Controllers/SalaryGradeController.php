@@ -63,8 +63,8 @@ class SalaryGradeController extends Controller
      * @return Response
      */
     public function edit(SalaryGradeMaster $salary_grade_master) {
-       return view('organization::salary_grade.edit_salary_grade',['salary_grade_master'=>$salary_grade_master]);
-   }
+     return view('organization::salary_grade.edit_salary_grade',['salary_grade_master'=>$salary_grade_master]);
+ }
 
     /**
      * Update the specified resource in storage.
@@ -135,23 +135,29 @@ class SalaryGradeController extends Controller
     public function salaryGradeInfo($salary_grade_master_id)
     {   
         $salary_grade_infos = SalaryGradeInfo::where('salary_grade_master_id','=',intval($salary_grade_master_id))
-        ->join('salary_head', 'salary_grade_info.salary_head_id', '=', 'salary_head.id')
+        ->join('salary_head', 'salary_grade_info.salary_head_id', '=', 'salary_head.id') 
         ->select('salary_grade_info.amount','salary_grade_info.amount_type','salary_head.salary_head_name','salary_grade_info.salary_head_id')
         ->get(); 
         return response()->json($salary_grade_infos);
     }
+    public function getBasicSalaryOfSalaryGrade($salary_grade_master_id)
+    {   
+        $basic_salary = SalaryGradeMaster::where('id','=',intval($salary_grade_master_id))
+        ->get(['basic_salary']); 
+        return response()->json($basic_salary);
+    }
 
     public function validateGradeInfoData($data){
 
-     $validator = Validator::make($data, array(
+       $validator = Validator::make($data, array(
         'salary_head_id' =>'required|exists:salary_head,id' , 
         'amount_type' =>'required|numeric' , 
         'amount' =>'required|numeric' , 
         'salary_grade_master_id' =>'required|exists:salary_grade_master,id' , 
         ));
 
-     if ($validator->fails())
-     { 
+       if ($validator->fails())
+       { 
         return false;
     }
     return true;

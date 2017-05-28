@@ -7,6 +7,10 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Emp
 	Route::get('/job_applicant/auto', 'AutoCompleteController@getJobApplicants'); 
 
 
+	Route::get('/family_relation/auto/get_all_relations', 'AutoCompleteController@getAllFamilyRelations'); 
+
+
+
 	Route::get('/offer_letter/auto/get_job_applicant', 'AutoCompleteController@getJobApplicantOfOfferLetter'); 
 	Route::get('/offer_letter/auto/get_department_branch', 'AutoCompleteController@getDepartmentBranchOfOfferLetter'); 
 	Route::get('/offer_letter/auto/get_department', 'AutoCompleteController@getDepartmentOfOfferLetter'); 

@@ -9,7 +9,6 @@
 <link rel="stylesheet" href="{{asset('bower_components/AdminLTE')}}/plugins/datatables/jquery.dataTables.css">  
 <link rel="stylesheet" href="{{asset('bower_components/AdminLTE')}}/plugins/datatables/dataTables.bootstrap.css">
 
-
 <style>
   .select2-container--default {
     width: 100% !important;
@@ -55,6 +54,9 @@ Create Employee
                   <li><a data-toggle="tab" href="#salary_info">Salary Info</a></li>
                   <li><a data-toggle="tab" href="#salary_details">Salary Details</a></li>
                   <li><a data-toggle="tab" href="#educational_background">Educational Background</a></li>
+                  <li><a data-toggle="tab" href="#previous_work_history">Previous Work History</a></li>
+                  <li><a data-toggle="tab" href="#history_inside_organization">History Inside Organization</a></li>
+                  <li><a data-toggle="tab" href="#family_information">Family Information</a></li>
                 </ul>
 
                 <div class="tab-content">
@@ -79,49 +81,27 @@ Create Employee
 
                 <div id="salary_details" class="tab-pane fade">
                   <div class="bhoechie-tab-content">
-
-                    <table id="salary_details_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                      <thead>
-                        <tr> 
-                          <th>Salary Head Name</th>
-                          <th>Amount Type</th>
-                          <th>Type</th>
-                          <th>Amount</th>  
-                        </tr>
-                      </thead>
-                      <tfoot>
-                        <tr> 
-                          <th>Salary Head Name</th>
-                          <th>Amount Type</th>
-                          <th>Type</th>
-                          <th>Amount</th>  
-                        </tr>
-                      </tfoot>
-                    </table>
+                    @include('employee::employee.employee_salary_details_sub_view')
                   </div>
                 </div>
-                <div id="educational_background" class="tab-pane fade">
+                <div id="educational_background" class="tab-pane fade"> 
                   <div class="bhoechie-tab-content">
-                    <table id="educational_background_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                      <button class="btn btn-xs btn-info pull-left" id="add_education_row" style="margin-bottom: 10px">Add New Row</button> 
-                      <thead>
-                        <tr> 
-                          <th>Degree Name</th>
-                          <th>Institution</th>
-                          <th>Passing Year</th>
-                          <th>Action</th>  
-                        </tr>
-                      </thead>
-                      <tfoot>
-                        <tr> 
-                          <th>Degree Name</th>
-                          <th>Institution</th>
-                          <th>Passing Year</th>
-                          <th>Action</th>  
-                        </tr>
-                      </tfoot>
-                    </table>
-
+                    @include('employee::employee.employee_educational_background')
+                  </div>
+                </div>
+                <div id="previous_work_history" class="tab-pane fade"> 
+                  <div class="bhoechie-tab-content">
+                    @include('employee::employee.employee_previous_work_history')
+                  </div>
+                </div>
+                <div id="history_inside_organization" class="tab-pane fade"> 
+                  <div class="bhoechie-tab-content">
+                    @include('employee::employee.employee_history_inside_organization')
+                  </div>
+                </div>
+                <div id="family_information" class="tab-pane fade"> 
+                  <div class="bhoechie-tab-content">
+                    @include('employee::employee.employee_family_information')
                   </div>
                 </div>
 
@@ -315,37 +295,58 @@ function InitializeSalaryDetailsTable(){
 })
 }
 
-
+//initializing the table in the salary details tab with all the available salary heads
 InitializeSalaryDetailsTable();
-$('#salary_grade_master_id').change(function(){   
+
+$('#salary_grade_master_id').change(function(){
+  $('#basic_salary').val("");
   salary_details_table.clear().draw();
   InitializeSalaryDetailsTable();    
+  
   if($(this).val()!=null){
-    $.ajax("{{URL::to('/salary_grade/salary_grade_info/')}}/"+$(this).val(), {
-      data: {
-        format: 'json'
-      },
-      error: function() { 
-      },type: 'GET',
-      success: function(data) { 
-        // console.log(data[0].amount);
-        $.each(data, function(index,item) { 
-          replaceSalaryDetailsValue(item);
-        });
-      }
-    });
+  //change basic salary
+  $.ajax("{{URL::to('/salary_grade/basic_salary_of_grade/')}}/"+$(this).val(), {
+    data: {
+      format: 'json'
+    },
+    error: function() { 
+    },type: 'GET',
+    success: function(data) {  
+      $('#basic_salary').val(data[0].basic_salary); 
+    }
+  });
 
-  }
+  //change salary heads in salary details based on salary grade
+  changeSalaryHeadValueBasedOnSalaryGrade($(this).val());
+}
 });
 
+function changeSalaryHeadValueBasedOnSalaryGrade(id){
+  $.ajax("{{URL::to('/salary_grade/salary_grade_info/')}}/"+id, {
+    data: {
+      format: 'json'
+    },
+    error: function() { 
+    },type: 'GET',
+    success: function(data) { 
+      $.each(data, function(index,item) { 
+        replaceSalaryDetailsValue(item);
+      });
+    }
+  });
+}
+
 function replaceSalaryDetailsValue(item){
-  // console.log(item);
   $('#salary_details_table > tbody  > tr').each(function() {
-    // alert($(this).find(".salary_head_id").val());
-    // alert(item.id);
-    if($(this).find(".salary_head_id").val()==item.salary_head_id){
-      alert("asdasd");
-      $(this).find(".amount").val(item.amount);
+    if($(this).find(".salary_head_id").val()==item.salary_head_id){ 
+      if(item.amount_type==1){ 
+        $(this).find(".amount").val(item.amount);
+      }else{
+        var basic_salary=$('#basic_salary').val();
+        if(basic_salary!="" && basic_salary!=0 && item.amount!=0){
+          $(this).find(".amount").val((item.amount/100)*basic_salary);
+        }
+      }
     }
 
   });
@@ -363,12 +364,17 @@ var educational_background_table=$('#educational_background_table').DataTable();
       renderEducationalBackgroundTable(); 
     });
 
+    $('body').on('click', '.deleteEducationalBackgroundButton', function(e) {
+      var tr=$(this).parents("tr");
+      educational_background_table.row(tr).remove().draw(false);  
+    }); 
+
     function renderEducationalBackgroundTable(){
       var arr=[]; 
       arr.push('<input class="form-control degree_name" type="text" placeholder="Degree Name">');
       arr.push('<input class="form-control institution" type="text"  placeholder="Institution">');
       arr.push('<input class="form-control passing_year" type="number"  placeholder="Passing Year">'); 
-      arr.push('<button class="btn btn-xs btn-danger pull-left deleteButton" >Delete Row</button>');
+      arr.push('<button class="btn btn-xs btn-danger pull-left deleteEducationalBackgroundButton" >Delete Row</button>'); 
       educational_background_table.row.add(arr).draw( false );
     }    
 
@@ -382,10 +388,163 @@ var educational_background_table=$('#educational_background_table').DataTable();
       return returnMessage;
     }
 
+
+
+
+
+//previous work history 
+var previous_work_history_table=$('#previous_work_history_table').DataTable();
+
+    //add row
+    $('#add_previous_history_row').on( 'click', function (e) {
+      e.preventDefault();
+      renderPreviousHistoryTable(); 
+    });
+
+    $('body').on('click', '.deletePreviousHistoryButton', function(e) {
+      var tr=$(this).parents("tr");
+      previous_work_history_table.row(tr).remove().draw(false);  
+    }); 
+
+    function renderPreviousHistoryTable(){
+      var arr=[]; 
+      arr.push('<input class="form-control institution" type="text" placeholder="Organization">');
+      arr.push('<input class="form-control from_date" type="text"  placeholder="From Date">');
+      arr.push('<input class="form-control to_date" type="text"  placeholder="To Date">');
+      arr.push('<input class="form-control designation" type="text"  placeholder="Designation">'); 
+      arr.push('<button class="btn btn-xs btn-danger pull-left deletePreviousHistoryButton" >Delete Row</button>'); 
+      previous_work_history_table.row.add(arr).draw( false );
+      var from_date=$('.from_date');
+      var to_date=$('.to_date');
+      from_date.datepicker();
+      to_date.datepicker();
+    }    
+
+    function validatePreviousHistoryTableData(){
+      var returnMessage=[true,'validation complete'];
+      $('#previous_work_history_table > tbody  > tr').each(function() {        
+        if ($(this).find(".institution").val()==null || $(this).find(".designation").val()=="" ) {
+          return returnMessage=[false,'The Previous History Table form is incomplete. Check if you missed giving any input.'];
+        }
+      }); 
+      return returnMessage;
+    }
+
+
+
+
+
+//work history inside organization
+var work_history_inside_organization_table=$('#history_inside_organization_table').DataTable();
+var selector_counter=1;
+    //add row
+    $('#add_history_inside_company_row').on( 'click', function (e) {
+      e.preventDefault();
+      renderHistoryInsideOrganizationTable(); 
+    });
+
+    $('body').on('click', '.deleteHistoryInsideOrganisationButton', function(e) {
+      var tr=$(this).parents("tr");
+      work_history_inside_organization_table.row(tr).remove().draw(false);  
+    }); 
+
+    function renderHistoryInsideOrganizationTable(){
+      var arr=[]; 
+      arr.push('<div><select id="department_branch_id_'+selector_counter+'" class="department_branch_id form-control table-form"></select></div>');
+      arr.push('<div><select id="department_id_'+selector_counter+'"  class="department_id form-control table-form"></select></div>');
+      arr.push('<div><select id="designation_id_'+selector_counter+'" class="designation_id form-control table-form"></select></div>');
+      arr.push('<input class="form-control remarks" type="text"  placeholder="Remarks">'); 
+      arr.push('<button class="btn btn-xs btn-danger pull-left deleteHistoryInsideOrganisationButton" >Delete Row</button>'); 
+
+
+      work_history_inside_organization_table.row.add(arr).draw( false );
+
+
+      var table_department_branch_id=$('#department_branch_id_'+selector_counter); 
+      parameters = { 
+        placeholder: "Job Branch",
+        url: '{{URL::to("/")}}/branch/auto/get_branchs',
+        selector_id:table_department_branch_id, 
+        data:{}
+      }
+
+      init_select2(parameters);
+
+      var table_department_id=$("#department_id_"+selector_counter);
+      parameters = {
+        placeholder: "Post Office",
+        url: '{{URL::to("/")}}/branch/auto/get_departments',
+        selector_id:table_department_id,
+        value_id:$('#department_branch_id_'+selector_counter)
+      }
+
+  // initialize select2 for post_office_id
+  init_select2_with_one_parameter(parameters);
+
+  var table_designation_id=$('.designation_id'); 
+  parameters = { 
+    placeholder: "Job Applicant",
+    url: '{{URL::to("/")}}/designation/auto/get_designations',
+    selector_id:table_designation_id, 
+    data:{}
+  }
+
+  init_select2(parameters);
+
+  $('#department_branch_id_'+selector_counter).change(function(){   
+    table_department_id.select2("val"," ");      
+  });
+
+
+  selector_counter++;
+}    
+
+
+
+
+
+
+
+
+var family_information_table=$('#family_information_table').DataTable();
+
+    //add row
+    $('#add_family_information_row').on( 'click', function (e) {
+      e.preventDefault();
+      renderFamilyInformationTable(); 
+    });
+
+    $('body').on('click', '.deleteFamilyInformationButton', function(e) {
+      var tr=$(this).parents("tr");
+      family_information_table.row(tr).remove().draw(false);  
+    }); 
+
+    function renderFamilyInformationTable(){
+      var arr=[]; 
+      arr.push('<input class="form-control family_member_name" type="text" placeholder="Family Member Name">');
+      arr.push('<input class="form-control date_of_birth" type="text"  placeholder="Date Of Birth">');
+      arr.push('<div><select  class="family_relation_id form-control table-form"></select></div>'); 
+      arr.push('<button class="btn btn-xs btn-danger pull-left deleteFamilyInformationButton" >Delete Row</button>'); 
+      family_information_table.row.add(arr).draw( false );
+      $('.date_of_birth').datepicker();
+      var family_relation_id=$('.family_relation_id'); 
+      parameters = { 
+        placeholder: "Relation",
+        url: '{{URL::to("/")}}/family_relation/auto/get_all_relations',
+        selector_id:family_relation_id, 
+        data:{}
+      }
+      init_select2(parameters);
+
+    }    
+
+
+
+
 });//document ready
 
 
-var previewImage = function(event) {
+previewImage = function(event) {
   var output = document.getElementById('employee_image_preview');
   output.src = URL.createObjectURL(event.target.files[0]);
 };
