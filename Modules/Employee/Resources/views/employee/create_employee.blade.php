@@ -16,6 +16,24 @@
   .paginate_button{
     padding: 0px !important;
   } 
+/*#jqvForm label.valid {
+  width: 16px;
+  height: 16px; 
+  display: inline-block;
+  text-indent: -9999em !important;
+  position: absolute;
+}
+#jqvForm label.error {
+  color: red;
+  display: inline;
+  float: none;
+  font-size:11px;
+  font-weight: bold;
+  margin-left: 10px;
+  text-align: left;
+  padding: 2px 8px;
+  margin-top: 2px;
+} */ 
 </style>
 @endsection
 @section('page_header')
@@ -35,18 +53,23 @@ Create Employee
 <section class="content">
   <div class="row">
 
-    <form action="" name="add_employe_form" id="add_employe_form">
+    <form action="" name="add_employe_form" id="add_employe_form" enctype="multipart/form-data" method="post">
       <div class="col-md-12"> 
         <div class="box box-info">
           <div class="box-header with-border">
             <h3 class="box-title">Create Employee</h3>
-            <button type="submit" id="btn-submit" class="btn btn-primary pull-right">Submit</button>
+            <button type="button" id="btn-submit" class="btn btn-primary pull-right">Submit</button>
           </div>
 
           <div class="box-body">
             <div class="container-fluid">
               <div class="row">
 
+                <div class="alert alert-danger alert-dismissible" id="table-remarks">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h4><i class="icon fa fa-ban"></i> Alert!</h4> 
+                  <span class="alert_message"></span>
+                </div>
 
                 <ul class="nav nav-tabs">
                   <li class="active"><a data-toggle="tab" href="#personal_info">Personal Info</a></li>
@@ -378,19 +401,6 @@ var educational_background_table=$('#educational_background_table').DataTable();
       educational_background_table.row.add(arr).draw( false );
     }    
 
-    function validateEducationalBackgroundTableData(){
-      var returnMessage=[true,'validation complete'];
-      $('#educational_background_table > tbody  > tr').each(function() {        
-        if ($(this).find(".degree_name").val()==null || $(this).find(".institution").val()=="" ||$(this).find(".passing_year").val()=="" ) {
-          return returnMessage=[false,'The Educational Table form is incomplete. Check if you missed giving any input.'];
-        }
-      }); 
-      return returnMessage;
-    }
-
-
-
-
 
 //previous work history 
 var previous_work_history_table=$('#previous_work_history_table').DataTable();
@@ -419,18 +429,6 @@ var previous_work_history_table=$('#previous_work_history_table').DataTable();
       from_date.datepicker();
       to_date.datepicker();
     }    
-
-    function validatePreviousHistoryTableData(){
-      var returnMessage=[true,'validation complete'];
-      $('#previous_work_history_table > tbody  > tr').each(function() {        
-        if ($(this).find(".institution").val()==null || $(this).find(".designation").val()=="" ) {
-          return returnMessage=[false,'The Previous History Table form is incomplete. Check if you missed giving any input.'];
-        }
-      }); 
-      return returnMessage;
-    }
-
-
 
 
 
@@ -537,10 +535,6 @@ var family_information_table=$('#family_information_table').DataTable();
       init_select2(parameters);
 
     }    
-
-
-
-
 });//document ready
 
 
@@ -549,6 +543,224 @@ previewImage = function(event) {
   output.src = URL.createObjectURL(event.target.files[0]);
 };
 
+</script>
+
+
+<script>
+  // this script block is used to validate the form 
+
+  function validateAllTableData(){
+    var returnMessage=[true,'validation complete'];
+
+    //first validating the educational background table
+    //if any input is wrong then it will return false message
+    $('#educational_background_table > tbody  > tr').each(function() {      
+      if($(this).find(".degree_name").val()!=undefined){ 
+        if ($(this).find(".degree_name").val()=="" || $(this).find(".institution").val()=="" ||$(this).find(".passing_year").val()=="" ) {
+          return returnMessage=[false,'The Educational Table form is incomplete. Check if you missed giving any input.'];
+        } 
+      }
+    }); 
+    
+
+    //if educatinal table is ok then we will check previous information table
+    //if any input is wrong then it will return false message
+    $('#previous_work_history_table > tbody  > tr').each(function() {   
+      if($(this).find(".institution").val()!=undefined){      
+        if ($(this).find(".institution").val()=="" || $(this).find(".designation").val()=="" ) {
+          return returnMessage=[false,'The Previous History Table form is incomplete. Check if you missed giving any input.'];
+        } 
+      }
+    }); 
+
+    //if previous  infomation table is ok then we will check history inside organization information table
+    //if any input is wrong then it will return false message
+    $('#history_inside_organization_table > tbody  > tr').each(function() {   
+      if($(this).find(".remarks").val()!=undefined){      
+        if ($(this).find(".department_branch_id").val()==null || $(this).find(".designation_id").val()==null  || $(this).find(".department_id").val()==null  || $(this).find(".remarks").val()=="" ) {
+          return returnMessage=[false,'The History Inside Organization Table form is incomplete. Check if you missed giving any input.'];
+        } 
+      }
+    }); 
+
+
+    //if history inside infomation table is ok then we will check family information table
+    //if any input is wrong then it will return false message
+    $('#family_information_table > tbody  > tr').each(function() {   
+      if($(this).find(".family_member_name").val()!=undefined){      
+        if ($(this).find(".family_member_name").val()=="" || $(this).find(".date_of_birth").val()==""  || $(this).find(".family_relation_id").val()==null  || $(this).find(".remarks").val()=="" ) {
+          return returnMessage=[false,'The Family Information Table form is incomplete. Check if you missed giving any input.'];
+        } 
+      }
+    }); 
+
+
+
+    return returnMessage;
+  }
+
+  function generateJsonObjectWithForm(){
+
+    var formData = new FormData($("#add_employe_form")[0]);
+    formData.append('salary_details',generateJsonStringFromTables('salary_details_table'));
+    formData.append('educational_background',generateJsonStringFromTables('educational_background_table'));
+    formData.append('history_inside_organization',generateJsonStringFromTables('history_inside_organization_table'));
+    formData.append('family_information',generateJsonStringFromTables('family_information_table'));
+    formData.append('previous_work_history',generateJsonStringFromTables('previous_work_history_table'));
+    
+ 
+
+    // var form_data={
+    //   // "employee_image":$("#employee_image").val(),
+    //   "employee_image":formData['employee_image'],
+    //   "employee_series_id":$("#employee_series_id").val(),
+    //   "employee_code":$("#employee_code").val(),
+    //   "can_login":$("#can_login").val(),
+    //   "salutation_id":$("#salutation_id").val(),
+    //   "employee_fullname":$("#employee_fullname").val(),
+    //   "personal_email":$("#personal_email").val(),
+    //   "contact_number":$("#contact_number").val(),
+    //   "date_of_birth":$("#date_of_birth").val(),
+    //   "passport":$("#passport").val(),
+    //   "passport_issue_place":$("#passport_issue_place").val(),
+    //   "passport_issue_date":$("#passport_issue_date").val(),
+    //   "passport_valid_upto":$("#passport_valid_upto").val(),
+    //   "marital_status_id":$("#marital_status_id").val(),
+    //   "religion_id":$("#religion_id").val(),
+    //   "blood_group_id":$("#blood_group_id").val(),
+    //   "bio":$("#bio").val(),
+    //   "present_address":$("#present_address").val(),
+    //   "permanent_address":$("#permanent_address").val(),
+    //   "health_details":$("#health_details").val(),
+    //   "emergency_contact_name":$("#emergency_contact_name").val(),
+    //   "emergency_contact_relation":$("#emergency_contact_relation").val(),
+    //   "emergency_contact_number":$("#emergency_contact_number").val(),
+    //   "offer_date":$("#offer_date").val(),
+    //   "confirmation_date":$("#confirmation_date").val(),
+    //   "date_of_joining":$("#date_of_joining").val(),
+    //   "retirement_date":$("#retirement_date").val(),
+    //   "contract_end_date":$("#contract_end_date").val(),
+    //   "employment_type_id":$("#employment_type_id").val(),
+    //   "department_branch_id":$("#department_branch_id").val(),
+    //   "department_id":$("#department_id").val(),
+    //   "designation_id":$("#designation_id").val(),
+    //   "holiday_list_id":$("#holiday_list_id").val(),
+    //   "week_holiday_master_id":$("#week_holiday_master_id").val(),
+    //   "company_email":$("#company_email").val(),
+    //   "notice_day":$("#notice_day").val(),
+    //   "salary_grade_master_id":$("#salary_grade_master_id").val(),
+    //   "basic_salary":$("#basic_salary").val(),
+    //   "hourly_pay_rate":$("#hourly_pay_rate").val(),
+    //   "overtime_rate":$("#overtime_rate").val(),
+    //   "weekly_overtime_hour_limit":$("#weekly_overtime_hour_limit").val(),
+    //   "payment_mode_id":$("#payment_mode_id").val(),
+    //   "employee_bank_name":$("#employee_bank_name").val(),
+    //   "employee_bank_branch":$("#employee_bank_branch").val(),
+    //   "employee_bank_acc":$("#employee_bank_acc").val(),
+    //   "final_leave_encashed":$("#final_leave_encashed").val(),
+    //   "final_leave_encashed_date":$("#final_leave_encashed_date").val(),
+    //   "salary_details":generateJsonStringFromTables('salary_details_table'),
+    //   "educational_background":generateJsonStringFromTables('educational_background_table'),
+    //   "previous_work_history":generateJsonStringFromTables('educational_background_table'),
+    //   "history_inside_organization":generateJsonStringFromTables('history_inside_organization_table'),
+    //   "family_information":generateJsonStringFromTables('family_information_table'),
+    // };
+
+    return formData;
+  }
+
+  function generateJsonStringFromTables(table_name){
+    var jsonObj=[];
+    var item;
+
+    if(table_name=="salary_details_table"){
+      $('#salary_details_table > tbody  > tr').each(function() {
+        item={};
+        item["salary_head_id"]=$(this).find(".salary_head_id").val(); 
+        item["amount"]=$(this).find(".amount").val();
+        jsonObj.push(item);
+      });
+    }else if(table_name=="educational_background_table"){
+      $('#educational_background_table > tbody  > tr').each(function() {
+        item={};
+        item["degree_name"]=$(this).find(".degree_name").val(); 
+        item["institution"]=$(this).find(".institution").val(); 
+        item["passing_year"]=$(this).find(".passing_year").val();  
+        jsonObj.push(item);
+      });
+      
+    }else if(table_name=="previous_work_history_table"){
+      $('#previous_work_history_table > tbody  > tr').each(function() {
+        item={}; 
+        item["institution"]=$(this).find(".institution").val(); 
+        item["from_date"]=$(this).find(".from_date").val(); 
+        item["to_date"]=$(this).find(".to_date").val(); 
+        item["designation"]=$(this).find(".designation").val();    
+        jsonObj.push(item);
+      });
+    }else if(table_name=="history_inside_organization_table"){
+      $('#history_inside_organization_table > tbody  > tr').each(function() {
+        item={}; 
+        item["department_branch_id"]=$(this).find(".department_branch_id").val(); 
+        item["department_id"]=$(this).find(".department_id").val(); 
+        item["designation_id"]=$(this).find(".designation_id").val(); 
+        item["remarks"]=$(this).find(".remarks").val();    
+        jsonObj.push(item);
+      });
+    }else{
+      $('#family_information_table > tbody  > tr').each(function() {
+        item={}; 
+        item["family_member_name"]=$(this).find(".family_member_name").val(); 
+        item["date_of_birth"]=$(this).find(".date_of_birth").val(); 
+        item["family_relation_id"]=$(this).find(".family_relation_id").val();  
+        jsonObj.push(item);
+      });
+    }
+
+
+    jsonObj=JSON.stringify(jsonObj);
+    return jsonObj;
+  }
+
+  $(document).ready(function(){
+    $('#btn-submit').on('click',function(e){
+
+      if(!$('#add_employe_form').valid()){ 
+        return;
+      }   
+
+      var validation_result=validateAllTableData();
+      if(validation_result[0]==false){
+        $("#table-remarks .alert_message").html(validation_result[1]);
+        $("#table-remarks").css("display","block").delay(10000).fadeOut(400);
+        return;
+      }
+      //if everything alright then post the form data
+      postAllData();
+    });//button-submit on click
+
+
+    function postAllData(){
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });  
+
+      var formData=generateJsonObjectWithForm(); 
+      
+      $.ajax({
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,  
+        url: "{{URL::to('/employee')}}",
+        success:function(data){ 
+          // window.location.reload();
+        }
+      });
+    }
+  }); //document ready
 </script>
 
 @endsection

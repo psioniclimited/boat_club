@@ -124,7 +124,7 @@
             <div class="col-md-6"> 
               <div class="form-group @if ($errors->has('religion_id')) has-error @endif">
                 <label for="name" class="control-label">Religion*</label>
-                <select class="form-control" id="marital_status_id" name="marital_status_id">
+                <select class="form-control" id="religion_id" name="religion_id">
                   <option value="1">Muslim</option>  
                   <option value="1">Hindu</option>  
                 </select>   

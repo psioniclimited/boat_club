@@ -30,8 +30,16 @@ $(document).ready(function(){
       //     $(element).tooltipster('show');
       //   }
       // },
-      success: function (label, element) {
-        $(element).tooltipster('hide');
+      // success: function (label, element) {
+      //   // $(element).tooltipster('hide');
+      //   label
+      //   .text('OK!').addClass('valid')
+      //   .closest('.form-element').addClass('success');
+      // },  
+      success: function (label) { 
+        // label.text('OK!').addClass('valid').closest('.form-element').addClass('success');
+        // label.text('OK!').closest('.form-group').removeClass('has-error');
+        label.closest('.form-group').removeClass('has-error');
       },
       rules: {
         employee_code: {required: true,remote: '{{URL::to("/check_unique_employee_code")}}'},
@@ -48,7 +56,7 @@ $(document).ready(function(){
         holiday_list_id: {required: true}, 
         week_holiday_master_id: {required: true}, 
         salary_grade_master_id: {required: true}, 
-        // basic_salary: {required: true}, 
+        basic_salary: {required: true}, 
       },
       messages: {
         employee_code: {required: "Please give Employee Code",remote: "Employee Code is in already use"},  
@@ -65,12 +73,12 @@ $(document).ready(function(){
         holiday_list_id : {required: "Please give Employee's Holiday List"}, 
         week_holiday_master_id : {required: "Please give Employee's Week Holiday"}, 
         salary_grade_master_id : {required: "Please give Employee's Salary Grade"}, 
-        // basic_salary : {required: "Please give Employee's Basic Salary"}, 
+        basic_salary : {required: "Please give Employee's Basic Salary"}, 
       }
     });
 
 
 
 
-	
-});
+
+  });

@@ -92,7 +92,7 @@
                     <div class="col-md-6">  
                       <div class="form-group @if ($errors->has('final_leave_encashed_date')) has-error @endif">  
                         <label for="name" class="control-label">Final Leave Encashed Date</label> 
-                        <input type="number" class="form-control" id="final_leave_encashed_date" name="final_leave_encashed_date" placeholder="Leave Encashed Date'" value="{{old('final_leave_encashed_date')}}" data-date-format='yyyy-mm-dd'> 
+                        <input type="text" class="form-control" id="final_leave_encashed_date" name="final_leave_encashed_date" placeholder="Leave Encashed Date'" value="{{old('final_leave_encashed_date')}}" data-date-format='yyyy-mm-dd'> 
                         @if ($errors->has('final_leave_encashed_date')) <p class="help-block">{{ $errors->first('final_leave_encashed_date') }}</p> @endif                             
                       </div>
                     </div><!-- /.col-md-6 -->             

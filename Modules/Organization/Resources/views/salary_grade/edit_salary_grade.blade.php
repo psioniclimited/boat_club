@@ -248,6 +248,8 @@ Set up Salary Grade
       });
       jsonObj=JSON.stringify(jsonObj);
       // console.log(jsonObj);
+
+      
       $.ajax({
         type: "POST",
         data: {"salary_grade_master_id":{{$salary_grade_master->id}},
