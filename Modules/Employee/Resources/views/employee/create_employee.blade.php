@@ -16,24 +16,6 @@
   .paginate_button{
     padding: 0px !important;
   } 
-/*#jqvForm label.valid {
-  width: 16px;
-  height: 16px; 
-  display: inline-block;
-  text-indent: -9999em !important;
-  position: absolute;
-}
-#jqvForm label.error {
-  color: red;
-  display: inline;
-  float: none;
-  font-size:11px;
-  font-weight: bold;
-  margin-left: 10px;
-  text-align: left;
-  padding: 2px 8px;
-  margin-top: 2px;
-} */ 
 </style>
 @endsection
 @section('page_header')
@@ -608,7 +590,7 @@ previewImage = function(event) {
     formData.append('family_information',generateJsonStringFromTables('family_information_table'));
     formData.append('previous_work_history',generateJsonStringFromTables('previous_work_history_table'));
     
- 
+
 
     // var form_data={
     //   // "employee_image":$("#employee_image").val(),
@@ -725,9 +707,9 @@ previewImage = function(event) {
   $(document).ready(function(){
     $('#btn-submit').on('click',function(e){
 
-      if(!$('#add_employe_form').valid()){ 
-        return;
-      }   
+      // if(!$('#add_employe_form').valid()){ 
+      //   return;
+      // }   
 
       var validation_result=validateAllTableData();
       if(validation_result[0]==false){
@@ -741,12 +723,13 @@ previewImage = function(event) {
 
 
     function postAllData(){
+      //for csrf check
       $.ajaxSetup({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
       });  
-
+      
       var formData=generateJsonObjectWithForm(); 
       
       $.ajax({
@@ -756,8 +739,28 @@ previewImage = function(event) {
         contentType: false,  
         url: "{{URL::to('/employee')}}",
         success:function(data){ 
-          // window.location.reload();
-        }
+          // console.log(data.error); 
+          if(data.error!="none" || data.error!=undefined){ 
+           $("#table-remarks .alert_message").html(data.error);  
+           $("#table-remarks").css("display","block").delay(10000).fadeOut(400);
+         }
+
+       }, 
+       error: function(data){
+
+          // if backend validation fails then the errors will be shown
+          var errors = data.responseJSON;
+          var errorsHtml="";
+          // console.log(errors);
+          // Render the errors with js ...
+
+          $.each( errors, function( key, value ) {
+            errorsHtml += '<li>' + value[0] + '</li>';  
+          });
+          $("#table-remarks .alert_message").html(""); 
+          $("#table-remarks .alert_message").html("<ul>"+errorsHtml+"</ul>");  
+          $("#table-remarks").css("display","block").delay(10000).fadeOut(400);
+        }        
       });
     }
   }); //document ready
