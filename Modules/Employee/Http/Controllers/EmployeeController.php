@@ -101,13 +101,13 @@ class EmployeeController extends Controller
 
     public function requestValidation($request_name,$rules){ 
         $data=json_decode($request_name,true); 
-             if($data[0]!=[]){
-                foreach ($data as $row) {  
-                    if(!$this->validateSalaryDetails($row,$rules)){ 
-                        return false; 
-                    }
-                }        
-            }
+        if($data[0]!=[]){
+            foreach ($data as $row) {  
+                if(!$this->validateDetails($row,$rules)){ 
+                    return false; 
+                }
+            }        
+        }
         return true; 
     }
 
@@ -155,18 +155,12 @@ class EmployeeController extends Controller
     }
 
 
+    public function validateDetails($data,$rules){
 
+     $validator = Validator::make($data,$rules);
 
-
-
-
-
-    public function validateSalaryDetails($data,$rules){
-
-       $validator = Validator::make($data,$rules);
-
-       if ($validator->fails())
-       { 
+     if ($validator->fails())
+     { 
         return false;
     }
     return true;

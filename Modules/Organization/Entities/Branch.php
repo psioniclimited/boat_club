@@ -33,5 +33,6 @@ class Branch extends Model
 	public function department(){
 		return $this->hasMany('Modules\Organization\Entities\Department');
 	}
+ 
 
 }

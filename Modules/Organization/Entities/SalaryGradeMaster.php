@@ -20,4 +20,8 @@ class SalaryGradeMaster extends Model
 	public function salary_grade_info(){
 		return $this->hasMany('Modules\Organization\Entities\SalaryGradeInfo');
 	}
+
+	public function employee_salary_grade_information(){
+		return $this->hasMany('Modules\Employee\Entities\EmployeeSalaryGradeInformation');
+	}
 }

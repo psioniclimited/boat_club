@@ -741,7 +741,7 @@ previewImage = function(event) {
         success:function(data){ 
           // console.log(data.error); 
           if(data.error!="none" || data.error!=undefined){ 
-           $("#table-remarks .alert_message").html(data.error);  
+            $("#table-remarks .alert_message").html(data.error);  
            $("#table-remarks").css("display","block").delay(10000).fadeOut(400);
          }
 
