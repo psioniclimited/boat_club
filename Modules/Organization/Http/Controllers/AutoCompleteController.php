@@ -78,6 +78,9 @@ class AutoCompleteController extends Controller
     public function getBranchs(Request $request, BranchRepository $branchRepository){
         return $branchRepository->getAllBranchs('branch_name', $request->input('term'), ['id', 'branch_name as text']); 
     }
+    public function getWorkShifts(Request $request, BranchRepository $branchRepository){
+        return $branchRepository->getAllWorkShifts('shift_name', $request->input('term'), ['id', 'shift_name as text']); 
+    }
 
 
     public function getDistricts(Request $request, BranchRepository $branchRepository){

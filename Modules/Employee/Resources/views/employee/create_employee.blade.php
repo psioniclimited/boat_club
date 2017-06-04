@@ -216,6 +216,16 @@ Create Employee
 
   init_select2(parameters);
 
+  var work_shift_id=$('#work_shift_id'); 
+  parameters = { 
+    placeholder: "Work Shift",
+    url: '{{URL::to("/")}}/branch/auto/get_work_shifts',
+    selector_id:work_shift_id, 
+    data:{}
+  }
+
+  init_select2(parameters);
+
 
   var holiday_list_id=$('#holiday_list_id'); 
   parameters = { 

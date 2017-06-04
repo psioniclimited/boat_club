@@ -80,6 +80,14 @@
                     @if ($errors->has('designation_id')) <p class="help-block">{{ $errors->first('designation_id') }}</p> @endif                             
                   </div> 
                 </div><!-- /.col-md-6 -->
+                <div class="col-md-6"> 
+                  <div class="form-group @if ($errors->has('work_shift_id')) has-error @endif">
+                  <label for="name" class="control-label">Work Shift*</label>
+                    <select class="form-control" id="work_shift_id" name="work_shift_id" > 
+                    </select>                 
+                    @if ($errors->has('work_shift_id')) <p class="help-block">{{ $errors->first('work_shift_id') }}</p> @endif                             
+                  </div> 
+                </div><!-- /.col-md-6 -->
 
                 <div class="col-md-12"></div>
 

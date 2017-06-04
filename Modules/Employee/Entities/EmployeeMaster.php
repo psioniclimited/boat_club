@@ -10,6 +10,7 @@ class EmployeeMaster extends Model
 	use SoftDeletes;
 
 	protected $table = 'employees_master';
+	protected $primaryKey = 'id';
 
 	protected $fillable = ['employee_code','employee_fullname','gender','date_of_birth','tin_no','nid','contact_number',
 	'employee_status','employee_image','present_address','permanent_address','passport','passport_issue_date','passport_valid_upto','passport_issue_place','personal_email','emergency_contact_name','emergency_contact_relation','emergency_contact_number','health_details','bio','employee_series_id','blood_group_id','marital_status_id','religion_id','can_login','salutation_id'];
@@ -38,20 +39,21 @@ class EmployeeMaster extends Model
 		return $this->belongsTo('Modules\Employee\Entities\MaritalStatus','marital_status_id'); 
 	}
 
-	public function marital_status(){
-		return $this->hasMany('Modules\Employee\Entities\EmployeeFamilyMembers'); 
+
+	public function employee_family_members(){
+		return $this->hasMany('Modules\Employee\Entities\EmployeeFamilyMembers', 'employees_master_id'); 
 	}
 
 	public function employee_work_history_inside_company(){
-		return $this->hasMany('Modules\Employee\Entities\EmployeeWorkHistoryInCompany'); 
+		return $this->hasMany('Modules\Employee\Entities\EmployeeWorkHistoryInCompany','employees_master_id'); 
 	}
 
 	public function employee_educational_background(){
-		return $this->hasMany('Modules\Employee\Entities\EmployeeEducationalBackground'); 
+		return $this->hasMany('Modules\Employee\Entities\EmployeeEducationalBackground','employees_master_id'); 
 	}
 
 	public function employee_previous_job_experience(){
-		return $this->hasMany('Modules\Employee\Entities\EmployeePreviousJobExperience'); 
+		return $this->hasMany('Modules\Employee\Entities\EmployeePreviousJobExperience','employees_master_id'); 
 	}
 	
 	public function employee_job_info(){

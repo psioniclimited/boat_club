@@ -30,7 +30,7 @@ class EmployeeSalaryInformation extends Model
 		return $this->belongsTo('Modules\Organization\Entities\SalaryGradeMaster','salary_grade_master_id'); 
 	}
 	
-	public function salary_grade_master(){
+	public function employee_salary_details(){
 		return $this->hasMany('Modules\Employee\Entities\EmployeeSalaryDetails'); 
 	}
 	

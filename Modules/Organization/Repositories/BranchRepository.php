@@ -10,6 +10,7 @@ use Modules\Organization\Entities\Designation;
 use Modules\Organization\Entities\PostOffice;
 use Modules\Organization\Entities\SalaryHead;
 use Modules\Organization\Entities\SalaryGradeMaster;
+use Modules\Organization\Entities\WorkShift;
 
 use Modules\Organization\Entities\HolidayList;
 use Modules\Organization\Entities\WeekHolidayMaster; 
@@ -22,6 +23,11 @@ class BranchRepository{
 	public function getAllBranchs($attribute, $value, $columns = ['*']){
 		$branch = Branch::where($attribute, "LIKE", "%{$value}%")->get($columns);
 		return $branch;
+	}
+	
+	public function getAllWorkShifts($attribute, $value, $columns = ['*']){
+		$work_shifts = WorkShift::where($attribute, "LIKE", "%{$value}%")->get($columns);
+		return $work_shifts;
 	}
 	public function getAllDistricts($attribute, $value, $columns = ['*']){
 		$districts = District::where($attribute, "LIKE", "%{$value}%")->get($columns);

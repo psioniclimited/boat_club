@@ -5,6 +5,10 @@ namespace Modules\Employee\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Modules\Employee\Entities\EmployeeMaster;
+use Modules\Employee\Entities\EmployeeJobInfo;
+use Modules\Employee\Entities\EmployeeSalaryInformation;
+
 use Validator;
 class EmployeeController extends Controller
 {
@@ -35,13 +39,42 @@ class EmployeeController extends Controller
      * the second level validation checks the redundant elements that is the table data 
      */
     public function store(\Modules\Employee\Http\Requests\EmployeeCreateRequest $request)
-    { 
+    {   
         $tableValidation=$this->validateTableData($request);
         if($tableValidation[0]==false){ 
             return response()->json(['error' => $tableValidation[1]]); 
         }
 
-       // dd($request->all());
+        $employees_master=EmployeeMaster::create($request->all()); 
+         
+        $data=$request->all();
+
+        $data['employees_master_id']=$employees_master->id;
+        $employee_job_info=EmployeeJobInfo::create($data);
+
+        $data['employee_job_info_id']=$employee_job_info->id;
+        $employee_salary_info=EmployeeSalaryInformation::create($data);
+
+        $employee_salary_info->employee_salary_details()->createMany(json_decode($request->salary_details,true));
+
+        $this->batchInsert($employees_master->employee_family_members(),$request->family_information);
+
+        $this->batchInsert($employees_master->employee_educational_background(),$request->educational_background);
+        
+        $this->batchInsert($employees_master->employee_previous_job_experience(),$request->previous_work_history);
+
+        $this->batchInsert($employees_master->employee_work_history_inside_company(),$request->history_inside_organization);
+
+        return response()->json(['error' => "none"]);  
+    }
+
+    public function batchInsert($tableObject,$data){
+
+        $data=json_decode($data,true);
+        if(!empty($data[0])){
+            $tableObject->createMany($data);
+        }
+
     }
 
     public $tableValidationRules=[
@@ -157,10 +190,10 @@ class EmployeeController extends Controller
 
     public function validateDetails($data,$rules){
 
-     $validator = Validator::make($data,$rules);
+       $validator = Validator::make($data,$rules);
 
-     if ($validator->fails())
-     { 
+       if ($validator->fails())
+       { 
         return false;
     }
     return true;
