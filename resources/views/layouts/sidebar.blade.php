@@ -148,7 +148,7 @@
   </a>
   <ul class="treeview-menu">  
    <li><a href="{{URL::to('/employee')}}">Employee List</a></li>
-   <li><a href="{{URL::to('/employee/create')}}">Create Employee</a></li>
+   <li><a href="{{URL::to('/create_employee')}}">Create Employee</a></li>
  </ul>
 </li>
 

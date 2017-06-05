@@ -692,22 +692,25 @@ previewImage = function(event) {
         data: formData,
         processData: false,
         contentType: false,  
-        url: "{{URL::to('/employee')}}",
+        url: "{{URL::to('/employee')}}", 
         success:function(data){ 
           // console.log(data.error); 
           if(data.error!="none" || data.error!=undefined){ 
             $("#table-remarks .alert_message").html(data.error);  
             $("#table-remarks").css("display","block").delay(10000).fadeOut(400);
           }else{
-           window.location.href = data.redirect;
+           // window.location.href = data.redirect;
+           // window.location.replace(data.redirect);
+           alert("hi");
+           window.location.href = "http://stackoverflow.com";
          }
 
        }, 
        error: function(data){
-
-          // if backend validation fails then the errors will be shown
-          var errors = data.responseJSON;
-          var errorsHtml="";
+ 
+            // if backend validation fails then the errors will be shown
+            var errors = data.responseJSON;
+            var errorsHtml="";
           // console.log(errors);
           // Render the errors with js ...
 
@@ -717,8 +720,9 @@ previewImage = function(event) {
           $("#table-remarks .alert_message").html(""); 
           $("#table-remarks .alert_message").html("<ul>"+errorsHtml+"</ul>");  
           $("#table-remarks").css("display","block").delay(10000).fadeOut(400);
-        }        
-      });
+ 
+      }        
+    });
     }
   }); //document ready
 </script>

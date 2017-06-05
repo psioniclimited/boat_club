@@ -57,7 +57,18 @@ class EmployeeMaster extends Model
 	}
 	
 	public function employee_job_info(){
-		return $this->hasMany('Modules\Employee\Entities\EmployeeJobInfo'); 
+		return $this->hasMany('Modules\Employee\Entities\EmployeeJobInfo','employees_master_id'); 
+	}
+
+
+
+	public function setEmployeeImageAttribute($value)
+	{    
+		if(!empty($employee_image)){ 
+			$filename=uniqid('employee_').".".File::extension($value->getClientOriginalName());  
+			$value->move('uploads/employee_image', $filename);
+			$this->attributes['employee_image'] = $filename;
+		}
 	}
 
 	// public function getCreatedAtAttribute($value)

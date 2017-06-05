@@ -30,7 +30,10 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Emp
 	Route::resource('/offer_letter', 'OfferLetterController');
 	
 
+	Route::get('/create_employee', 'EmployeeController@createEmployee');
 	Route::get('check_unique_employee_code','EmployeeController@checkUniqueEmployeeCode');
+	Route::get('/employee/get_all_employees', 'EmployeeController@getAllEmployees');
 	Route::resource('/employee', 'EmployeeController');
+
 
 });

@@ -33,8 +33,6 @@ class EmployeeWorkHistoryInCompany extends Model
 		return $this->belongsTo('Modules\Employee\Entities\EmployeeMaster','employees_master_id'); 
 	}
 
-
-
 	public function setDateAttribute($value)
 	{     
 		$date=date_create($value);  
