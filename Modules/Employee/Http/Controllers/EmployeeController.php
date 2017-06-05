@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use Modules\Employee\Entities\EmployeeMaster;
 use Modules\Employee\Entities\EmployeeJobInfo;
 use Modules\Employee\Entities\EmployeeSalaryInformation;
+use Modules\Employee\Entities\EmployeeWorkHistoryInCompany;
 
 use Validator;
 class EmployeeController extends Controller
@@ -40,6 +41,7 @@ class EmployeeController extends Controller
      */
     public function store(\Modules\Employee\Http\Requests\EmployeeCreateRequest $request)
     {   
+         
         $tableValidation=$this->validateTableData($request);
         if($tableValidation[0]==false){ 
             return response()->json(['error' => $tableValidation[1]]); 
@@ -55,6 +57,10 @@ class EmployeeController extends Controller
         $data['employee_job_info_id']=$employee_job_info->id;
         $employee_salary_info=EmployeeSalaryInformation::create($data);
 
+        //initialize employee history 
+        $data['remarks']="Joined the Organization";
+        EmployeeWorkHistoryInCompany::create($data);
+        
         $employee_salary_info->employee_salary_details()->createMany(json_decode($request->salary_details,true));
 
         $this->batchInsert($employees_master->employee_family_members(),$request->family_information);
@@ -65,7 +71,8 @@ class EmployeeController extends Controller
 
         $this->batchInsert($employees_master->employee_work_history_inside_company(),$request->history_inside_organization);
 
-        return response()->json(['error' => "none"]);  
+        // return response()->json(['error' => "none"]); 
+        return redirect('/employee_list'); 
     }
 
     public function batchInsert($tableObject,$data){
@@ -76,6 +83,7 @@ class EmployeeController extends Controller
         }
 
     }
+
 
     public $tableValidationRules=[
     array(

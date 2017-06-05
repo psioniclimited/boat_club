@@ -20,6 +20,16 @@ class EmployeePreviousJobExperience extends Model
 	}
 
 
+	public function setFromDateAttribute($value)
+	{     
+		$date=date_create($value);  
+		$this->attributes['from_date'] = date_format($date,"Y-m-d");
+	}
 	
+	public function setToDateAttribute($value)
+	{     
+		$date=date_create($value);  
+		$this->attributes['to_date'] = date_format($date,"Y-m-d");
+	}
 
 }

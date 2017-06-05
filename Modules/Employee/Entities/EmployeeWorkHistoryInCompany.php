@@ -34,4 +34,10 @@ class EmployeeWorkHistoryInCompany extends Model
 	}
 
 
+
+	public function setDateAttribute($value)
+	{     
+		$date=date_create($value);  
+		$this->attributes['date'] = date_format($date,"Y-m-d");
+	}
 }

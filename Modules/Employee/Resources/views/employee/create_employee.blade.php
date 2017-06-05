@@ -442,12 +442,14 @@ var selector_counter=1;
       var arr=[]; 
       arr.push('<div><select id="department_branch_id_'+selector_counter+'" class="department_branch_id form-control table-form"></select></div>');
       arr.push('<div><select id="department_id_'+selector_counter+'"  class="department_id form-control table-form"></select></div>');
-      arr.push('<div><select id="designation_id_'+selector_counter+'" class="designation_id form-control table-form"></select></div>');
+      arr.push('<div><select id="designation_id_'+selector_counter+'" class="designation_id form-control table-form"></select></div>'); 
+      arr.push('<input class="form-control date" type="text"  placeholder="Date">'); 
       arr.push('<input class="form-control remarks" type="text"  placeholder="Remarks">'); 
       arr.push('<button class="btn btn-xs btn-danger pull-left deleteHistoryInsideOrganisationButton" >Delete Row</button>'); 
 
 
       work_history_inside_organization_table.row.add(arr).draw( false );
+
 
 
       var table_department_branch_id=$('#department_branch_id_'+selector_counter); 
@@ -467,7 +469,8 @@ var selector_counter=1;
         selector_id:table_department_id,
         value_id:$('#department_branch_id_'+selector_counter)
       }
-
+      var date=$('.date'); 
+      date.datepicker();
   // initialize select2 for post_office_id
   init_select2_with_one_parameter(parameters);
 
@@ -569,7 +572,7 @@ previewImage = function(event) {
     //if any input is wrong then it will return false message
     $('#history_inside_organization_table > tbody  > tr').each(function() {   
       if($(this).find(".remarks").val()!=undefined){      
-        if ($(this).find(".department_branch_id").val()==null || $(this).find(".designation_id").val()==null  || $(this).find(".department_id").val()==null  || $(this).find(".remarks").val()=="" ) {
+        if ($(this).find(".department_branch_id").val()==null || $(this).find(".designation_id").val()==null  || $(this).find(".department_id").val()==null  || $(this).find(".remarks").val()=="" || $(this).find(".date").val()=="" ) {
           return returnMessage=[false,'The History Inside Organization Table form is incomplete. Check if you missed giving any input.'];
         } 
       }
@@ -600,64 +603,6 @@ previewImage = function(event) {
     formData.append('family_information',generateJsonStringFromTables('family_information_table'));
     formData.append('previous_work_history',generateJsonStringFromTables('previous_work_history_table'));
     
-
-
-    // var form_data={
-    //   // "employee_image":$("#employee_image").val(),
-    //   "employee_image":formData['employee_image'],
-    //   "employee_series_id":$("#employee_series_id").val(),
-    //   "employee_code":$("#employee_code").val(),
-    //   "can_login":$("#can_login").val(),
-    //   "salutation_id":$("#salutation_id").val(),
-    //   "employee_fullname":$("#employee_fullname").val(),
-    //   "personal_email":$("#personal_email").val(),
-    //   "contact_number":$("#contact_number").val(),
-    //   "date_of_birth":$("#date_of_birth").val(),
-    //   "passport":$("#passport").val(),
-    //   "passport_issue_place":$("#passport_issue_place").val(),
-    //   "passport_issue_date":$("#passport_issue_date").val(),
-    //   "passport_valid_upto":$("#passport_valid_upto").val(),
-    //   "marital_status_id":$("#marital_status_id").val(),
-    //   "religion_id":$("#religion_id").val(),
-    //   "blood_group_id":$("#blood_group_id").val(),
-    //   "bio":$("#bio").val(),
-    //   "present_address":$("#present_address").val(),
-    //   "permanent_address":$("#permanent_address").val(),
-    //   "health_details":$("#health_details").val(),
-    //   "emergency_contact_name":$("#emergency_contact_name").val(),
-    //   "emergency_contact_relation":$("#emergency_contact_relation").val(),
-    //   "emergency_contact_number":$("#emergency_contact_number").val(),
-    //   "offer_date":$("#offer_date").val(),
-    //   "confirmation_date":$("#confirmation_date").val(),
-    //   "date_of_joining":$("#date_of_joining").val(),
-    //   "retirement_date":$("#retirement_date").val(),
-    //   "contract_end_date":$("#contract_end_date").val(),
-    //   "employment_type_id":$("#employment_type_id").val(),
-    //   "department_branch_id":$("#department_branch_id").val(),
-    //   "department_id":$("#department_id").val(),
-    //   "designation_id":$("#designation_id").val(),
-    //   "holiday_list_id":$("#holiday_list_id").val(),
-    //   "week_holiday_master_id":$("#week_holiday_master_id").val(),
-    //   "company_email":$("#company_email").val(),
-    //   "notice_day":$("#notice_day").val(),
-    //   "salary_grade_master_id":$("#salary_grade_master_id").val(),
-    //   "basic_salary":$("#basic_salary").val(),
-    //   "hourly_pay_rate":$("#hourly_pay_rate").val(),
-    //   "overtime_rate":$("#overtime_rate").val(),
-    //   "weekly_overtime_hour_limit":$("#weekly_overtime_hour_limit").val(),
-    //   "payment_mode_id":$("#payment_mode_id").val(),
-    //   "employee_bank_name":$("#employee_bank_name").val(),
-    //   "employee_bank_branch":$("#employee_bank_branch").val(),
-    //   "employee_bank_acc":$("#employee_bank_acc").val(),
-    //   "final_leave_encashed":$("#final_leave_encashed").val(),
-    //   "final_leave_encashed_date":$("#final_leave_encashed_date").val(),
-    //   "salary_details":generateJsonStringFromTables('salary_details_table'),
-    //   "educational_background":generateJsonStringFromTables('educational_background_table'),
-    //   "previous_work_history":generateJsonStringFromTables('educational_background_table'),
-    //   "history_inside_organization":generateJsonStringFromTables('history_inside_organization_table'),
-    //   "family_information":generateJsonStringFromTables('family_information_table'),
-    // };
-
     return formData;
   }
 
@@ -717,9 +662,9 @@ previewImage = function(event) {
   $(document).ready(function(){
     $('#btn-submit').on('click',function(e){
 
-      // if(!$('#add_employe_form').valid()){ 
-      //   return;
-      // }   
+      if(!$('#add_employe_form').valid()){ 
+        return;
+      }   
 
       var validation_result=validateAllTableData();
       if(validation_result[0]==false){
@@ -752,7 +697,9 @@ previewImage = function(event) {
           // console.log(data.error); 
           if(data.error!="none" || data.error!=undefined){ 
             $("#table-remarks .alert_message").html(data.error);  
-           $("#table-remarks").css("display","block").delay(10000).fadeOut(400);
+            $("#table-remarks").css("display","block").delay(10000).fadeOut(400);
+          }else{
+           window.location.href = data.redirect;
          }
 
        }, 

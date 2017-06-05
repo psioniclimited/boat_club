@@ -5,6 +5,7 @@
                           <th>Branch</th>
                           <th>Department</th>
                           <th>Designation</th>
+                          <th>Date</th>
                           <th>Remarks</th>
                           <th>Action</th>  
                         </tr>
@@ -14,6 +15,7 @@
                           <th>Branch</th>
                           <th>Department</th>
                           <th>Designation</th>
+                          <th>Date</th>
                           <th>Remarks</th>
                           <th>Action</th>  
                         </tr>
