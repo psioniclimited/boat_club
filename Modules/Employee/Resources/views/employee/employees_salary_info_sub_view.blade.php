@@ -47,8 +47,11 @@
                       <div class="form-group @if ($errors->has('payment_mode_id')) has-error @endif">
                         <label for="name" class="control-label">Payment Mode*</label>
                         <select class="form-control" id="payment_mode_id" name="payment_mode_id" > 
-                          <option value="1">Cash</option>
-                          <option value="2">Bamk</option>
+
+
+                          @foreach($payment_modes as $row)
+                          <option value="{{$row->id}}">{{$row->payment_mode_name}}</option>  
+                          @endforeach 
                         </select>                 
                         @if ($errors->has('payment_mode_id')) <p class="help-block">{{ $errors->first('payment_mode_id') }}</p> @endif                             
                       </div> 

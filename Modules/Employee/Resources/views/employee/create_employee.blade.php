@@ -58,10 +58,10 @@ Create Employee
                   <li><a data-toggle="tab" href="#job_info">Job Info</a></li>
                   <li><a data-toggle="tab" href="#salary_info">Salary Info</a></li>
                   <li><a data-toggle="tab" href="#salary_details">Salary Details</a></li>
-                  <li><a data-toggle="tab" href="#educational_background">Educational Background</a></li>
+                  <li><a data-toggle="tab" href="#educational_background">Educations</a></li>
                   <li><a data-toggle="tab" href="#previous_work_history">Previous Work History</a></li>
                   <li><a data-toggle="tab" href="#history_inside_organization">History Inside Organization</a></li>
-                  <li><a data-toggle="tab" href="#family_information">Family Information</a></li>
+                  <li><a data-toggle="tab" href="#family_information">Family Info</a></li>
                 </ul>
 
                 <div class="tab-content">
@@ -706,7 +706,7 @@ previewImage = function(event) {
 
        }, 
        error: function(data){ 
-        
+
             // if backend validation fails then the errors will be shown
             var errors = data.responseJSON;
             var errorsHtml="";
@@ -719,9 +719,9 @@ previewImage = function(event) {
           $("#table-remarks .alert_message").html(""); 
           $("#table-remarks .alert_message").html("<ul>"+errorsHtml+"</ul>");  
           $("#table-remarks").css("display","block").delay(10000).fadeOut(400);
- 
-      }        
-    });
+
+        }        
+      });
     }
   }); //document ready
 </script>

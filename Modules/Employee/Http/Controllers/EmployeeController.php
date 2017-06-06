@@ -9,6 +9,13 @@ use Modules\Employee\Entities\EmployeeMaster;
 use Modules\Employee\Entities\EmployeeJobInfo;
 use Modules\Employee\Entities\EmployeeSalaryInformation;
 use Modules\Employee\Entities\EmployeeWorkHistoryInCompany;
+use Modules\Employee\Entities\EmployeeSeries;
+use Modules\Employee\Entities\EmploymentType;
+use Modules\Employee\Entities\PaymentMode;
+use Modules\Employee\Entities\Salutation;
+use Modules\Employee\Entities\MaritalStatus;
+use Modules\Employee\Entities\Religion;
+use Modules\Employee\Entities\BloodGroup;
 use Datatables; 
 use URL;
 use \Modules\Helpers\DatatableHelper;
@@ -34,7 +41,16 @@ class EmployeeController extends Controller
     }
     public function createEmployee()
     {
-        return view('employee::employee.create_employee');
+
+        return view('employee::employee.create_employee',[
+            'salutations'=>Salutation::all(),
+            'employee_serieses'=>EmployeeSeries::all(),
+            'employment_types'=>EmploymentType::all(),
+            'payment_modes'=>PaymentMode::all(),
+            'marital_statuses'=>MaritalStatus::all(),
+            'religions'=>Religion::all(),
+            'blood_groups'=>BloodGroup::all(),
+            ]);
     }
 
 
@@ -49,7 +65,7 @@ class EmployeeController extends Controller
 
     public function store(\Modules\Employee\Http\Requests\EmployeeCreateRequest $request)
     {   
- 
+
         $tableValidation=$this->validateTableData($request);
         if($tableValidation[0]==false){ 
             return response()->json(['error' => $tableValidation[1]]); 
@@ -64,7 +80,7 @@ class EmployeeController extends Controller
 
         $data['employee_job_info_id']=$employee_job_info->id;
         $employee_salary_info=EmployeeSalaryInformation::create($data);
- 
+
         $data['remarks']="Joined the Organization";
         EmployeeWorkHistoryInCompany::create($data);
         
@@ -77,7 +93,7 @@ class EmployeeController extends Controller
         $this->batchInsert($employees_master->employee_previous_job_experience(),$request->previous_work_history);
 
         $this->batchInsert($employees_master->employee_work_history_inside_company(),$request->history_inside_organization);
- 
+
         return response()->json(['redirect' => URL::to('/employee')], 200);
     }
 
@@ -189,30 +205,36 @@ class EmployeeController extends Controller
      * Remove the specified resource from storage.
      * @return Response
      */
-    public function destroy()
+    public function destroy(Request $request, EmployeeMaster $employee)
     {
-
+     $employee->delete();
+     $request->session()->flash('status', 'Task was successful!');  
     }
 
-    public function checkUniqueEmployeeCode(Request $request)
-    {  
-        // $employee_code=$request->employee_code;
-
+ public function checkUniqueEmployeeCode(Request $request)
+ {  
+    
+    $employee_code=$request->employee_code;
+    $flight = EmployeeMaster::where('employee_code', $employee_code)->first();
+    if (empty($flight)) {
         return response()->json(false);
-        
+    }else{
+        return response()->json(true);
     }
 
+}
 
-    public function validateDetails($data,$rules){
 
-        $validator = Validator::make($data,$rules);
+public function validateDetails($data,$rules){
 
-        if ($validator->fails())
-        { 
-            return false;
-        }
-        return true;
+    $validator = Validator::make($data,$rules);
+
+    if ($validator->fails())
+    { 
+        return false;
     }
+    return true;
+}
 
 public function getAllEmployees(DatatableHelper $databaseHelper){
     $employees = EmployeeMaster::with('employee_series','employee_job_info.department.branch','employee_job_info.designation'); 

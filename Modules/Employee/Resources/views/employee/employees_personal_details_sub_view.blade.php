@@ -38,8 +38,9 @@
               <div class="form-group @if ($errors->has('salutation_id')) has-error @endif">
                 <label for="name" class="control-label">Salutation*</label>
                 <select class="form-control" id="salutation_id" name="salutation_id">
-                  <option value="1">Mr.</option>  
-                  <option value="1">Mrs.</option>  
+                  @foreach($salutations as $row)
+                  <option value="{{$row->id}}">{{$row->salutation_name}}</option>  
+                  @endforeach 
                 </select>   
                 @if ($errors->has('salutation_id')) <p class="help-block">{{ $errors->first('salutation_id') }}</p> @endif                             
               </div>
@@ -114,8 +115,10 @@
               <div class="form-group @if ($errors->has('marital_status_id')) has-error @endif">
                 <label for="name" class="control-label">Marital Status</label>
                 <select class="form-control" id="marital_status_id" name="marital_status_id">
-                  <option value="1">Married</option>  
-                  <option value="1">Single</option>  
+
+                  @foreach($marital_statuses as $row)
+                  <option value="{{$row->id}}">{{$row->marital_status_name}}</option>  
+                  @endforeach 
                 </select>   
                 @if ($errors->has('marital_status_id')) <p class="help-block">{{ $errors->first('marital_status_id') }}</p> @endif                             
               </div>
@@ -125,8 +128,9 @@
               <div class="form-group @if ($errors->has('religion_id')) has-error @endif">
                 <label for="name" class="control-label">Religion*</label>
                 <select class="form-control" id="religion_id" name="religion_id">
-                  <option value="1">Muslim</option>  
-                  <option value="1">Hindu</option>  
+                  @foreach($religions as $row)
+                  <option value="{{$row->id}}">{{$row->religion_name}}</option>  
+                  @endforeach                  
                 </select>   
                 @if ($errors->has('religion_id')) <p class="help-block">{{ $errors->first('religion_id') }}</p> @endif                             
               </div>
@@ -136,8 +140,9 @@
               <div class="form-group @if ($errors->has('blood_group_id')) has-error @endif">
                 <label for="name" class="control-label">Blood Group</label>
                 <select class="form-control" id="blood_group_id" name="blood_group_id">
-                  <option value="1">AB+</option>  
-                  <option value="1">A+</option>  
+                  @foreach($blood_groups as $row)
+                  <option value="{{$row->id}}">{{$row->blood_group_name}}</option>  
+                  @endforeach    
                 </select>   
                 @if ($errors->has('blood_group_id')) <p class="help-block">{{ $errors->first('blood_group_id') }}</p> @endif                             
               </div>

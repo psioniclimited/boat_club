@@ -45,9 +45,10 @@
                   <div class="form-group @if ($errors->has('employment_type_id')) has-error @endif">
                     <label for="name" class="control-label">Employment Type*</label>
                     <select class="form-control" id="employment_type_id" name="employment_type_id" > 
-                      <option value="1">Internship</option>
-                      <option value="2">Permanent</option>
-                      <option value="3">Contractual</option>
+
+                      @foreach($employment_types as $row)
+                      <option value="{{$row->id}}">{{$row->employment_type_name}}</option>  
+                      @endforeach 
                     </select>                 
                     @if ($errors->has('department_branch_id')) <p class="help-block">{{ $errors->first('department_branch_id') }}</p> @endif                             
                   </div> 
@@ -82,7 +83,7 @@
                 </div><!-- /.col-md-6 -->
                 <div class="col-md-6"> 
                   <div class="form-group @if ($errors->has('work_shift_id')) has-error @endif">
-                  <label for="name" class="control-label">Work Shift*</label>
+                    <label for="name" class="control-label">Work Shift*</label>
                     <select class="form-control" id="work_shift_id" name="work_shift_id" > 
                     </select>                 
                     @if ($errors->has('work_shift_id')) <p class="help-block">{{ $errors->first('work_shift_id') }}</p> @endif                             
