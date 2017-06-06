@@ -8,6 +8,8 @@ use Illuminate\Routing\Controller;
 use Modules\Employee\Entities\JobOpening;
 use Modules\Employee\Entities\JobApplicant;
 use Modules\Employee\Entities\OfferLetter;
+use Modules\Employee\Entities\EmployeeJobInfo;
+
 use Modules\Employee\Repositories\JobOpeningRepository;
 use Modules\Employee\Repositories\JobApplicantRepository;
 use Modules\Employee\Repositories\FamilyRelationRepository;
@@ -65,6 +67,8 @@ class AutoCompleteController extends Controller
 		->find($offer_letter_id)->department;
 		return response()->json($department);
 	}
+
+
 	public function getDesignationOfOfferLetter(Request $request)
 	{   
 		$offer_letter_id = $request->input('offer_letter_id');
@@ -73,6 +77,72 @@ class AutoCompleteController extends Controller
 		}])
 		->find($offer_letter_id)->designation;
 		return response()->json($designation);
+	}
+
+
+	public function getDepartmentBranchOfEmPloyeeJobInfo(Request $request)
+	{   
+		$employee_job_info = $request->input('employee_job_info');
+
+		$branch= EmployeeJobInfo::with(['branch'=> function($query){
+			$query->select('id', 'branch_name as text'); 
+		}])
+		->find($employee_job_info)->branch;
+		return response()->json($branch);
+	}
+
+	public function getDepartmentOfEmPloyeeJobInfo(Request $request)
+	{   
+		$employee_job_info = $request->input('employee_job_info');
+
+		$department= EmployeeJobInfo::with(['department'=> function($query){
+			$query->select('id', 'department_name as text'); 
+		}])
+		->find($employee_job_info)->department;
+		return response()->json($department);
+	}
+
+	public function getDesignationOfEmPloyeeJobInfo(Request $request)
+	{   
+		$employee_job_info = $request->input('employee_job_info');
+
+		$designation= EmployeeJobInfo::with(['designation'=> function($query){
+			$query->select('id', 'designation_name as text'); 
+		}])
+		->find($employee_job_info)->designation;
+		return response()->json($designation);
+	}
+	public function getWorkShiftOfEmPloyeeJobInfo(Request $request)
+	{   
+		$employee_job_info = $request->input('employee_job_info');
+
+		$work_shift= EmployeeJobInfo::with(['work_shift'=> function($query){
+			$query->select('id', 'shift_name as text'); 
+		}])
+		->find($employee_job_info)->work_shift;
+		return response()->json($work_shift);
+	}
+
+	public function getHolidayListOfEmPloyeeJobInfo(Request $request)
+	{   
+		$employee_job_info = $request->input('employee_job_info');
+
+		$holiday= EmployeeJobInfo::with(['holiday_list'=> function($query){
+			$query->select('id', 'holiday_list_name as text'); 
+		}])
+		->find($employee_job_info)->holiday_list;
+		return response()->json($holiday);
+	}
+
+		public function getWeekHolidayOfEmPloyeeJobInfo(Request $request)
+	{   
+		$employee_job_info = $request->input('employee_job_info');
+
+		$week_holiday_master= EmployeeJobInfo::with(['week_holiday_master'=> function($query){
+			$query->select('id', 'week_holiday_master_name as text'); 
+		}])
+		->find($employee_job_info)->week_holiday_master;
+		return response()->json($week_holiday_master);
 	}
 
 }

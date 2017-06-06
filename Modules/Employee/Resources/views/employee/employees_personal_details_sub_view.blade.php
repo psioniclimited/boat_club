@@ -13,7 +13,9 @@
               <div class="form-group @if ($errors->has('employee_series_id')) has-error @endif">
                 <label for="name" class="control-label">Employee Series*</label>
                 <select class="form-control" id="employee_series_id" name="employee_series_id">
-                  <option value="1">EMP/</option>  
+                  @foreach($employee_serieses as $row)
+                  <option value="{{$row->id}}">{{$row->employee_series_name}}</option>  
+                  @endforeach 
                 </select>   
                 @if ($errors->has('employee_series_id')) <p class="help-block">{{ $errors->first('employee_series_id') }}</p> @endif                             
               </div>

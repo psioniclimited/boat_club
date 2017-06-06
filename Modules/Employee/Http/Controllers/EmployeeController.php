@@ -187,9 +187,18 @@ class EmployeeController extends Controller
      * Show the form for editing the specified resource.
      * @return Response
      */
-    public function edit()
+    public function edit(EmployeeMaster $employee)
     {
-        return view('employee::edit');
+        // dd($employee->->offer_date);
+        return view('employee::employee.edit_employee',['employee'=>$employee,
+          'salutations'=>Salutation::all(),
+          'employee_serieses'=>EmployeeSeries::all(),
+          'employment_types'=>EmploymentType::all(),
+          'payment_modes'=>PaymentMode::all(),
+          'marital_statuses'=>MaritalStatus::all(),
+          'religions'=>Religion::all(),
+          'blood_groups'=>BloodGroup::all()
+          ]);
     }
 
     /**
@@ -209,11 +218,11 @@ class EmployeeController extends Controller
     {
      $employee->delete();
      $request->session()->flash('status', 'Task was successful!');  
-    }
+ }
 
  public function checkUniqueEmployeeCode(Request $request)
  {  
-    
+
     $employee_code=$request->employee_code;
     $flight = EmployeeMaster::where('employee_code', $employee_code)->first();
     if (empty($flight)) {

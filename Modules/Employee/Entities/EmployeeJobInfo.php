@@ -33,6 +33,19 @@ class EmployeeJobInfo extends Model
 	{  
 		return $this->belongsTo('Modules\Organization\Entities\Designation','designation_id'); 
 	}
+	public function work_shift()
+	{  
+		return $this->belongsTo('Modules\Organization\Entities\WorkShift','work_shift_id'); 
+	}
+	public function holiday_list()
+	{  
+		return $this->belongsTo('Modules\Organization\Entities\HolidayList','holiday_list_id'); 
+	}
+	
+	public function week_holiday_master()
+	{  
+		return $this->belongsTo('Modules\Organization\Entities\WeekHolidayMaster','week_holiday_master_id'); 
+	}
 
 	public function employees_master()
 	{  
@@ -48,6 +61,8 @@ class EmployeeJobInfo extends Model
 	{  
 		return $this->hasMany('Modules\Employee\Entities\EmployeeSalaryInformation'); 
 	}
+
+
 
 
 

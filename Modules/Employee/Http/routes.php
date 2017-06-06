@@ -18,6 +18,15 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Emp
 
 
 
+	Route::get('/employee_job_info/auto/department_branch_id', 'AutoCompleteController@getDepartmentBranchOfEmPloyeeJobInfo'); 
+	Route::get('/employee_job_info/auto/department', 'AutoCompleteController@getDepartmentOfEmPloyeeJobInfo'); 
+	Route::get('/employee_job_info/auto/designation', 'AutoCompleteController@getDesignationOfEmPloyeeJobInfo'); 
+	Route::get('/employee_job_info/auto/work_shift', 'AutoCompleteController@getWorkShiftOfEmPloyeeJobInfo'); 
+	Route::get('/employee_job_info/auto/holiday_list', 'AutoCompleteController@getHolidayListOfEmPloyeeJobInfo'); 
+	Route::get('/employee_job_info/auto/week_holiday', 'AutoCompleteController@getWeekHolidayOfEmPloyeeJobInfo'); 
+
+
+
 
 	Route::get('/job_opening/get_all_job_openings', 'JobOpeningController@getAllJobOpenings');  
 	Route::resource('/job_opening', 'JobOpeningController');
