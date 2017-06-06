@@ -122,8 +122,8 @@ List of employees
       "render": function ( data, type, full, meta ) {
         // console.log( full.employee_job_info[0].date_of_joining);
         var tag="";
-        // console.log( full);
-        if (data!="") {
+        console.log( data);
+        if (data!="") { 
           tag='<img src="uploads/employee_emage/"'+data +'class="img-responsive" height="150px" width="150px">';
         }else{
           tag='<img src="http://via.placeholder.com/150x150" class="text-centered img-responsive" height="150px" width="100px">';

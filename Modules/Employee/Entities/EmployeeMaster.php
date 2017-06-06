@@ -64,7 +64,7 @@ class EmployeeMaster extends Model
 
 	public function setEmployeeImageAttribute($value)
 	{    
-		if(!empty($employee_image)){ 
+		if(!empty($value)){ 
 			$filename=uniqid('employee_').".".File::extension($value->getClientOriginalName());  
 			$value->move('uploads/employee_image', $filename);
 			$this->attributes['employee_image'] = $filename;
