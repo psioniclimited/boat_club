@@ -3,7 +3,7 @@
 namespace Modules\Employee\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Http\Response; 
 use Illuminate\Routing\Controller;
 use Modules\Employee\Entities\EmployeeMaster;
 use Modules\Employee\Entities\EmployeeJobInfo;
@@ -12,7 +12,7 @@ use Modules\Employee\Entities\EmployeeWorkHistoryInCompany;
 use Datatables; 
 use URL;
 use \Modules\Helpers\DatatableHelper;
-use Validator;
+use Validator; 
 class EmployeeController extends Controller
 {
     /**
@@ -49,7 +49,7 @@ class EmployeeController extends Controller
 
     public function store(\Modules\Employee\Http\Requests\EmployeeCreateRequest $request)
     {   
-
+ 
         $tableValidation=$this->validateTableData($request);
         if($tableValidation[0]==false){ 
             return response()->json(['error' => $tableValidation[1]]); 
@@ -77,11 +77,8 @@ class EmployeeController extends Controller
         $this->batchInsert($employees_master->employee_previous_job_experience(),$request->previous_work_history);
 
         $this->batchInsert($employees_master->employee_work_history_inside_company(),$request->history_inside_organization);
-
-        // return response()->json('success'); 
-        // return json_encode(value)(); 
-        // return redirect('/employee'); 
-        return redirect()->back();
+ 
+        return response()->json(['redirect' => URL::to('/employee')], 200);
     }
 
     public function batchInsert($tableObject,$data){

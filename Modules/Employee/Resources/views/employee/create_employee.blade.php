@@ -692,22 +692,21 @@ previewImage = function(event) {
         data: formData,
         processData: false,
         contentType: false,  
+        dataType: "JSON",  
         url: "{{URL::to('/employee')}}", 
-        success:function(data){ 
-          // console.log(data.error); 
-          if(data.error!="none" || data.error!=undefined){ 
+        success:function(data){    
+
+          if(data.error!=undefined){ 
+            alert("jipl");
             $("#table-remarks .alert_message").html(data.error);  
             $("#table-remarks").css("display","block").delay(10000).fadeOut(400);
-          }else{
-           // window.location.href = data.redirect;
-           // window.location.replace(data.redirect);
-           alert("hi");
-           window.location.href = "http://stackoverflow.com";
+          }else{ 
+           window.location.replace(data.redirect); 
          }
 
        }, 
-       error: function(data){
- 
+       error: function(data){ 
+        
             // if backend validation fails then the errors will be shown
             var errors = data.responseJSON;
             var errorsHtml="";
