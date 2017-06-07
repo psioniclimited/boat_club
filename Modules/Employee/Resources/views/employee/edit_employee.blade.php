@@ -80,7 +80,7 @@ Edit Employee
                 
                 <div id="salary_info" class="tab-pane fade">
                   <div class="bhoechie-tab-content"> 
-                    @include('employee::employee.employees_salary_info_sub_view')
+                    @include('employee::employee.edit_employees_salary_info_sub_view')
                   </div>
                 </div>
 
@@ -156,6 +156,12 @@ Edit Employee
 
 <script>
   $(document).ready(function(){
+
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
 
     $("#bio").wysihtml5();
   //iCheck for checkbox and radio inputs
@@ -295,7 +301,7 @@ $.get( "{{URL::to('/employee_job_info/auto/department')}}", { employee_job_info:
   var week_holiday_master_id=$('#week_holiday_master_id'); 
 
 
-    $.get( "{{URL::to('/employee_job_info/auto/week_holiday')}}", { employee_job_info: {{$employee->employee_job_info[0]->id}} } ,function( data ) {
+  $.get( "{{URL::to('/employee_job_info/auto/week_holiday')}}", { employee_job_info: {{$employee->employee_job_info[0]->id}} } ,function( data ) {
     init_select2_with_default_value({
       default_value: data,
       placeholder: "Week Holiday",
@@ -315,14 +321,24 @@ $.get( "{{URL::to('/employee_job_info/auto/department')}}", { employee_job_info:
   // init_select2(parameters);
 
   var salary_grade_master_id=$('#salary_grade_master_id'); 
-  parameters = { 
-    placeholder: "Salary Grade Holiday",
-    url: '{{URL::to("/salary_grade/auto/get_salary_grades")}}',
-    selector_id:salary_grade_master_id, 
-    data:{}
-  }
 
-  init_select2(parameters);
+  $.get( "{{URL::to('/employee_salary_info/auto/salary_grade')}}", { employee_salary_info: {{$employee->employee_job_info[0]->employee_salary_information[0]->id}} } ,function( data ) {
+    init_select2_with_default_value({
+      default_value: data,
+      placeholder: "Salary Grade",
+      url: '{{URL::to("/")}}/salary_grade/auto/get_salary_grades',
+      selector_id:salary_grade_master_id,
+      data:{}
+    });
+  });
+  // parameters = { 
+  //   placeholder: "Salary Grade Holiday",
+  //   url: '{{URL::to("/salary_grade/auto/get_salary_grades")}}',
+  //   selector_id:salary_grade_master_id, 
+  //   data:{}
+  // }
+
+  // init_select2(parameters);
 
 });
 
@@ -351,31 +367,43 @@ var salary_details_table=$('#salary_details_table').DataTable();
 
 //get data and render table for salary details
 function InitializeSalaryDetailsTable(){
-  $.ajax("{{URL::to('/salary_head/get_all_salary_heads')}}", {
+  $.ajax("{{URL::to('/employee/salary_heads_with_amount')}}", { 
     data: {
-      format: []
+      // format: []
+      "employee_salary_info_id":{{$employee->employee_job_info[0]->employee_salary_information[0]->id}}
     },
+    async: "false",
     error: function() { 
     },type: 'GET',
     success: function(data) {  
     //as we are using the same link fore datatable in salary head
     //so we will find the data in data.data  
-    $.each(data.data, function(index,item) {  
+    // console.log(data[0]);
+    $.each(data, function(index,item) {  
+      // console.log(item);
       // InitializeSalaryDetailsTable(value); 
+
       var arr=[]; 
       arr.push("<span>"+item.salary_head_name+"</span>"+"<input type='hidden' name='salary_head_id' class='salary_head_id' value='"+item.id+"'/>");
-      arr.push("<span>"+item.salary_head_type.type_name+"</span>"+"<input type='hidden' name='salary_head_id' class='salary_head_id' value='"+item.id+"'/>");
-      if (item.salary_head_type.head_type==1) {
+      arr.push("<span>"+item.type_name+"</span>"+"<input type='hidden' name='salary_head_id' class='salary_head_id' value='"+item.id+"'/>");
+      var salary_amount=0;
+
+      if (item.head_type==1) {
         arr.push("<span>Addition</span>");
       }else{
         arr.push("<span>Deduction</span>");
       }
-      arr.push("<input class='form-control amount' name='amount[]' id='amount[]' type='number' min='0' >");
+      arr.push("<input class='form-control amount' name='amount[]' id='amount[]' type='number' min='0' value='"+item.amount+"' >");
       salary_details_table.row.add(arr).draw( false );
+
+      
     })
   }
 })
 }
+
+
+
 
 //initializing the table in the salary details tab with all the available salary heads
 InitializeSalaryDetailsTable();

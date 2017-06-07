@@ -9,6 +9,7 @@ use Modules\Employee\Entities\JobOpening;
 use Modules\Employee\Entities\JobApplicant;
 use Modules\Employee\Entities\OfferLetter;
 use Modules\Employee\Entities\EmployeeJobInfo;
+use Modules\Employee\Entities\EmployeeSalaryInformation;
 
 use Modules\Employee\Repositories\JobOpeningRepository;
 use Modules\Employee\Repositories\JobApplicantRepository;
@@ -134,7 +135,7 @@ class AutoCompleteController extends Controller
 		return response()->json($holiday);
 	}
 
-		public function getWeekHolidayOfEmPloyeeJobInfo(Request $request)
+	public function getWeekHolidayOfEmPloyeeJobInfo(Request $request)
 	{   
 		$employee_job_info = $request->input('employee_job_info');
 
@@ -144,6 +145,19 @@ class AutoCompleteController extends Controller
 		->find($employee_job_info)->week_holiday_master;
 		return response()->json($week_holiday_master);
 	}
+
+	public function getSalaryGradeOfEmployeeSalaryInfo(Request $request)
+	{   
+		$employee_salary_info = $request->input('employee_salary_info');
+
+		$salary_grade= EmployeeSalaryInformation::with(['salary_grade_master'=> function($query){
+			$query->select('id', 'salary_grade_name as text'); 
+		}])
+		->find($employee_salary_info)->salary_grade_master;
+		return response()->json($salary_grade);
+	}
+
+ 
 
 }
 

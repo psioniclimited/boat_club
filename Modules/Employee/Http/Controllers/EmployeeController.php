@@ -16,7 +16,12 @@ use Modules\Employee\Entities\Salutation;
 use Modules\Employee\Entities\MaritalStatus;
 use Modules\Employee\Entities\Religion;
 use Modules\Employee\Entities\BloodGroup;
+use Modules\Employee\Entities\EmployeeSalaryDetails;
+use Modules\Organization\Entities\SalaryHead;
+
+
 use Datatables; 
+use DB;
 use URL;
 use \Modules\Helpers\DatatableHelper;
 use Validator; 
@@ -189,7 +194,7 @@ class EmployeeController extends Controller
      */
     public function edit(EmployeeMaster $employee)
     {
-        // dd($employee->->offer_date);
+        // dd();
         return view('employee::employee.edit_employee',['employee'=>$employee,
           'salutations'=>Salutation::all(),
           'employee_serieses'=>EmployeeSeries::all(),
@@ -216,12 +221,12 @@ class EmployeeController extends Controller
      */
     public function destroy(Request $request, EmployeeMaster $employee)
     {
-     $employee->delete();
-     $request->session()->flash('status', 'Task was successful!');  
- }
+       $employee->delete();
+       $request->session()->flash('status', 'Task was successful!');  
+   }
 
- public function checkUniqueEmployeeCode(Request $request)
- {  
+   public function checkUniqueEmployeeCode(Request $request)
+   {  
 
     $employee_code=$request->employee_code;
     $flight = EmployeeMaster::where('employee_code', $employee_code)->first();
@@ -253,6 +258,26 @@ public function getAllEmployees(DatatableHelper $databaseHelper){
         return $databaseHelper->editButton('employee',$employees->id).' '.$databaseHelper->deleteButton($employees->id);
     })
     ->make(true);
+}
+
+public function getAmountOfSalaryHead(Request $request){ 
+    $data=EmployeeSalaryDetails::where('employee_salary_information_id','=',$request->employee_salary_info_id)
+    ->where('salary_head_id','=',$request->salary_head_id)
+    ->get(); 
+    if (!empty($data) && ($data[0]->amount!="" || $data[0]->amount!=NULL )) {
+        return response()->json($data[0]->amount);
+    }else{
+        return response()->json(0);
+    }
+}
+
+public function getSalaryHeadsWithAmount(Request $request){ 
+    $data=SalaryHead::leftJoin('employee_salary_details','salary_head.id','=','employee_salary_details.salary_head_id')
+    ->join('salary_head_type','salary_head.salary_head_type_id','=','salary_head_type.id')
+    ->select(['*'])
+    ->where('employee_salary_details.employee_salary_information_id','=',$request->employee_salary_info_id)
+    ->get();
+    return response()->json($data);    
 }
 
 }

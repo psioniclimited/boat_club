@@ -24,6 +24,11 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Emp
 	Route::get('/employee_job_info/auto/work_shift', 'AutoCompleteController@getWorkShiftOfEmPloyeeJobInfo'); 
 	Route::get('/employee_job_info/auto/holiday_list', 'AutoCompleteController@getHolidayListOfEmPloyeeJobInfo'); 
 	Route::get('/employee_job_info/auto/week_holiday', 'AutoCompleteController@getWeekHolidayOfEmPloyeeJobInfo'); 
+	
+
+	Route::get('/employee_salary_info/auto/salary_grade', 'AutoCompleteController@getSalaryGradeOfEmployeeSalaryInfo'); 
+
+
 
 
 
@@ -42,6 +47,11 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Emp
 	Route::get('/create_employee', 'EmployeeController@createEmployee');
 	Route::get('check_unique_employee_code','EmployeeController@checkUniqueEmployeeCode');
 	Route::get('/employee/get_all_employees', 'EmployeeController@getAllEmployees');
+	
+	Route::post('/employee_salary_information/salary_head_id/get_amount', 'EmployeeController@getAmountOfSalaryHead'); 
+	
+	Route::get('/employee/salary_heads_with_amount', 'EmployeeController@getSalaryHeadsWithAmount'); 
+
 	Route::resource('/employee', 'EmployeeController');
 
 
