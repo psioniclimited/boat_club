@@ -10,10 +10,12 @@ use Modules\Employee\Entities\JobApplicant;
 use Modules\Employee\Entities\OfferLetter;
 use Modules\Employee\Entities\EmployeeJobInfo;
 use Modules\Employee\Entities\EmployeeSalaryInformation;
-
+use Modules\Employee\Entities\EmployeeFamilyMembers;
+use Modules\Employee\Entities\FamilyRelation;
+use DB;
 use Modules\Employee\Repositories\JobOpeningRepository;
 use Modules\Employee\Repositories\JobApplicantRepository;
-use Modules\Employee\Repositories\FamilyRelationRepository;
+use Modules\Employee\Repositories\FamilyRelationRepository; 
 
 class AutoCompleteController extends Controller
 { 
@@ -157,7 +159,20 @@ class AutoCompleteController extends Controller
 		return response()->json($salary_grade);
 	}
 
- 
+
+	public function getFamilyRelationOfFamilyMembers(Request $request)
+	{    
+		$employee_family_members_id = $request->input('employee_family_members_id');
+
+		$family_relation= EmployeeFamilyMembers::with(['family_relation'=> function($query){
+			$query->select('id', 'relation_name as text'); 
+		}])
+		->find($employee_family_members_id)->family_relation;
+
+ 		return response()->json($family_relation);
+	}
+
+
 
 }
 

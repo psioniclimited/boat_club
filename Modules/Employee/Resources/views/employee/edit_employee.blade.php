@@ -381,8 +381,7 @@ function InitializeSalaryDetailsTable(){
     // console.log(data[0]);
     $.each(data, function(index,item) {  
       // console.log(item);
-      // InitializeSalaryDetailsTable(value); 
-
+      // InitializeSalaryDetailsTable(value);
       var arr=[]; 
       arr.push("<span>"+item.salary_head_name+"</span>"+"<input type='hidden' name='salary_head_id' class='salary_head_id' value='"+item.id+"'/>");
       arr.push("<span>"+item.type_name+"</span>"+"<input type='hidden' name='salary_head_id' class='salary_head_id' value='"+item.id+"'/>");
@@ -396,14 +395,11 @@ function InitializeSalaryDetailsTable(){
       arr.push("<input class='form-control amount' name='amount[]' id='amount[]' type='number' min='0' value='"+item.amount+"' >");
       salary_details_table.row.add(arr).draw( false );
 
-      
+
     })
   }
 })
 }
-
-
-
 
 //initializing the table in the salary details tab with all the available salary heads
 InitializeSalaryDetailsTable();
@@ -411,8 +407,7 @@ InitializeSalaryDetailsTable();
 $('#salary_grade_master_id').change(function(){
   $('#basic_salary').val("");
   salary_details_table.clear().draw();
-  InitializeSalaryDetailsTable();    
-  
+  InitializeSalaryDetailsTable();      
   if($(this).val()!=null){
   //change basic salary
   $.ajax("{{URL::to('/salary_grade/basic_salary_of_grade/')}}/"+$(this).val(), {
@@ -425,7 +420,6 @@ $('#salary_grade_master_id').change(function(){
       $('#basic_salary').val(data[0].basic_salary); 
     }
   });
-
   //change salary heads in salary details based on salary grade
   changeSalaryHeadValueBasedOnSalaryGrade($(this).val());
 }
@@ -467,6 +461,28 @@ function replaceSalaryDetailsValue(item){
 
 
 var educational_background_table=$('#educational_background_table').DataTable();
+  //initialize educational background table with previous value
+
+  $.ajax("{{URL::to('employee/get_employee_educations')}}", {
+    data: {
+      "employees_master_id": {{$employee->id}}
+    },
+    async: "false",
+    error: function() { 
+    },type: 'GET',
+    success: function(data) {  
+
+      $.each(data, function(index,item) {   
+        var arr=[]; 
+        arr.push('<input class="form-control degree_name" type="text" placeholder="Degree Name" value="'+item.degree_name+'">');
+        arr.push('<input class="form-control institution" type="text"  placeholder="Institution" value="'+item.institution+'">');
+        arr.push('<input class="form-control passing_year" type="number"  placeholder="Passing Year" value="'+item.passing_year+'">'); 
+        arr.push('<button class="btn btn-xs btn-danger pull-left deleteEducationalBackgroundButton" >Delete Row</button>'); 
+        educational_background_table.row.add(arr).draw( false );
+
+      })
+    }
+  })
 
     //add row
     $('#add_education_row').on( 'click', function (e) {
@@ -491,6 +507,36 @@ var educational_background_table=$('#educational_background_table').DataTable();
 
 //previous work history 
 var previous_work_history_table=$('#previous_work_history_table').DataTable();
+
+  //initialize previous work history  table with previous value
+  
+  $.ajax("{{URL::to('employee/previous_work_history')}}", {
+    data: {
+      "employees_master_id": {{$employee->id}}
+    },
+    async: "false",
+    error: function() { 
+    },type: 'GET',
+    success: function(data) {  
+
+      $.each(data, function(index,item) {   
+
+        var arr=[]; 
+        arr.push('<input class="form-control institution" type="text" placeholder="Organization" value="'+item.institution+'">');
+        arr.push('<input class="form-control from_date" type="text"  placeholder="From Date" value="'+item.from_date+'">');
+        arr.push('<input class="form-control to_date" type="text"  placeholder="To Date" value="'+item.to_date+'">');
+        arr.push('<input class="form-control designation" type="text"  placeholder="Designation" value="'+item.designation+'">'); 
+        arr.push('<button class="btn btn-xs btn-danger pull-left deletePreviousHistoryButton" >Delete Row</button>'); 
+        previous_work_history_table.row.add(arr).draw( false );
+        var from_date=$('.from_date');
+        var to_date=$('.to_date');
+        from_date.datepicker();
+        to_date.datepicker();
+
+      })
+    }
+  })
+
 
     //add row
     $('#add_previous_history_row').on( 'click', function (e) {
@@ -523,49 +569,126 @@ var previous_work_history_table=$('#previous_work_history_table').DataTable();
 var work_history_inside_organization_table=$('#history_inside_organization_table').DataTable();
 var selector_counter=1;
     //add row
-    $('#add_history_inside_company_row').on( 'click', function (e) {
-      e.preventDefault();
-      renderHistoryInsideOrganizationTable(); 
-    });
+      //initialize work history inside Company table with previous value
 
-    $('body').on('click', '.deleteHistoryInsideOrganisationButton', function(e) {
-      var tr=$(this).parents("tr");
-      work_history_inside_organization_table.row(tr).remove().draw(false);  
-    }); 
+      $.ajax("{{URL::to('employee/history_inside_organization')}}", {
+        data: {
+          "employees_master_id": {{$employee->id}}
+        },
+        async: "false",
+        error: function() { 
+        },type: 'GET',
+        success: function(data) {  
 
-    function renderHistoryInsideOrganizationTable(){
-      var arr=[]; 
-      arr.push('<div><select id="department_branch_id_'+selector_counter+'" class="department_branch_id form-control table-form"></select></div>');
-      arr.push('<div><select id="department_id_'+selector_counter+'"  class="department_id form-control table-form"></select></div>');
-      arr.push('<div><select id="designation_id_'+selector_counter+'" class="designation_id form-control table-form"></select></div>'); 
-      arr.push('<input class="form-control date" type="text"  placeholder="Date">'); 
-      arr.push('<input class="form-control remarks" type="text"  placeholder="Remarks">'); 
-      arr.push('<button class="btn btn-xs btn-danger pull-left deleteHistoryInsideOrganisationButton" >Delete Row</button>'); 
+          $.each(data, function(index,item) {   
 
-
-      work_history_inside_organization_table.row.add(arr).draw( false );
-
+            var arr=[]; 
+            arr.push('<div><select id="department_branch_id_'+selector_counter+'" class="department_branch_id form-control table-form"></select></div>');
+            arr.push('<div><select id="department_id_'+selector_counter+'"  class="department_id form-control table-form"></select></div>');
+            arr.push('<div><select id="designation_id_'+selector_counter+'" class="designation_id form-control table-form"></select></div>'); 
+            arr.push('<input class="form-control date" type="text"  placeholder="Date" value="'+item.date+'" >'); 
+            arr.push('<input class="form-control remarks" type="text"  placeholder="Remarks" value="'+item.remarks+'">'); 
+            arr.push('<button class="btn btn-xs btn-danger pull-left deleteHistoryInsideOrganisationButton" >Delete Row</button>'); 
 
 
-      var table_department_branch_id=$('#department_branch_id_'+selector_counter); 
-      parameters = { 
-        placeholder: "Job Branch",
-        url: '{{URL::to("/")}}/branch/auto/get_branchs',
-        selector_id:table_department_branch_id, 
-        data:{}
-      }
+            work_history_inside_organization_table.row.add(arr).draw( false );
 
-      init_select2(parameters);
+            var table_department_branch_id=$('#department_branch_id_'+selector_counter);  
 
-      var table_department_id=$("#department_id_"+selector_counter);
-      parameters = {
-        placeholder: "Post Office",
-        url: '{{URL::to("/")}}/branch/auto/get_departments',
-        selector_id:table_department_id,
-        value_id:$('#department_branch_id_'+selector_counter)
-      }
-      var date=$('.date'); 
-      date.datepicker();
+            $.get( "{{URL::to('/employee_job_info/auto/department_branch_id')}}", { employee_job_info: {{$employee->employee_job_info[0]->id}} } ,function( data ) {
+              init_select2_with_default_value({
+                default_value: data,
+                placeholder: "Branch",
+                url: '{{URL::to("/")}}/branch/auto/get_branchs',
+                selector_id:table_department_branch_id,
+                data:{}
+              });
+            });
+
+
+
+            var table_department_id=$("#department_id_"+selector_counter);
+            $.get( "{{URL::to('/employee_job_info/auto/department')}}", { employee_job_info: {{$employee->employee_job_info[0]->id}} } ,function( data ) {
+              init_select2_with_default_value({
+                default_value: data,
+                placeholder: "Department",
+                url: '{{URL::to("/")}}/branch/auto/get_departments',
+                selector_id:table_department_id,
+                data:{}
+              });
+            });
+
+
+
+            var table_designation_id=$('.designation_id'); 
+
+            $.get( "{{URL::to('/employee_job_info/auto/designation')}}", { employee_job_info: {{$employee->employee_job_info[0]->id}} } ,function( data ) {
+              init_select2_with_default_value({
+                default_value: data,
+                placeholder: "Designation",
+                url: '{{URL::to("/")}}/branch/auto/get_designations',
+                selector_id:table_designation_id,
+                data:{}
+              });
+            });
+
+            var date=$('.date'); 
+            date.datepicker(); 
+
+            $('#department_branch_id_'+selector_counter).change(function(){   
+              table_department_id.select2("val"," ");      
+            });
+
+            selector_counter++;
+
+          })
+        }
+      })
+
+      $('#add_history_inside_company_row').on( 'click', function (e) {
+        e.preventDefault();
+        renderHistoryInsideOrganizationTable(); 
+      });
+
+      $('body').on('click', '.deleteHistoryInsideOrganisationButton', function(e) {
+        var tr=$(this).parents("tr");
+        work_history_inside_organization_table.row(tr).remove().draw(false);  
+      }); 
+
+      function renderHistoryInsideOrganizationTable(){
+
+        var arr=[]; 
+        arr.push('<div><select id="department_branch_id_'+selector_counter+'" class="department_branch_id form-control table-form"></select></div>');
+        arr.push('<div><select id="department_id_'+selector_counter+'"  class="department_id form-control table-form"></select></div>');
+        arr.push('<div><select id="designation_id_'+selector_counter+'" class="designation_id form-control table-form"></select></div>'); 
+        arr.push('<input class="form-control date" type="text"  placeholder="Date">'); 
+        arr.push('<input class="form-control remarks" type="text"  placeholder="Remarks">'); 
+        arr.push('<button class="btn btn-xs btn-danger pull-left deleteHistoryInsideOrganisationButton" >Delete Row</button>'); 
+
+
+        work_history_inside_organization_table.row.add(arr).draw( false );
+
+
+
+        var table_department_branch_id=$('#department_branch_id_'+selector_counter); 
+        parameters = { 
+          placeholder: "Job Branch",
+          url: '{{URL::to("/")}}/branch/auto/get_branchs',
+          selector_id:table_department_branch_id, 
+          data:{}
+        }
+
+        init_select2(parameters);
+
+        var table_department_id=$("#department_id_"+selector_counter);
+        parameters = {
+          placeholder: "Post Office",
+          url: '{{URL::to("/")}}/branch/auto/get_departments',
+          selector_id:table_department_id,
+          value_id:$('#department_branch_id_'+selector_counter)
+        }
+        var date=$('.date'); 
+        date.datepicker();
   // initialize select2 for post_office_id
   init_select2_with_one_parameter(parameters);
 
@@ -596,6 +719,46 @@ var selector_counter=1;
 
 var family_information_table=$('#family_information_table').DataTable();
 
+
+      // initialize family relation table with previous values
+      $.ajax("{{URL::to('employee/family_information')}}", {
+        data: {
+          "employees_master_id": {{$employee->id}}
+        },
+        async: "false",
+        error: function() { 
+        },type: 'GET',
+        success: function(data) {  
+
+          $.each(data, function(index,item) {   
+            console.log(item);
+
+            var arr=[]; 
+            arr.push('<input class="form-control family_member_name" type="text" placeholder="Family Member Name" value="'+item.family_member_name+'">');
+            arr.push('<input class="form-control date_of_birth" type="text"  placeholder="Date Of Birth" value="'+item.date_of_birth+'">');
+            arr.push('<div><select  class="family_relation_id form-control table-form"></select></div>'); 
+            arr.push('<button class="btn btn-xs btn-danger pull-left deleteFamilyInformationButton" >Delete Row</button>'); 
+
+            family_information_table.row.add(arr).draw( false );
+
+            $('.date_of_birth').datepicker();
+
+            var family_relation_id=$('.family_relation_id'); 
+
+            $.get( "{{URL::to('/employee_family_information/auto/family_relation')}}", { employee_family_members_id: item.id } ,function( data ) {
+              init_select2_with_default_value({
+                default_value: data,
+                placeholder: "Family Relation",
+                url: '{{URL::to("/")}}/family_relation/auto/get_all_relations',
+                selector_id:family_relation_id,
+                data:{}
+              });
+            });            
+
+          })
+        }
+      })
+
     //add row
     $('#add_family_information_row').on( 'click', function (e) {
       e.preventDefault();
@@ -608,14 +771,19 @@ var family_information_table=$('#family_information_table').DataTable();
     }); 
 
     function renderFamilyInformationTable(){
+
       var arr=[]; 
       arr.push('<input class="form-control family_member_name" type="text" placeholder="Family Member Name">');
       arr.push('<input class="form-control date_of_birth" type="text"  placeholder="Date Of Birth">');
       arr.push('<div><select  class="family_relation_id form-control table-form"></select></div>'); 
       arr.push('<button class="btn btn-xs btn-danger pull-left deleteFamilyInformationButton" >Delete Row</button>'); 
+
       family_information_table.row.add(arr).draw( false );
+
       $('.date_of_birth').datepicker();
+
       var family_relation_id=$('.family_relation_id'); 
+
       parameters = { 
         placeholder: "Relation",
         url: '{{URL::to("/")}}/family_relation/auto/get_all_relations',

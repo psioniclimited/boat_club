@@ -27,9 +27,7 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Emp
 	
 
 	Route::get('/employee_salary_info/auto/salary_grade', 'AutoCompleteController@getSalaryGradeOfEmployeeSalaryInfo'); 
-
-
-
+	Route::get('/employee_family_information/auto/family_relation', 'AutoCompleteController@getFamilyRelationOfFamilyMembers'); 
 
 
 
@@ -46,11 +44,13 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Emp
 
 	Route::get('/create_employee', 'EmployeeController@createEmployee');
 	Route::get('check_unique_employee_code','EmployeeController@checkUniqueEmployeeCode');
-	Route::get('/employee/get_all_employees', 'EmployeeController@getAllEmployees');
-	
+	Route::get('/employee/get_all_employees', 'EmployeeController@getAllEmployees');	
 	Route::post('/employee_salary_information/salary_head_id/get_amount', 'EmployeeController@getAmountOfSalaryHead'); 
-	
 	Route::get('/employee/salary_heads_with_amount', 'EmployeeController@getSalaryHeadsWithAmount'); 
+	Route::get('employee/get_employee_educations', 'EmployeeController@getEmployeeEducations'); 
+	Route::get('employee/previous_work_history', 'EmployeeController@getEmployeePreviousHistory'); 
+	Route::get('employee/history_inside_organization', 'EmployeeController@getEmployeeHistoryInsideOrganization'); 
+	Route::get('employee/family_information', 'EmployeeController@getEmployeeFamilyInformation'); 
 
 	Route::resource('/employee', 'EmployeeController');
 

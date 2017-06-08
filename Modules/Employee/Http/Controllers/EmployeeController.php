@@ -17,6 +17,9 @@ use Modules\Employee\Entities\MaritalStatus;
 use Modules\Employee\Entities\Religion;
 use Modules\Employee\Entities\BloodGroup;
 use Modules\Employee\Entities\EmployeeSalaryDetails;
+use Modules\Employee\Entities\EmployeeEducationalBackground;
+use Modules\Employee\Entities\EmployeePreviousJobExperience; 
+use Modules\Employee\Entities\EmployeeFamilyMembers; 
 use Modules\Organization\Entities\SalaryHead;
 
 
@@ -276,6 +279,32 @@ public function getSalaryHeadsWithAmount(Request $request){
     ->join('salary_head_type','salary_head.salary_head_type_id','=','salary_head_type.id')
     ->select(['*'])
     ->where('employee_salary_details.employee_salary_information_id','=',$request->employee_salary_info_id)
+    ->get();
+    return response()->json($data);    
+}
+
+
+public function getEmployeeEducations(Request $request){ 
+
+    $data=EmployeeEducationalBackground::where('employees_master_id','=',$request->employees_master_id)
+    ->get();
+    return response()->json($data);    
+}
+
+public function getEmployeePreviousHistory(Request $request){ 
+    $data=EmployeePreviousJobExperience::where('employees_master_id','=',$request->employees_master_id)
+    ->get();
+    return response()->json($data);    
+}
+
+public function getEmployeeHistoryInsideOrganization(Request $request){  
+    $data=EmployeeWorkHistoryInCompany::where('employees_master_id','=',$request->employees_master_id)
+    ->get();
+    return response()->json($data);    
+}
+
+public function getEmployeeFamilyInformation(Request $request){  
+    $data=EmployeeFamilyMembers::where('employees_master_id','=',$request->employees_master_id)
     ->get();
     return response()->json($data);    
 }
