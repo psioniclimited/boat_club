@@ -5,6 +5,7 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Emp
 	Route::get('/job_opening/auto', 'AutoCompleteController@getJobOpenings'); 
 	Route::get('/job_applicant/auto/get_job_opening', 'AutoCompleteController@getJobOpeningsOfApplicant'); 
 	Route::get('/job_applicant/auto', 'AutoCompleteController@getJobApplicants'); 
+	Route::get('employee/auto/get_employees', 'AutoCompleteController@getEmployees'); 
 
 
 	Route::get('/family_relation/auto/get_all_relations', 'AutoCompleteController@getAllFamilyRelations'); 
@@ -53,6 +54,12 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Emp
 	Route::get('employee/family_information', 'EmployeeController@getEmployeeFamilyInformation'); 
 
 	Route::resource('/employee', 'EmployeeController');
+	
+
+	Route::resource('/employee_transfer_and_promotion', 'EmployeeTransferAndPromotionController');
+	Route::resource('/employee_resignation', 'EmployeeResignationController');
+	Route::resource('/employee_reinitialize', 'EmployeeReinitializeController');
+
 
 
 });

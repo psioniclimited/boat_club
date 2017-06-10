@@ -64,7 +64,16 @@ class EmployeeJobInfo extends Model
 
 
 
-
+	public function setResignationOfferDateAttribute($value)
+	{     
+		$date=date_create($value);  
+		$this->attributes['resignation_offer_date'] = date_format($date,"Y-m-d");
+	}
+	public function setRelievingDateAttribute($value)
+	{     
+		$date=date_create($value);  
+		$this->attributes['relieving_date'] = date_format($date,"Y-m-d");
+	}
 
 	// public function getCreatedAtAttribute($value)
 	// {  

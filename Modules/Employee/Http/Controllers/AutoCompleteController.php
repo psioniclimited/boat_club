@@ -15,7 +15,9 @@ use Modules\Employee\Entities\FamilyRelation;
 use DB;
 use Modules\Employee\Repositories\JobOpeningRepository;
 use Modules\Employee\Repositories\JobApplicantRepository;
-use Modules\Employee\Repositories\FamilyRelationRepository; 
+use Modules\Employee\Repositories\FamilyRelationRepository;
+
+use Modules\Employee\Repositories\EmployeeRepository; 
 
 class AutoCompleteController extends Controller
 { 
@@ -29,6 +31,10 @@ class AutoCompleteController extends Controller
 
 	public function getAllFamilyRelations(Request $request, FamilyRelationRepository $FamilyRelation){ 
 		return $FamilyRelation->all('relation_name', $request->input('term'), ['id', 'relation_name as text']); 
+	}
+
+		public function getEmployees(Request $request, EmployeeRepository $Employee){ 
+		return $Employee->all('employee_code', $request->input('term'), ['id','employee_fullname','contact_number', 'employee_code as text']); 
 	}
 
 	public function getJobOpeningsOfApplicant(Request $request)

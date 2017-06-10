@@ -149,6 +149,9 @@
   <ul class="treeview-menu">  
    <li><a href="{{URL::to('/employee')}}">Employee List</a></li>
    <li><a href="{{URL::to('/create_employee')}}">Create Employee</a></li>
+   <li><a href="{{URL::to('/employee_transfer_and_promotion')}}">Employee Transfer & Promotion</a></li>
+   <li><a href="{{URL::to('/employee_resignation')}}">Employee Resignation</a></li>
+   <li><a href="{{URL::to('/employee_reinitialize')}}">Employee Re Initialize</a></li>
  </ul>
 </li>
 
