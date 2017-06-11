@@ -170,6 +170,7 @@ class AutoCompleteController extends Controller
 	{    
 		$employee_family_members_id = $request->input('employee_family_members_id');
 
+		// dd($employee_family_members_id);
 		$family_relation= EmployeeFamilyMembers::with(['family_relation'=> function($query){
 			$query->select('id', 'relation_name as text'); 
 		}])

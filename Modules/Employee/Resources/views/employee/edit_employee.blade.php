@@ -36,6 +36,9 @@ Edit Employee
   <div class="row">
 
     <form action="" name="add_employe_form" id="add_employe_form" enctype="multipart/form-data" method="post">
+
+      <input name="_method" type="hidden" value="PUT">
+
       <div class="col-md-12"> 
         <div class="box box-info">
           <div class="box-header with-border">
@@ -715,7 +718,7 @@ var selector_counter=1;
 
 
 
-
+var family_relation_select2_counter=1;
 
 var family_information_table=$('#family_information_table').DataTable();
 
@@ -731,21 +734,22 @@ var family_information_table=$('#family_information_table').DataTable();
         success: function(data) {  
 
           $.each(data, function(index,item) {   
-            console.log(item);
 
             var arr=[]; 
             arr.push('<input class="form-control family_member_name" type="text" placeholder="Family Member Name" value="'+item.family_member_name+'">');
             arr.push('<input class="form-control date_of_birth" type="text"  placeholder="Date Of Birth" value="'+item.date_of_birth+'">');
-            arr.push('<div><select  class="family_relation_id form-control table-form"></select></div>'); 
+            arr.push('<div><select id="family_relation_id_'+family_relation_select2_counter+'" class="family_relation_id form-control table-form"></select></div>'); 
             arr.push('<button class="btn btn-xs btn-danger pull-left deleteFamilyInformationButton" >Delete Row</button>'); 
 
             family_information_table.row.add(arr).draw( false );
 
             $('.date_of_birth').datepicker();
 
-            var family_relation_id=$('.family_relation_id'); 
+            var family_relation_id=$('#family_relation_id_'+family_relation_select2_counter); 
+
 
             $.get( "{{URL::to('/employee_family_information/auto/family_relation')}}", { employee_family_members_id: item.id } ,function( data ) {
+
               init_select2_with_default_value({
                 default_value: data,
                 placeholder: "Family Relation",
@@ -755,6 +759,7 @@ var family_information_table=$('#family_information_table').DataTable();
               });
             });            
 
+            family_relation_select2_counter++;
           })
         }
       })
@@ -775,14 +780,14 @@ var family_information_table=$('#family_information_table').DataTable();
       var arr=[]; 
       arr.push('<input class="form-control family_member_name" type="text" placeholder="Family Member Name">');
       arr.push('<input class="form-control date_of_birth" type="text"  placeholder="Date Of Birth">');
-      arr.push('<div><select  class="family_relation_id form-control table-form"></select></div>'); 
+      arr.push('<div><select id="family_relation_id_'+family_relation_select2_counter+'" class="family_relation_id form-control table-form"></select></div>'); 
       arr.push('<button class="btn btn-xs btn-danger pull-left deleteFamilyInformationButton" >Delete Row</button>'); 
 
       family_information_table.row.add(arr).draw( false );
 
       $('.date_of_birth').datepicker();
 
-      var family_relation_id=$('.family_relation_id'); 
+      var family_relation_id=$('#family_relation_id_'+family_relation_select2_counter); 
 
       parameters = { 
         placeholder: "Relation",
@@ -791,7 +796,7 @@ var family_information_table=$('#family_information_table').DataTable();
         data:{}
       }
       init_select2(parameters);
-
+      family_relation_select2_counter++;
     }    
 });//document ready
 
@@ -860,6 +865,7 @@ previewImage = function(event) {
   function generateJsonObjectWithForm(){
 
     var formData = new FormData($("#add_employe_form")[0]);
+
     formData.append('salary_details',generateJsonStringFromTables('salary_details_table'));
     formData.append('educational_background',generateJsonStringFromTables('educational_background_table'));
     formData.append('history_inside_organization',generateJsonStringFromTables('history_inside_organization_table'));
@@ -875,45 +881,74 @@ previewImage = function(event) {
 
     if(table_name=="salary_details_table"){
       $('#salary_details_table > tbody  > tr').each(function() {
-        item={};
-        item["salary_head_id"]=$(this).find(".salary_head_id").val(); 
-        item["amount"]=$(this).find(".amount").val();
-        jsonObj.push(item);
+        if ($(this).find(".salary_head_id").val()==undefined || $(this).find(".salary_head_id").val()==null) {
+          return;
+        }else{
+          item={};
+          item["salary_head_id"]=$(this).find(".salary_head_id").val(); 
+          item["amount"]=$(this).find(".amount").val();
+          jsonObj.push(item);
+        } 
       });
     }else if(table_name=="educational_background_table"){
       $('#educational_background_table > tbody  > tr').each(function() {
-        item={};
-        item["degree_name"]=$(this).find(".degree_name").val(); 
-        item["institution"]=$(this).find(".institution").val(); 
-        item["passing_year"]=$(this).find(".passing_year").val();  
-        jsonObj.push(item);
+        if ($(this).find(".degree_name").val()==undefined || $(this).find(".degree_name").val()==null) {
+          return;
+        }else{
+          item={};
+          item["degree_name"]=$(this).find(".degree_name").val(); 
+          item["institution"]=$(this).find(".institution").val(); 
+          item["passing_year"]=$(this).find(".passing_year").val();  
+          jsonObj.push(item);
+        }  
+
       });
       
     }else if(table_name=="previous_work_history_table"){
       $('#previous_work_history_table > tbody  > tr').each(function() {
-        item={}; 
-        item["institution"]=$(this).find(".institution").val(); 
-        item["from_date"]=$(this).find(".from_date").val(); 
-        item["to_date"]=$(this).find(".to_date").val(); 
-        item["designation"]=$(this).find(".designation").val();    
-        jsonObj.push(item);
+
+
+        if ($(this).find(".institution").val()==undefined || $(this).find(".institution").val()==null) {
+          return;
+        }else{
+          item={}; 
+          item["institution"]=$(this).find(".institution").val(); 
+          item["from_date"]=$(this).find(".from_date").val(); 
+          item["to_date"]=$(this).find(".to_date").val(); 
+          item["designation"]=$(this).find(".designation").val();    
+          jsonObj.push(item);
+        } 
+
       });
     }else if(table_name=="history_inside_organization_table"){
+
       $('#history_inside_organization_table > tbody  > tr').each(function() {
-        item={}; 
-        item["department_branch_id"]=$(this).find(".department_branch_id").val(); 
-        item["department_id"]=$(this).find(".department_id").val(); 
-        item["designation_id"]=$(this).find(".designation_id").val(); 
-        item["remarks"]=$(this).find(".remarks").val();    
-        jsonObj.push(item);
+
+        if ($(this).find(".department_branch_id").val()==undefined || $(this).find(".department_branch_id").val()==null) {
+          return;
+        }else{
+          item={}; 
+          item["department_branch_id"]=$(this).find(".department_branch_id").val(); 
+          item["department_id"]=$(this).find(".department_id").val(); 
+          item["designation_id"]=$(this).find(".designation_id").val(); 
+          item["remarks"]=$(this).find(".remarks").val();    
+          jsonObj.push(item);
+        } 
+
+
       });
     }else{
       $('#family_information_table > tbody  > tr').each(function() {
-        item={}; 
-        item["family_member_name"]=$(this).find(".family_member_name").val(); 
-        item["date_of_birth"]=$(this).find(".date_of_birth").val(); 
-        item["family_relation_id"]=$(this).find(".family_relation_id").val();  
-        jsonObj.push(item);
+        if ($(this).find(".family_member_name").val()==undefined || $(this).find(".family_member_name").val()==null) {
+          return;
+        }else{
+          item={}; 
+          item["family_member_name"]=$(this).find(".family_member_name").val(); 
+          item["date_of_birth"]=$(this).find(".date_of_birth").val(); 
+          item["family_relation_id"]=$(this).find(".family_relation_id").val();  
+          jsonObj.push(item);
+        } 
+
       });
     }
 
@@ -949,16 +984,18 @@ previewImage = function(event) {
       });  
       
       var formData=generateJsonObjectWithForm(); 
-      
+
+      console.log(formData);
+
       $.ajax({
         type: "POST",
         data: formData,
         processData: false,
         contentType: false,  
         dataType: "JSON",  
-        url: "{{URL::to('/employee')}}", 
-        success:function(data){    
-
+        url: "{{URL::to('/employee/'.$employee->id)}}", 
+        // url: "{{URL::to('/employee')}}", 
+        success:function(data){     
           if(data.error!=undefined){ 
             alert("jipl");
             $("#table-remarks .alert_message").html(data.error);  
@@ -966,7 +1003,6 @@ previewImage = function(event) {
           }else{ 
            window.location.replace(data.redirect); 
          }
-
        }, 
        error: function(data){ 
 

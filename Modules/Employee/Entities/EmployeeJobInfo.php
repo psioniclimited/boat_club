@@ -59,7 +59,7 @@ class EmployeeJobInfo extends Model
 
 	public function employee_salary_information()
 	{  
-		return $this->hasMany('Modules\Employee\Entities\EmployeeSalaryInformation'); 
+		return $this->hasMany('Modules\Employee\Entities\EmployeeSalaryInformation','employee_job_info_id'); 
 	}
 
 

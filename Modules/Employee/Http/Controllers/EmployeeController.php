@@ -71,39 +71,46 @@ class EmployeeController extends Controller
      * the second level validation checks the redundant elements that is the table data 
      */
 
+    // public function store(Request $request)
     public function store(\Modules\Employee\Http\Requests\EmployeeCreateRequest $request)
-    {   
-
+    {    
         $tableValidation=$this->validateTableData($request);
         if($tableValidation[0]==false){ 
             return response()->json(['error' => $tableValidation[1]]); 
         }
 
         $employees_master=EmployeeMaster::create($request->all()); 
-
-        $data=$request->all();
-
-        $data['employees_master_id']=$employees_master->id;
-        $employee_job_info=EmployeeJobInfo::create($data);
-
-        $data['employee_job_info_id']=$employee_job_info->id;
-        $employee_salary_info=EmployeeSalaryInformation::create($data);
-
-        $data['remarks']="Joined the Organization";
-        EmployeeWorkHistoryInCompany::create($data);
+        $this->createAdditionalData($employees_master,$request,1);
         
-        $employee_salary_info->employee_salary_details()->createMany(json_decode($request->salary_details,true));
+        // $data=$request->all();
 
-        $this->batchInsert($employees_master->employee_family_members(),$request->family_information);
+        // $data['employees_master_id']=$employees_master->id;
+        // $employee_job_info=EmployeeJobInfo::create($data);
 
-        $this->batchInsert($employees_master->employee_educational_background(),$request->educational_background);
+        // $data['employee_job_info_id']=$employee_job_info->id;
+        // $employee_salary_info=EmployeeSalaryInformation::create($data);
+
+
+        // $data['remarks']="Joined the Organization";
+        // EmployeeWorkHistoryInCompany::create($data);
+
+        // $employee_salary_info->employee_salary_details()->createMany(json_decode($request->salary_details,true));
+
+        // $this->batchInsert($employees_master->employee_family_members(),$request->family_information);
+
+        // $this->batchInsert($employees_master->employee_educational_background(),$request->educational_background);
+
+        // $this->batchInsert($employees_master->employee_previous_job_experience(),$request->previous_work_history);
+
+        // $this->batchInsert($employees_master->employee_work_history_inside_company(),$request->history_inside_organization);
+
         
-        $this->batchInsert($employees_master->employee_previous_job_experience(),$request->previous_work_history);
-
-        $this->batchInsert($employees_master->employee_work_history_inside_company(),$request->history_inside_organization);
-
         return response()->json(['redirect' => URL::to('/employee')], 200);
     }
+
+
+
+
 
     public function batchInsert($tableObject,$data){
 
@@ -172,7 +179,7 @@ class EmployeeController extends Controller
 
     public function requestValidation($request_name,$rules){ 
         $data=json_decode($request_name,true); 
-        if($data[0]!=[]){
+        if($data!=[]){
             foreach ($data as $row) {  
                 if(!$this->validateDetails($row,$rules)){ 
                     return false; 
@@ -209,14 +216,93 @@ class EmployeeController extends Controller
           ]);
     }
 
+
+
+    public function deleteAdditionalData($employee){
+
+       $employee->employee_family_members()->delete();
+       $employee->employee_work_history_inside_company()->delete();
+       $employee->employee_educational_background()->delete();
+       $employee->employee_previous_job_experience()->delete();
+
+       $employee_job_info=$employee->employee_job_info;  
+       $employee_salary_info=$employee_job_info[0]->employee_salary_information;
+       
+       $employee_salary_info[0]->employee_salary_details()->delete();
+       $employee_salary_info[0]->delete();
+       $employee_job_info[0]->delete();
+
+   }
     /**
      * Update the specified resource in storage.
      * @param  Request $request
      * @return Response
      */
-    public function update(Request $request)
-    {
+    public function update(\Modules\Employee\Http\Requests\EmployeeCreateRequest $request,EmployeeMaster $employee)
+    {  
+        // dd($request->salary_details);
+      $tableValidation=$this->validateTableData($request);
+      if($tableValidation[0]==false){ 
+        return response()->json(['error' => $tableValidation[1]]); 
     }
+
+    $employee->update($request->all()); 
+    $this->deleteAdditionalData($employee);
+
+    // $data=$request->all();
+
+    // $data['employees_master_id']=$employee->id;
+    // $employee_job_info=EmployeeJobInfo::create($data);
+
+    // $data['employee_job_info_id']=$employee_job_info->id;
+    // $employee_salary_info=EmployeeSalaryInformation::create($data);
+
+    // $employee_salary_info->employee_salary_details()->createMany(json_decode($request->salary_details,true));
+
+    // $this->batchInsert($employee->employee_family_members(),$request->family_information);
+
+    // $this->batchInsert($employee->employee_educational_background(),$request->educational_background);
+
+    // $this->batchInsert($employee->employee_previous_job_experience(),$request->previous_work_history);
+
+    // $this->batchInsert($employee->employee_work_history_inside_company(),$request->history_inside_organization);
+
+
+
+    $this->createAdditionalData($employee,$request,2);
+    return response()->json(['redirect' => URL::to('/employee')], 200);
+}
+
+/*
+* mode 1 =for create
+* mode 2 =for update
+*/
+public function createAdditionalData($employees_master,$request,$mode){
+    $data=$request->all();
+
+    $data['employees_master_id']=$employees_master->id;
+    $employee_job_info=EmployeeJobInfo::create($data);
+
+    $data['employee_job_info_id']=$employee_job_info->id;
+    $employee_salary_info=EmployeeSalaryInformation::create($data);
+
+    if($mode==1){ 
+        $data['remarks']="Joined the Organization";
+        EmployeeWorkHistoryInCompany::create($data);
+    }
+    $employee_salary_info->employee_salary_details()->createMany(json_decode($request->salary_details,true));
+
+    $this->batchInsert($employees_master->employee_family_members(),$request->family_information);
+
+    $this->batchInsert($employees_master->employee_educational_background(),$request->educational_background);
+
+    $this->batchInsert($employees_master->employee_previous_job_experience(),$request->previous_work_history);
+
+    $this->batchInsert($employees_master->employee_work_history_inside_company(),$request->history_inside_organization);
+
+
+}
+
 
     /**
      * Remove the specified resource from storage.
@@ -224,12 +310,12 @@ class EmployeeController extends Controller
      */
     public function destroy(Request $request, EmployeeMaster $employee)
     {
-       $employee->delete();
-       $request->session()->flash('status', 'Task was successful!');  
-   }
+     $employee->delete();
+     $request->session()->flash('status', 'Task was successful!');  
+ }
 
-   public function checkUniqueEmployeeCode(Request $request)
-   {  
+ public function checkUniqueEmployeeCode(Request $request)
+ {  
 
     $employee_code=$request->employee_code;
     $flight = EmployeeMaster::where('employee_code', $employee_code)->first();
