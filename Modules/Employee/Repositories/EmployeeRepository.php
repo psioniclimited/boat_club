@@ -16,6 +16,13 @@ class EmployeeRepository implements RepositoryContract{
 		return null;
 	}
 
+	public function resigned($attribute, $value, $columns = ['*']){ 
+		$relations = EmployeeMaster::where($attribute, "LIKE", "%{$value}%")
+		->where('employee_status',"=","0") 
+		->get($columns);
+		return $relations;
+	}
+
 }
 
 ?>

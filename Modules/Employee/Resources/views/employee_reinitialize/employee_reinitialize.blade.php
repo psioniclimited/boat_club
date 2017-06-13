@@ -215,7 +215,7 @@ manage employee
     var employees_master_id=$('#employees_master_id'); 
     parameters = { 
       placeholder: "Employee",
-      url: '{{URL::to("/")}}/employee/auto/get_employees',
+      url: '{{URL::to("/")}}/employee/auto/get_resigned_employees',
       selector_id:employees_master_id, 
       data:{}
     }

@@ -33,8 +33,12 @@ class AutoCompleteController extends Controller
 		return $FamilyRelation->all('relation_name', $request->input('term'), ['id', 'relation_name as text']); 
 	}
 
-		public function getEmployees(Request $request, EmployeeRepository $Employee){ 
+	public function getEmployees(Request $request, EmployeeRepository $Employee){ 
 		return $Employee->all('employee_code', $request->input('term'), ['id','employee_fullname','contact_number', 'employee_code as text']); 
+	}
+
+	public function getResignedEmployees(Request $request, EmployeeRepository $Employee){ 
+		return $Employee->resigned('employee_code', $request->input('term'), ['id','employee_fullname','contact_number', 'employee_code as text']); 
 	}
 
 	public function getJobOpeningsOfApplicant(Request $request)
@@ -176,7 +180,7 @@ class AutoCompleteController extends Controller
 		}])
 		->find($employee_family_members_id)->family_relation;
 
- 		return response()->json($family_relation);
+		return response()->json($family_relation);
 	}
 
 

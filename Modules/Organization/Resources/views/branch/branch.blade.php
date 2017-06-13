@@ -246,11 +246,12 @@ var parameters = {
 }
 // initialize select2 for district_id
 init_select2(parameters);
+
 var param1=$("#district_id");
 parameters = {
     placeholder: "Post Office",
     url: '{{URL::to("/")}}/branch/auto/get_post_offices',
-    selector_id:post_office_id ,
+    selector_id:post_office_id,
     value_id:param1
 }
 

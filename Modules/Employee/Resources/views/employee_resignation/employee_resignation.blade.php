@@ -30,7 +30,7 @@ manage employee
     <div class="col-md-12"> 
       <div class="box box-info">
         <div class="box-header with-border">
-          <h3 class="box-title">Employee Transfer And Promotion</h3>
+          <h3 class="box-title">Employee Resignation</h3>
         </div>
 
         {!! Form::open(array('route'=>'employee_resignation.store','id'=>'employee_resignation_form','class' => 'form-horizontal')) !!}

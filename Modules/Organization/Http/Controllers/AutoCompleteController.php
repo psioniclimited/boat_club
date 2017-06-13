@@ -95,6 +95,7 @@ class AutoCompleteController extends Controller
     }    
 
     public function getPostOffices(Request $request, BranchRepository $branchRepository){ 
+
         return $branchRepository->getPostOffices('post_office_name', $request->input('term'),$request->input('value_term'), ['id', 'post_office_name as text']); 
     }
     public function getSalaryHead(Request $request, BranchRepository $branchRepository){ 
@@ -142,6 +143,8 @@ class AutoCompleteController extends Controller
             $query->select('id', 'post_office_name as text'); 
         }])
         ->find($branch_id)->post_office;
+        
+        // dd($post_office);
         return response()->json($post_office);
 
     }
@@ -176,7 +179,6 @@ class AutoCompleteController extends Controller
     public function getDepartmentOfBranch(Request $request)
     {   
         $branch_id = intval($request->input('value_term')); 
-
         $departments = Department::where('branch_id','=',$branch_id)->get(array('id','department_name as text'));        
         return response()->json($departments);
     }

@@ -123,3 +123,10 @@ Breadcrumbs::register('employee', function($breadcrumbs)
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Employee', url('/employee'));
 });
+
+
+Breadcrumbs::register('attendance', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Attendance', url('/attendance/punch_in'));
+});

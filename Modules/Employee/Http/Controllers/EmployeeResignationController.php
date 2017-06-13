@@ -55,13 +55,13 @@ class EmployeeResignationController extends Controller
      $data=$request->all();
      $data['date']=date('Y-m-d');
      $data['remarks']="Resigned";
+
      $data['department_branch_id']=$employee_job_info[0]->department_branch_id;
      $data['department_id']=$employee_job_info[0]->department_id;
      $data['designation_id']=$employee_job_info[0]->designation_id;
 
      $employee_job_info[0]->update($request->all());
-
-     EmployeeWorkHistoryInCompany::create($data); 
+     EmployeeWorkHistoryInCompany::create($data);  
      $request->session()->flash('status', 'Task was successful!');
      return back();
  }

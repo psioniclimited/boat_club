@@ -46,6 +46,7 @@ class EmployeeTransferAndPromotionController extends Controller
        $data['date']=date('Y-m-d');
 
        if($request->action_type==1){ 
+        
         $data['remarks']="transfered from Branch : ".$employee_job_info[0]->branch->branch_name.", Department: ".$employee_job_info[0]->department->department_name." to Branch: ".Branch::find($request->department_branch_id)->first()->branch_name.", Department: ".Department::find($request->department_id)->first()->department_name;
     }else{
         $data['remarks']="Promoted from Branch : ".$employee_job_info[0]->branch->branch_name.", Department: ".$employee_job_info[0]->department->department_name.", Designation: ".$employee_job_info[0]->designation->designation_name." to Branch: ".Branch::find($request->department_branch_id)->first()->branch_name.", Department: ".Department::find($request->department_id)->first()->department_name.", Designation: ".$employee_job_info[0]->designation->designation_name;

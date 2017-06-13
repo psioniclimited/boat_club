@@ -39,6 +39,7 @@ class BranchRepository{
 	}
 
 	public function getPostOffices($attribute, $value, $district_id, $columns = ['*']){
+		// dd($district_id);
 		$post_offices = PostOffice::where($attribute, "LIKE", "%{$value}%")->where('district_id', "=", $district_id)->get($columns);
 		return $post_offices;
 	}	
