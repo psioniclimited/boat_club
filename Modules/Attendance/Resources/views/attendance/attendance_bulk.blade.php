@@ -43,7 +43,7 @@ Manage Attendance
         <div class="box-header with-border">
           <h3 class="box-title">Attendance</h3>
         </div>
- 
+
         {!! Form::open(array('url' => URL::to("/attendance/bulk_attendance"))) !!}
 
         <div class="box-body">
@@ -100,9 +100,7 @@ Manage Attendance
           <div class="col-md-12" id="employee_panel"> 
             <div class="form-group ">
               <label for="name" class="control-label">Employees*</label> 
-
-              <div class="checkbox" id="employees_id_checkbox">
-                <!-- <label><input type="checkbox" class="minimal" name="employees_master_id[]" id="employees_master_id[]" ></label> -->
+              <div class="checkbox" id="employees_id_checkbox"> 
               </div>                        
             </div>
           </div>
@@ -264,7 +262,7 @@ Manage Attendance
 
 
 
-  $('#department_id').on('change',function(){
+  $('#department_id,#attendance_type,#working_date,#department_branch_id').on('change',function(){
   // alert("here");
   updateEmployeeList();
 });
@@ -277,16 +275,37 @@ Manage Attendance
       data: {
         "working_date":$('#working_date').val(),
         "attendance_type":$('#attendance_type').val(),
-        "department_id":$('#department_id').val(),
+        "department_id":$('#department_id').val(), 
       }, 
       dataType: "JSON",  
       url: "{{URL::to('/attendance/get_employees')}}", 
       success:function(data){    
-        console.log(data);
+        // console.log(data);
+
+
+
         $('#employees_id_checkbox').html('');
         $.each(data, function( index, value ) {
+
+
          console.log(value);
-         $('#employees_id_checkbox').append('<label class="col-md-4"><input type="checkbox" class="minimal" name="employees_master_id[]" id="employees_master_id[]" value="'+value.id+'" >'+value.employee_fullname+'</label> ');
+         if($('#attendance_type').val()==1 && value.punch_in_time==null){
+           $('#employees_id_checkbox').append('<label class="col-md-4"><input type="checkbox" class="minimal" name="employees_master_id[]" id="employees_master_id[]" value="'+value.id+'" >'+value.employee_code+" | "+value.employee_fullname+'</label>');
+         }         
+
+         if($('#attendance_type').val()==1 && value.punch_in_time!=null){
+           $('#employees_id_checkbox').append('<label class="col-md-4"><input type="checkbox" class="minimal"  disabled="disabled" checked >'+value.employee_code+" | "+value.employee_fullname+'</label>');
+         }
+
+         if($('#attendance_type').val()==2 && value.punch_out_time==null){
+           $('#employees_id_checkbox').append('<label class="col-md-4"><input type="checkbox" class="minimal" name="employees_master_id[]" id="employees_master_id[]" value="'+value.id+'" >'+value.employee_code+" | "+value.employee_fullname+'</label> ');
+         }
+
+         if($('#attendance_type').val()==2 && value.punch_in_time!=null){
+           $('#employees_id_checkbox').append('<label class="col-md-4"><input  disabled="disabled" type="checkbox" class="minimal" checked >'+value.employee_code+" | "+value.employee_fullname+'</label>');
+         }
+
+
        });
 
 

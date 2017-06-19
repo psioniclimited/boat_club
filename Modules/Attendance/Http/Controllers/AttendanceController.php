@@ -149,17 +149,35 @@ public function checkExistingData($data){
     {
         // dd($request->all());
 
+        // $data = DB::table('employees_master')
+        // ->select('employees_master.id','employees_master.employee_fullname','employees_master.employee_code')
+        // ->orderBy('employees_master.employee_fullname', 'ASC')
+        // ->join('employee_job_info', 'employee_job_info.employees_master_id', '=', 'employees_master.id') 
+        
+        // ->leftJoin('attendance_log', 'attendance_log.employees_master_id', '=', 'employees_master.id')  
+        
+        // ->where('attendance_log.working_date','=',$request->working_date)
+
+        // ->where('employees_master.employee_status','=',1 )
+        // ->where('employee_job_info.department_id','=',$request->department_id ) 
+        // ->get();
+
         $data = DB::table('employees_master')
-        ->select('employees_master.id','employees_master.employee_fullname','employees_master.employee_code')
+        ->select('employees_master.id','employees_master.employee_fullname','employees_master.employee_code','attendance_log.punch_in_time','attendance_log.punch_out_time')
         ->orderBy('employees_master.employee_fullname', 'ASC')
-        ->Join('employee_job_info', 'employee_job_info.employees_master_id', '=', 'employees_master.id') 
+        ->join('employee_job_info', 'employee_job_info.employees_master_id', '=', 'employees_master.id') 
+        
+        ->leftJoin('attendance_log', function($query) use ($request){
+            $query->on('attendance_log.employees_master_id', '=', 'employees_master.id');
+            $query->where('attendance_log.working_date', '=', $request->working_date);
+        })   
         ->where('employees_master.employee_status','=',1 )
         ->where('employee_job_info.department_id','=',$request->department_id ) 
         ->get();
 
+        // dd($data);
         return response()->json($data);
 
-        // dd($data);
     }
 
 }
