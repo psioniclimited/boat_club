@@ -20,7 +20,7 @@ class AttendanceLogRequest extends FormRequest
     public function rules()
     {
         return [ 
-        'employees_master_id'=>'exists:employees_master,id',  
+        'employees_master_id'=>'required',  
         'working_date' => 'required',
         'time' => 'required', 
         'attendance_type' => 'required',
@@ -35,5 +35,18 @@ class AttendanceLogRequest extends FormRequest
     public function authorize()
     {
         return true;
+    }
+
+
+    /**
+ * Get the error messages for the defined validation rules.
+ *
+ * @return array
+ */
+    public function messages()
+    {
+        return [
+        'employees_master_id.required' => 'You must select an employee',
+        ];
     }
 }

@@ -43,7 +43,8 @@ Manage Attendance
         <div class="box-header with-border">
           <h3 class="box-title">Attendance</h3>
         </div>
-        {!! Form::open(array('route'=>'attendance.store','id'=>'attendance_form','class' => 'form-horizontal')) !!}
+ 
+        {!! Form::open(array('url' => URL::to("/attendance/bulk_attendance"))) !!}
 
         <div class="box-body">
 

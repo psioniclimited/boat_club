@@ -52,30 +52,61 @@ class AttendanceController extends Controller
     public function store(\Modules\Attendance\Http\Requests\AttendanceLogRequest $request)
     {
         $data=$request->all(); 
-        // if attendance type is log in then just create new instance of attendance log
-        if ($request->attendance_type==1) { 
-            $data['punch_in_time']=$request->time;
-            AttendanceLog::create($data);
-        }else{
-            //first check if the user has punched in on that day
-            // if yes then update the punch out time of that day
-            // else create new instance with punch out time 
-            $data['punch_out_time']=$request->time;
+        $this->insertInDatabase($data,$request);
+ 
+        $request->session()->flash('status', 'Task was successful!');
+        return redirect()->back();
+    }
 
-            $existing_data=AttendanceLog::where('employees_master_id','=',$data['employees_master_id'])
-            ->where('working_date','=',$data['working_date'])
-            ->get();
 
-            if (empty($existing_data)) { 
-                AttendanceLog::create($data);
-            }else{ 
-                $existing_data[0]->update($data);
-            }
+    public function storeBulkAttendance(\Modules\Attendance\Http\Requests\AttendanceLogRequest $request)
+    {
+        // dd($request->all());
+        $employees=$request->employees_master_id;
+        foreach ($employees as $key => $value) { 
+            $data=$request->all(); 
+            $data['employees_master_id']=$value;
+            $this->insertInDatabase($data,$request);
         }
 
         $request->session()->flash('status', 'Task was successful!');
         return redirect()->back();
     }
+
+
+
+    public function insertInDatabase($data,$request){
+
+    // if attendance type is log in then just create new instance of attendance log
+     if ($request->attendance_type==1) { 
+        $data['punch_in_time']=$request->time; 
+    }else{
+        $data['punch_out_time']=$request->time;
+    }
+
+
+
+
+    //first check if the user has punched in on that day
+    // if yes then update the punch out time of that day
+    // else create new instance with punch out time 
+    $existing_data=$this->checkExistingData($data); 
+
+    if ($existing_data->isEmpty()) {  
+        AttendanceLog::create($data);
+    }else{ 
+        $existing_data[0]->update($data);
+    }
+}
+
+
+public function checkExistingData($data){  
+    $existing_data=AttendanceLog::where('employees_master_id','=',$data['employees_master_id'])
+    ->where('working_date','=',$data['working_date'])
+    ->get();
+
+    return $existing_data;
+}
 
 
     /**
