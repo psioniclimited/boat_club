@@ -132,9 +132,6 @@ Manage Attendance
 <script src="{{asset('bower_components/AdminLTE')}}/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="{{asset('bower_components/AdminLTE')}}/plugins/datatables/dataTables.bootstrap.min.js"></script> 
 <script src="{{asset('bower_components/AdminLTE')}}/plugins/timepicker/bootstrap-timepicker.js"></script>
-
-
-
 <script src="{{asset('bower_components/AdminLTE')}}/plugins/datepicker/bootstrap-datepicker.js"></script>
 <script src="{{asset('bower_components/AdminLTE//plugins/select2/select2.min.js')}}"></script>   
 <script src="{{asset('js/utils/utils.js')}}"></script>
@@ -289,24 +286,24 @@ Manage Attendance
 
 
          console.log(value);
-         if($('#attendance_type').val()==1 && value.punch_in_time==null){
+         if(($('#attendance_type').val()==1) && (value.punch_in_time==null)){
            $('#employees_id_checkbox').append('<label class="col-md-4"><input type="checkbox" class="minimal" name="employees_master_id[]" id="employees_master_id[]" value="'+value.id+'" >'+value.employee_code+" | "+value.employee_fullname+'</label>');
          }         
 
-         if($('#attendance_type').val()==1 && value.punch_in_time!=null){
+         if(($('#attendance_type').val()==1) && (value.punch_in_time!=null)){
            $('#employees_id_checkbox').append('<label class="col-md-4"><input type="checkbox" class="minimal"  disabled="disabled" checked >'+value.employee_code+" | "+value.employee_fullname+'</label>');
          }
 
-         if($('#attendance_type').val()==2 && value.punch_out_time==null){
-           $('#employees_id_checkbox').append('<label class="col-md-4"><input type="checkbox" class="minimal" name="employees_master_id[]" id="employees_master_id[]" value="'+value.id+'" >'+value.employee_code+" | "+value.employee_fullname+'</label> ');
-         }
+         if(($('#attendance_type').val()==2) && (value.punch_out_time==null)){  
+          $('#employees_id_checkbox').append('<label class="col-md-4"><input type="checkbox" class="minimal" name="employees_master_id[]" id="employees_master_id[]" value="'+value.id+'" >'+value.employee_code+" | "+value.employee_fullname+'</label> ');
+        }
 
-         if($('#attendance_type').val()==2 && value.punch_in_time!=null){
-           $('#employees_id_checkbox').append('<label class="col-md-4"><input  disabled="disabled" type="checkbox" class="minimal" checked >'+value.employee_code+" | "+value.employee_fullname+'</label>');
-         }
+        if(($('#attendance_type').val()==2) && (value.punch_out_time!=null)){ 
+         $('#employees_id_checkbox').append('<label class="col-md-4"><input  disabled="disabled" type="checkbox" class="minimal" checked >'+value.employee_code+" | "+value.employee_fullname+'</label>');
+       }
 
 
-       });
+     });
 
 
       }, 

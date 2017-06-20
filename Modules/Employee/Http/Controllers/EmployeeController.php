@@ -248,27 +248,7 @@ class EmployeeController extends Controller
 
     $employee->update($request->all()); 
     $this->deleteAdditionalData($employee);
-
-    // $data=$request->all();
-
-    // $data['employees_master_id']=$employee->id;
-    // $employee_job_info=EmployeeJobInfo::create($data);
-
-    // $data['employee_job_info_id']=$employee_job_info->id;
-    // $employee_salary_info=EmployeeSalaryInformation::create($data);
-
-    // $employee_salary_info->employee_salary_details()->createMany(json_decode($request->salary_details,true));
-
-    // $this->batchInsert($employee->employee_family_members(),$request->family_information);
-
-    // $this->batchInsert($employee->employee_educational_background(),$request->educational_background);
-
-    // $this->batchInsert($employee->employee_previous_job_experience(),$request->previous_work_history);
-
-    // $this->batchInsert($employee->employee_work_history_inside_company(),$request->history_inside_organization);
-
-
-
+ 
     $this->createAdditionalData($employee,$request,2);
     return response()->json(['redirect' => URL::to('/employee')], 200);
 }

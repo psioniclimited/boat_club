@@ -11,5 +11,10 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Att
     Route::resource('/attendance', 'AttendanceController');
     
 
+    Route::get('/get_attendance_list_table/', 'AttendanceListController@getAttendanceLog');
+    Route::resource('/attendance_list', 'AttendanceListController');
+    
+
+
 
 });

@@ -170,6 +170,7 @@
   <ul class="treeview-menu">  
    <li><a href="{{URL::to('/attendance')}}">Individual Attendance</a></li> 
    <li><a href="{{URL::to('/bulk_attendance')}}">Bulk Attendance</a></li> 
+   <li><a href="{{URL::to('/attendance_list')}}">Attendance List</a></li> 
  </ul>
 </li>
 
