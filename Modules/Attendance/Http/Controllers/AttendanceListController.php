@@ -82,8 +82,7 @@ class AttendanceListController extends Controller
     }
 
 
-    public function getAttendanceLog(Request $request,DatatableHelper $databaseHelper){
-        // dd($request->working_date);
+    public function getAttendanceLog(Request $request,DatatableHelper $databaseHelper){ 
 
         $data = DB::table('employees_master')
         ->select('employees_master.employee_fullname','employees_master.employee_code','attendance_log.punch_in_time','attendance_log.punch_out_time','branch.branch_name','department.department_name','designation.designation_name') 
@@ -104,12 +103,12 @@ class AttendanceListController extends Controller
         ->where('employees_master.employee_status','=',1 ) 
         ->orderBy('employees_master.employee_fullname', 'ASC') 
         ->get();
- 
-        return response()->json($data);
 
+        // return response()->json($data);
         // $data = AttendanceLog::with('employees_master','employees_master.employee_job_info.department.branch','employees_master.employee_job_info.designation');  
-        // return Datatables::of($data) 
-        // ->make(true);
+        
+        return Datatables::of($data) 
+        ->make(true);
 
     }
 }

@@ -208,46 +208,34 @@ Attendance List
       $('#department_id').select2("val"," ");      
     });
 
-    var table=$('#all_role_table').DataTable({});
 
 
 
-
-    function initializeTable(){
-
-      table.destroy();
-
-    //Datatable Generation
-    table = $('#all_role_table').DataTable({
+    var table = $('#all_role_table').DataTable({
      "paging": true,
      "lengthChange": true,
-     "searching": true,
+     "searching": true,    
      "ordering": true,
      "info": true,
-     "autoWidth": false,
-     "processing": true,
+     "autoWidth": false, 
+     "processing": true, 
      "serverSide": true,
-     // "ajax": "{{URL::to('/employee/get_all_employees')}}",
+     // "ajax": "{{URL::to('/get_attendance_list_table')}}",
      "ajax": {
-      type: "GET", 
-      data: {
-        "working_date":$('#working_date').val(),
-        "department_branch_id":$('#department_branch_id').val(),
-        "department_id":$('#department_id').val(), 
+       data: function(data){
+        data.working_date = $('#working_date').val(); 
+        data.department_branch_id=$('#department_branch_id').val();
+        data.department_id=$('#department_id').val();
       },
-      dataType: "JSON",  
-      url: "{{URL::to('/get_attendance_list_table')}}", 
-      success:function(data){     
-        console.log(data);
-      },       
+      url: "{{URL::to('/get_attendance_list_table')}}"
     },
     "columns": [
 
-    // // {"data": "employees_master.employee_fullname"}, 
-    // // {"data": "employees_master.employee_code"}, 
-    // // {"data": "employees_master.employee_job_info[0].department.branch.branch_name"}, 
-    // // {"data": "employees_master.employee_job_info[0].department.department_name"},  
-    // // {"data": "employees_master.employee_job_info[0].designation.designation_name"},  
+    // {"data": "employees_master.employee_fullname"}, 
+    // {"data": "employees_master.employee_code"}, 
+    // {"data": "employees_master.employee_job_info[0].department.branch.branch_name"}, 
+    // {"data": "employees_master.employee_job_info[0].department.department_name"},  
+    // {"data": "employees_master.employee_job_info[0].designation.designation_name"},  
 
 
     {"data": "employee_fullname"}, 
@@ -261,20 +249,19 @@ Attendance List
 
     ], 
     "order": [[0, 'asc']]
-  });  
-    
+  }); 
 
 
-  }
 
-  $('#submit_button').on('click',function(){ 
-    if(!$('#attendance_form').valid()){ 
-      return;
-    }  else{
-      initializeTable();
-    } 
-  });
-  // initializeTable();
+
+
+    $('#submit_button').on('click',function(){ 
+      if(!$('#attendance_form').valid()){ 
+        return;
+      }  else{ 
+        table.ajax.reload();   
+      }   
+    });
 
 
 });//document ready
