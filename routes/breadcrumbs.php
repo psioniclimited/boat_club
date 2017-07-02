@@ -99,6 +99,12 @@ Breadcrumbs::register('holiday', function($breadcrumbs)
     $breadcrumbs->push('Holiday', url('/holiday'));
 });
 
+Breadcrumbs::register('attendance_deduction', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Attendance Deduction Setup', url('/attendance_deduction'));
+});
+
 
 Breadcrumbs::register('job_opening', function($breadcrumbs)
 {

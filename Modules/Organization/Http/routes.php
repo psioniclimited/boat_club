@@ -84,17 +84,10 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Org
 	Route::post('/holiday/store_holiday_info', 'HolidayController@storeHolidayInfo');
 	Route::resource('/holiday', 'HolidayController');
 
-	// Route::get('testmultiple', function(){
-	// 	$salary_grade = Modules\Organization\Entities\SalaryGradeMaster::find(1);
-	// 	dd([
-	// 		array('amount' => 2000, 'salary_head_id' => 2),
-	// 		array('amount' => 3000, 'salary_head_id' => 3),
-	// 	]);
 
-	// 	$salary_grade->salary_grade_info()->createMany([
-	// 		array('amount' => 2000, 'salary_head_id' => 2),
-	// 		array('amount' => 3000, 'salary_head_id' => 3),
-	// 	]);
-	// 	dd($salary_grade);
-	// });
+
+	Route::get('/attendance_deduction/get_all_deduction_policies', 'AttendanceDeductionController@getAllDeductionPolicies');
+	Route::resource('/attendance_deduction', 'AttendanceDeductionController');
+
+ 
 });

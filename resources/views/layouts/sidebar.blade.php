@@ -82,6 +82,18 @@
       <li><a href="{{URL::to('/week_holiday')}}">Week Holiday</a></li> 
       <li><a href="{{URL::to('/holiday')}}">Holiday</a></li>
 
+
+       <li class="treeview">
+         <a href="#"> <span>Attendance Deduction Setup</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="{{URL::to('/attendance_deduction')}}">Attendance Deduction Policy List</a></li>
+          <li><a href="{{URL::to('/attendance_deduction/create')}}">Create New Policy</a></li>
+        </ul>
+      </li>
 <!--         <li class="treeview">
          <a href="#"> <span>Holiday</span>
           <span class="pull-right-container">
