@@ -81,6 +81,7 @@
       </li>
       <li><a href="{{URL::to('/week_holiday')}}">Week Holiday</a></li> 
       <li><a href="{{URL::to('/holiday')}}">Holiday</a></li>
+      <li><a href="{{URL::to('/leave_type')}}">Leave Type</a></li>
 
 
        <li class="treeview">

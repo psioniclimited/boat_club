@@ -94,7 +94,7 @@ class BranchController extends Controller
 
     public function getAllBranches(DatatableHelper $databaseHelper)
     { 
-        $branches = Branch::all('branch_type','district','post_office'); 
+        $branches = Branch::with('branch_type','district','post_office'); 
 
         return Datatables::of($branches)
         ->addColumn('action', function ($branches) use ($databaseHelper){
