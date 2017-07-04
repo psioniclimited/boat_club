@@ -105,6 +105,12 @@ Breadcrumbs::register('leave_type', function($breadcrumbs)
     $breadcrumbs->push('Leave Type', url('/leave_type'));
 });
 
+Breadcrumbs::register('leave_package', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Leave Package', url('/leave_package'));
+});
+
 Breadcrumbs::register('attendance_deduction', function($breadcrumbs)
 {
     $breadcrumbs->parent('home');

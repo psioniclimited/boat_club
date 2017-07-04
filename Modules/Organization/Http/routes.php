@@ -84,12 +84,17 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Org
 	Route::post('/holiday/store_holiday_info', 'HolidayController@storeHolidayInfo');
 	Route::resource('/holiday', 'HolidayController');
 
-
-
 	Route::get('/attendance_deduction/get_all_deduction_policies', 'AttendanceDeductionController@getAllDeductionPolicies');
 	Route::resource('/attendance_deduction', 'AttendanceDeductionController');
 
 	Route::get('/leave_type/get_all_leave_types', 'LeaveTypeController@getAllLeaveTypes');
 	Route::resource('/leave_type', 'LeaveTypeController');
+
+
+	Route::get('/leave_package/get_all_leave_packages', 'LeavePackageController@getAllLeavePackages');
+	Route::resource('/leave_package', 'LeavePackageController');
+
+
+
 
 });

@@ -85,6 +85,19 @@
 
 
        <li class="treeview">
+         <a href="#"> <span>Leave Package</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="{{URL::to('/leave_package')}}">Leave Package List</a></li>
+          <li><a href="{{URL::to('/leave_package/create')}}">Create New Package</a></li>
+        </ul>
+      </li>
+
+
+       <li class="treeview">
          <a href="#"> <span>Attendance Deduction Setup</span>
           <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
@@ -95,6 +108,8 @@
           <li><a href="{{URL::to('/attendance_deduction/create')}}">Create New Policy</a></li>
         </ul>
       </li>
+
+
 <!--         <li class="treeview">
          <a href="#"> <span>Holiday</span>
           <span class="pull-right-container">

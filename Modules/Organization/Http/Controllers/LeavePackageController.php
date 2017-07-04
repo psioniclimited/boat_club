@@ -6,11 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Organization\Repositories\BranchRepository;
+use Modules\Organization\Entities\LeavePackage; 
 use Modules\Organization\Entities\LeaveType; 
+use Modules\Organization\Entities\LeavePackageDetails; 
 use \Modules\Helpers\DatatableHelper;
 use Datatables;
 
-class LeaveTypeController extends Controller
+class LeavePackageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +20,7 @@ class LeaveTypeController extends Controller
      */
     public function index()
     {
-        return view('organization::leave_type.leave_type');
+        return view('organization::leave_package.leave_package_list');
     }
 
     /**
@@ -27,7 +29,10 @@ class LeaveTypeController extends Controller
      */
     public function create()
     {
-        return view('organization::create');
+
+        $leave_types= LeaveType::orderBy('leave_type_name')->get();
+        // dd($leave_types[0]->leave_type_name);
+        return view('organization::leave_package.leave_package',['leave_types'=>$leave_types]);
     }
 
     /**
@@ -35,12 +40,13 @@ class LeaveTypeController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function store(\Modules\Organization\Http\Requests\LeaveTypeCreateRequest $request)
+    // public function store(\Modules\Organization\Http\Requests\LeaveTypeCreateRequest $request)
+    public function store(Request $request)
     { 
-        // dd($request->all());
-        $leave_type = LeaveType::create($request->all());  
-        $request->session()->flash('status', 'Task was successful!');
-        return back();
+        dd($request->all());
+        // $leave_type = LeaveType::create($request->all());  
+        // $request->session()->flash('status', 'Task was successful!');
+        // return back();
     }
 
     /**
