@@ -25,9 +25,10 @@ Create New Leave Package
 
       <form action="" name="add_leave_package_form" id="add_leave_package_form" method="post">
 
+        <input name="_method" type="hidden" value="PUT">
+        {!! Form::hidden('id', $leave_package->id) !!}
+
         <div class="box box-info">
-
-
           <div class="box-header with-border">
             <h3 class="box-title">Leave Package Create</h3>
           </div>
@@ -43,17 +44,14 @@ Create New Leave Package
             <div class="col-md-12"> 
               <div class="form-group @if ($errors->has('leave_package_name')) has-error @endif">
                 <label for="name" class="control-label">Package Name*</label> 
-                <input type="text" class="form-control" id="leave_package_name" name="leave_package_name" placeholder="Enter Name" value="{{old('leave_package_name')}}" > 
+                <input type="text" class="form-control" id="leave_package_name" name="leave_package_name" placeholder="Enter Name" value="{{$leave_package->leave_package_name}}" > 
                 @if ($errors->has('leave_package_name')) <p class="help-block">{{ $errors->first('leave_package_name') }}</p> @endif                             
               </div>
             </div> 
             <div class="col-md-12"> 
               <div class="form-group @if ($errors->has('description')) has-error @endif">
                 <label for="name" class="control-label">Description</label> 
-
-                <textarea name="description" class="textarea" placeholder="Place some text here" style="width: 100%; height: 120px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" value="{{old('description')}}"></textarea>
-
-
+                <textarea name="description" class="textarea" placeholder="Place some text here" style="width: 100%; height: 120px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{$leave_package->description}}</textarea>
                 @if ($errors->has('description')) <p class="help-block">{{ $errors->first('description') }}</p> @endif                             
               </div>
             </div> 
@@ -71,15 +69,26 @@ Create New Leave Package
               </thead>
               <tbody>
                 @foreach($leave_types as $row)
+
+                <?php  
+                $existing_leave_type_in_package = $leave_package->leave_package_details->filter(function($item)  use ($row)  { 
+                  return $item->id == $row->id;
+                })->first();
+                ?>
+
                 <tr>
                   <td><input type="text" class="form-control" readonly="" value="{{$row->leave_type_name}}">  <input type="hidden" class="leave_type_id" value="{{$row->id}}"></td>
+                  @if($existing_leave_type_in_package!=NULL)
+                  <td><input type="number" class="number_of_days form-control" min="0" step="1" value="{{$existing_leave_type_in_package->number_of_days}}"></td>
+                  @else 
                   <td><input type="number" class="number_of_days form-control" min="0" step="1" value="0"></td>
+                  @endif
                 </tr>
                 @endforeach
               </tbody>
             </table>
           </div>
-          
+
         </div> <!-- /.box-body --> 
 
         <div class="box-footer"> 
@@ -89,7 +98,7 @@ Create New Leave Package
       </div><!-- /.box -->
 
     </div><!-- /col-md-12 -->
-    
+
 
 
 
@@ -170,7 +179,7 @@ Create New Leave Package
         processData: false,
         contentType: false,  
         dataType: "JSON",  
-        url: "{{URL::to('/leave_package')}}", 
+        url: "{{URL::to('/leave_package/'.$leave_package->id)}}",  
         success:function(data){    
 
           if(data.error!=undefined){ 
@@ -189,7 +198,7 @@ Create New Leave Package
             // if backend validation fails then the errors will be shown
             var errors = data.responseJSON;
 
-            // console.log(errors);
+            console.log(errors);
             var errorsHtml="";
           // console.log(errors);
           // Render the errors with js ...

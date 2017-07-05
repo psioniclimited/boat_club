@@ -11,6 +11,7 @@ use Modules\Organization\Entities\LeaveType;
 use Modules\Organization\Entities\LeavePackageDetails; 
 use \Modules\Helpers\DatatableHelper;
 use Datatables;
+use URL;
 
 class LeavePackageController extends Controller
 {
@@ -30,8 +31,7 @@ class LeavePackageController extends Controller
     public function create()
     {
 
-        $leave_types= LeaveType::orderBy('leave_type_name')->get();
-        // dd($leave_types[0]->leave_type_name);
+        $leave_types= LeaveType::orderBy('leave_type_name')->get(); 
         return view('organization::leave_package.leave_package',['leave_types'=>$leave_types]);
     }
 
@@ -41,12 +41,13 @@ class LeavePackageController extends Controller
      * @return Response
      */
     // public function store(\Modules\Organization\Http\Requests\LeaveTypeCreateRequest $request)
-    public function store(Request $request)
-    { 
-        dd($request->all());
-        // $leave_type = LeaveType::create($request->all());  
-        // $request->session()->flash('status', 'Task was successful!');
-        // return back();
+    public function store(\Modules\Organization\Http\Requests\LeavePackageCreateRequest $request)
+    {  
+        $leave_package = LeavePackage::create($request->all());  
+        $leave_package->leave_package_details()->createMany(json_decode($request->leave_package_details,true));
+
+        $request->session()->flash('status', 'Task was successful!'); 
+        return response()->json(['redirect' => URL::to('/leave_package/create')], 200);
     }
 
     /**
@@ -62,9 +63,20 @@ class LeavePackageController extends Controller
      * Show the form for editing the specified resource.
      * @return Response
      */
-    public function edit(LeaveType $leave_type)
+    public function edit(LeavePackage $leave_package)
     {  
-        return view('organization::leave_type.edit_leave_type',['leave_type'=>$leave_type]);
+
+
+
+
+
+
+        $leave_types= LeaveType::orderBy('leave_type_name')->get(); 
+        return view('organization::leave_package.edit_leave_package',
+            [
+            'leave_types'=>$leave_types,
+            'leave_package'=>$leave_package
+            ]);
     }
 
     /**
@@ -72,34 +84,34 @@ class LeavePackageController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function update(\Modules\Organization\Http\Requests\LeaveTypeUpdateRequest $request,LeaveType $leave_type)
+    public function update(\Modules\Organization\Http\Requests\LeavePackageUpdateRequest $request,LeavePackage $leave_package)
     {
-        //initializing the row's checked colums as unchecked
-        $leave_type->update(['carry_forward' => 0,'payment_type'=>0]);
+        $leave_package->update($request->all());
+        
+        $leave_package->leave_package_details()->delete(); 
+        $leave_package->leave_package_details()->createMany(json_decode($request->leave_package_details,true));
 
-        //now updating with given value
-        $leave_type->update($request->all());
+        $request->session()->flash('status', 'Task was successful!'); 
+        return response()->json(['redirect' => URL::to('/leave_package')], 200);
 
-        $request->session()->flash('status', 'Task was successful!');
-        return redirect('/leave_type');
     }
 
     /**
      * Remove the specified resource from storage.
      * @return Response
      */
-    public function destroy(LeaveType $leave_type,Request $request)
+    public function destroy(LeavePackage $leave_package,Request $request)
     { 
-        $leave_type->delete();
+        $leave_package->delete();
         $request->session()->flash('status', 'Task was successful!');
         // return back();
     }
     
 
 
-    public function getAllLeaveTypes(DatatableHelper $databaseHelper)
+    public function getAllLeavePackages(DatatableHelper $databaseHelper)
     { 
-        $leave_types = LeaveType::orderBy('leave_type_name'); 
+        $leave_packages = LeavePackage::orderBy('leave_package_name'); 
 
         // return Datatables::of($leave_types)
         // ->addColumn('action', function ($branches) use ($databaseHelper){
@@ -107,9 +119,9 @@ class LeavePackageController extends Controller
         // })
         // ->make(true);
 
-        return Datatables::of($leave_types)
-        ->addColumn('action', function ($leave_types) use ($databaseHelper){
-            return $databaseHelper->editButton('leave_type',$leave_types->id);
+        return Datatables::of($leave_packages)
+        ->addColumn('action', function ($leave_packages) use ($databaseHelper){
+            return $databaseHelper->editButton('leave_package',$leave_packages->id);
         })
         ->make(true);
     }

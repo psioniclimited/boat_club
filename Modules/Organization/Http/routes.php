@@ -95,6 +95,4 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Org
 	Route::resource('/leave_package', 'LeavePackageController');
 
 
-
-
 });
