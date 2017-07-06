@@ -148,3 +148,9 @@ Breadcrumbs::register('attendance', function($breadcrumbs)
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Attendance', url('/attendance/punch_in'));
 });
+
+Breadcrumbs::register('employee_leave_application', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Employee Leave Applicantion', url('/leave_application'));
+});

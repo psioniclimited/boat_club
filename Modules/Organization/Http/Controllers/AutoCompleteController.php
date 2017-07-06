@@ -12,6 +12,7 @@ use Modules\Organization\Entities\PostOffice;
 use Modules\Organization\Entities\BranchType; 
 use Modules\Organization\Entities\DepartmentType; 
 use Modules\Organization\Entities\Department; 
+use Modules\Organization\Entities\LeaveType; 
 class AutoCompleteController extends Controller
 {
     /**
@@ -113,6 +114,14 @@ class AutoCompleteController extends Controller
     public function getWeekHolidayMasters(Request $request, BranchRepository $branchRepository){ 
         return $branchRepository->getWeekHolidayMasters('week_holiday_master_name',$request->input('term'), ['id', 'week_holiday_master_name as text']); 
     }
+
+
+    public function getLeaveTypes(Request $request, BranchRepository $branchRepository){ 
+        return $branchRepository->getLeaveTypes('leave_type_name',$request->input('term'), ['id', 'leave_type_name as text']); 
+    }
+
+
+
 
     public function getDistrictOfBranch(Request $request)
     {  

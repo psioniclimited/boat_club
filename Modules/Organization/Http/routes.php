@@ -11,6 +11,9 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Org
 	Route::get('/branch/auto/get_branch_post_office', 'AutoCompleteController@getPostOfficeOfBranch');
 	Route::get('/branch/auto/get_branch_branch_type', 'AutoCompleteController@getBranchTypeOfBranch');
 	Route::get('/branch/auto/get_work_shifts', 'AutoCompleteController@getWorkShifts');
+	
+
+	Route::get('/leave_type/auto/get_leave_types', 'AutoCompleteController@getLeaveTypes');
 
 	Route::get('/department/auto/get_department_types', 'AutoCompleteController@getDepartmentTypes');
 	Route::get('/department/auto/get_department/department_type', 'AutoCompleteController@getDepartmentTypeOfDepartment');

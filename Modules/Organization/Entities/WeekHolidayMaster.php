@@ -20,6 +20,6 @@ class WeekHolidayMaster extends Model
 
 	public function week_holiday()
 	{ 
-		return $this->hasMany('Modules\Organization\Entities\WeekHoliday');
+		return $this->hasMany('Modules\Organization\Entities\WeekHoliday','week_holiday_master_id');
 	}
 }

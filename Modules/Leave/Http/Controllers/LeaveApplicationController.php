@@ -1,13 +1,13 @@
 <?php
 
-namespace Modules\Organization\Http\Controllers;
+namespace Modules\Leave\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
 use Modules\Organization\Repositories\BranchRepository;
-use Modules\Organization\Entities\AttendanceDeductionMaster;
+use Modules\Leave\Entities\LeaveLedger;
 use \Modules\Helpers\DatatableHelper;
 use Datatables;
 
@@ -20,7 +20,7 @@ class LeaveApplicationController extends Controller
      */
     public function index()
     {
-        return view('Leave::leave_application.list_of_leave_applications');
+        return view('leave::leave_application.list_of_leave_applications');
     }
 
     /**
@@ -29,7 +29,7 @@ class LeaveApplicationController extends Controller
      */
     public function create()
     {
-        return view('Leave::leave_application.create_leave_application');
+        return view('leave::leave_application.create_leave_application');
     }
 
     /**
@@ -37,9 +37,13 @@ class LeaveApplicationController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function store(\Modules\Organization\Http\Requests\AttendanceDeductionCreateRequest $request)
-    {   
-        $user = AttendanceDeductionMaster::create($request->all());
+    public function store(\Modules\Leave\Http\Requests\LeaveApplicationCreateRequest $request) 
+    {    
+
+        $leave_application = LeaveLedger::create($request->all());
+
+        $leave_application->setWorkingDaysAndPayTypeAttributeManually($request); 
+        
         $request->session()->flash('status', 'Task was successful!');
         return back();
     }

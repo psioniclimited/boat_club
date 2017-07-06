@@ -84,30 +84,30 @@
       <li><a href="{{URL::to('/leave_type')}}">Leave Type</a></li>
 
 
-       <li class="treeview">
-         <a href="#"> <span>Leave Package</span>
-          <span class="pull-right-container">
-            <i class="fa fa-angle-left pull-right"></i>
-          </span>
-        </a>
-        <ul class="treeview-menu">
-          <li><a href="{{URL::to('/leave_package')}}">Leave Package List</a></li>
-          <li><a href="{{URL::to('/leave_package/create')}}">Create New Package</a></li>
-        </ul>
-      </li>
+      <li class="treeview">
+       <a href="#"> <span>Leave Package</span>
+        <span class="pull-right-container">
+          <i class="fa fa-angle-left pull-right"></i>
+        </span>
+      </a>
+      <ul class="treeview-menu">
+        <li><a href="{{URL::to('/leave_package')}}">Leave Package List</a></li>
+        <li><a href="{{URL::to('/leave_package/create')}}">Create New Package</a></li>
+      </ul>
+    </li>
 
 
-       <li class="treeview">
-         <a href="#"> <span>Attendance Deduction Setup</span>
-          <span class="pull-right-container">
-            <i class="fa fa-angle-left pull-right"></i>
-          </span>
-        </a>
-        <ul class="treeview-menu">
-          <li><a href="{{URL::to('/attendance_deduction')}}">Attendance Deduction Policy List</a></li>
-          <li><a href="{{URL::to('/attendance_deduction/create')}}">Create New Policy</a></li>
-        </ul>
-      </li>
+    <li class="treeview">
+     <a href="#"> <span>Attendance Deduction Setup</span>
+      <span class="pull-right-container">
+        <i class="fa fa-angle-left pull-right"></i>
+      </span>
+    </a>
+    <ul class="treeview-menu">
+      <li><a href="{{URL::to('/attendance_deduction')}}">Attendance Deduction Policy List</a></li>
+      <li><a href="{{URL::to('/attendance_deduction/create')}}">Create New Policy</a></li>
+    </ul>
+  </li>
 
 
 <!--         <li class="treeview">
@@ -202,6 +202,18 @@
  </ul>
 </li>
 
+
+<li class="treeview">
+  <a href="#"><i class="fa fa-link"></i> <span>Employee Leave</span>
+    <span class="pull-right-container">
+      <i class="fa fa-angle-left pull-right"></i>
+    </span>
+  </a>
+  <ul class="treeview-menu">  
+   <li><a href="{{URL::to('/leave_application')}}">Leave Application List</a></li> 
+   <li><a href="{{URL::to('/leave_application/create')}}">Create Leave Application</a></li>  
+ </ul>
+</li>
 
 
 

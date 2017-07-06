@@ -11,6 +11,7 @@ use Modules\Organization\Entities\PostOffice;
 use Modules\Organization\Entities\SalaryHead;
 use Modules\Organization\Entities\SalaryGradeMaster;
 use Modules\Organization\Entities\WorkShift;
+use Modules\Organization\Entities\LeaveType;
 
 use Modules\Organization\Entities\HolidayList;
 use Modules\Organization\Entities\WeekHolidayMaster; 
@@ -57,6 +58,8 @@ class BranchRepository{
 		$designations = Designation::where($attribute, "LIKE", "%{$value}%")->get($columns);
 		return $designations;
 	}
+
+
 	public function getHolidayLists($attribute, $value,$columns = ['*']){
 
 		$holiday_lists = HolidayList::where($attribute, "LIKE", "%{$value}%")->get($columns);
@@ -66,6 +69,15 @@ class BranchRepository{
 		$holidays = WeekHolidayMaster::where($attribute, "LIKE", "%{$value}%")->get($columns);
 		return $holidays;
 	}
+
+
+	public function getLeaveTypes($attribute, $value,$columns = ['*']){
+
+		$leave_types = LeaveType::where($attribute, "LIKE", "%{$value}%")->get($columns);
+		return $leave_types;
+	}
+
+
 }
 
 ?>
