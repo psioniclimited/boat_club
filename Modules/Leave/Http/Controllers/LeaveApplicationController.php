@@ -5,9 +5,9 @@ namespace Modules\Leave\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-
-use Modules\Organization\Repositories\BranchRepository;
+ 
 use Modules\Leave\Entities\LeaveLedger;
+use Modules\Leave\Entities\LeaveStatus;
 use \Modules\Helpers\DatatableHelper;
 use Datatables;
 
@@ -29,7 +29,7 @@ class LeaveApplicationController extends Controller
      */
     public function create()
     {
-        return view('leave::leave_application.create_leave_application');
+        return view('leave::leave_application.create_leave_application',['leave_status'=>LeaveStatus::all()]);
     }
 
     /**
@@ -92,13 +92,13 @@ class LeaveApplicationController extends Controller
     
 
 
-    public function getAllDeductionPolicies(DatatableHelper $databaseHelper)
+    public function getAllLeaveApplications(DatatableHelper $databaseHelper)
     { 
-        $deduction_policies = AttendanceDeductionMaster::orderBy('deduction_policy_name')->get(); 
-
-        return Datatables::of($deduction_policies)
-        ->addColumn('action', function ($deduction_policies) use ($databaseHelper){
-            return $databaseHelper->editButton('attendance_deduction',$deduction_policies->id).' '.$databaseHelper->deleteButton($deduction_policies->id);
+        $leave_applications = LeaveLedger::with('employees_master.employee_job_info.branch', 'employees_master.employee_job_info.department','employees_master.employee_job_info.designation','leave_status'); 
+ 
+        return Datatables::of($leave_applications)
+        ->addColumn('action', function ($leave_applications) use ($databaseHelper){
+            return $databaseHelper->editButton('leave_application',$leave_applications->id).' '.$databaseHelper->deleteButton($leave_applications->id);
         })
         ->make(true);
     }

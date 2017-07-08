@@ -17,9 +17,10 @@ class LeaveApplicationCreateRequest extends FormRequest
             //
             'leave_type_id'=>'required|exists:leave_type,id', 
             'employees_master_id'=>'required|exists:employees_master,id',
-            'from_date'=>'required',
-            'to_date'=>'required',
+            'from_date'=>'required|date|date_format:Y-m-d',
+            'to_date'=>'required|date|date_format:Y-m-d|after_or_equal:from_date',
             'reason'=>'required', 
+            'leave_status_id'=>'required|exists:leave_status,id', 
         ];
     }
 

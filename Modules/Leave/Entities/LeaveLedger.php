@@ -16,7 +16,7 @@ class LeaveLedger extends Model
 	use SoftDeletes;
 	protected $table = 'leave_ledger';
 	
-	protected $fillable = ['from_date','to_date','status','working_days','paytype','employees_master_id','leave_type_id'];
+	protected $fillable = ['from_date','to_date','leave_status_id','working_days','paytype','employees_master_id','leave_type_id'];
 	
 	public $timestamps=true;
 	protected $dates = ['deleted_at'];
@@ -30,6 +30,11 @@ class LeaveLedger extends Model
 	public function leave_type()
 	{  
 		return $this->belongsTo('Modules\Organization\Entities\LeaveType','leave_type_id'); 
+	}
+
+		public function leave_status()
+	{  
+		return $this->belongsTo('Modules\Leave\Entities\LeaveStatus','leave_status_id'); 
 	}
 
 
