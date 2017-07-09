@@ -98,10 +98,12 @@ class LeaveApplicationController extends Controller
      * Remove the specified resource from storage.
      * @return Response
      */
-    public function destroy(AttendanceDeductionMaster $attendance_deduction,Request $request)
-    { 
-        // dd($attendance_deduction);
-        $attendance_deduction->delete();
+    public function destroy(LeaveLedger $leave_application,Request $request)
+    {  
+        if (!$this->isChangebale($leave_application)) { 
+            return redirect()->back()->with('alert-class', 'You can not Change as a Decision has been made on this Application');
+        } 
+        $leave_application->delete();
         $request->session()->flash('status', 'Task was successful!');
         // return back();
     }

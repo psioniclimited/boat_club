@@ -137,8 +137,8 @@ $('#confirm_delete').on('show.bs.modal', function(e) {
  // console.log(branch_id);
 
  $('#delete_role').click(function(e){
-  // console.log("sa");
-  event.preventDefault();
+  console.log("sa");
+  // event.preventDefault();
   $.ajax({
    cache: false,
    type: 'DELETE',
