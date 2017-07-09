@@ -31,7 +31,8 @@ List of Leave Applications
           <table id="all_role_table" class="table table-bordered table-hover">
             <thead>
               <tr> 
-                <th>Employee Information</th>  
+                <th>Employee Name</th>  
+                <th>Employee Code</th>  
                 <th>Branch</th>  
                 <th>Department</th>
                 <th>Designation</th>
@@ -40,7 +41,7 @@ List of Leave Applications
                 <th>To Date</th>
                 <th>Days</th>
                 <th>Reason</th>
-                <th>Status</th>
+                <th>Status</th> 
                 <th>Action</th>
               </tr>
             </thead>
@@ -108,16 +109,17 @@ List of Leave Applications
      "serverSide": true,
      "ajax": "{{URL::to('/leave_application/get_all_leave_applications')}}",
      "columns": [  
-    {"data": "employees_master.employee_fullname"},
-    {"data": "employees_master.employee_job_info[0].branch.branch_name"},
-    {"data": "employees_master.employee_job_info[0].department.department_name"},
-    {"data": "employees_master.employee_job_info[0].designation.designation_name"},
-    { "data": "employees_master.contact_number"},
+    {"data": "employee_fullname"},
+    {"data": "employee_code"},
+    {"data": "branch_name"},
+    {"data": "department_name"},
+    {"data": "designation_name"},
+    { "data": "contact_number"},
     { "data": "from_date"},
     { "data": "to_date"},
     { "data": "working_days"},
     { "data": "reason"},
-    { "data": "leave_status.status_name"},
+    { "data": "status_name"},
     {data: 'action', name: 'action', orderable: false, searchable: false}
     ], 
     "order": [[0, 'asc']]

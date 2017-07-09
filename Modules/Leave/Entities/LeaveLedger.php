@@ -13,7 +13,7 @@ use File;
 
 class LeaveLedger extends Model
 {
-	use SoftDeletes;
+	use SoftDeletes; 
 	protected $table = 'leave_ledger';
 	
 	protected $fillable = ['from_date','to_date','leave_status_id','working_days','paytype','employees_master_id','leave_type_id'];
