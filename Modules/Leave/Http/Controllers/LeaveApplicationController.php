@@ -98,7 +98,7 @@ class LeaveApplicationController extends Controller
      * Remove the specified resource from storage.
      * @return Response
      */
-    public function destroy(LeaveLedger $leave_application,Request $request)
+    public function destroy(Request $request,LeaveLedger $leave_application)
     {  
         if (!$this->isChangebale($leave_application)) { 
             return redirect()->back()->with('alert-class', 'You can not Change as a Decision has been made on this Application');

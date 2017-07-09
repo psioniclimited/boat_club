@@ -76,6 +76,7 @@ class JobOpeningController extends Controller
      */
     public function destroy(Request $request, JobOpening $job_opening)
     { 
+        // dd($job_opening);
         $job_opening->delete();
         $request->session()->flash('status', 'Task was successful!'); 
     }
