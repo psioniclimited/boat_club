@@ -4,13 +4,13 @@
  
 @endsection
 @section('page_header')
-Leave Application
+Leave Approval
 @endsection
 @section('page_description')
-List of Leave Applications
+List of active Leave Applications
 @endsection
 @section('breadcrumb')
-{!! Breadcrumbs::render('employee_leave_application') !!}
+{!! Breadcrumbs::render('employee_leave_approval') !!}
 @endsection
 @section('content')
 <!-- Content Header (Page header) -->
@@ -24,7 +24,7 @@ List of Leave Applications
     <div class="col-lg-12">
       <div class="box box-info">
         <div class="box-header with-border">
-          <h3 class="box-title">Leave Application List</h3>
+          <h3 class="box-title">Active Leave Applications</h3>
         </div>
 
         <div class="box-body"> 
@@ -35,8 +35,7 @@ List of Leave Applications
                 <th>Employee Code</th>  
                 <th>Branch</th>  
                 <th>Department</th>
-                <th>Designation</th>
-                <th>Contact No.</th>
+                <th>Designation</th> 
                 <th>From Date</th>
                 <th>To Date</th>
                 <th>Days</th>
@@ -107,14 +106,13 @@ List of Leave Applications
      "autoWidth": false,
      "processing": true,
      "serverSide": true,
-     "ajax": "{{URL::to('/leave_application/get_all_leave_applications')}}",
+     "ajax": "{{URL::to('/leave_approval/get_all_leave_applications')}}",
      "columns": [  
     {"data": "employee_fullname"},
     {"data": "employee_code"},
     {"data": "branch_name"},
     {"data": "department_name"},
-    {"data": "designation_name"},
-    { "data": "contact_number"},
+    {"data": "designation_name"}, 
     { "data": "from_date"},
     { "data": "to_date"},
     { "data": "working_days"},
@@ -137,7 +135,7 @@ $('#confirm_delete').on('show.bs.modal', function(e) {
  // console.log(branch_id);
 
  $('#delete_role').click(function(e){
-  console.log("sa");
+  // console.log("sa");
   // event.preventDefault();
   $.ajax({
    cache: false,
@@ -145,11 +143,11 @@ $('#confirm_delete').on('show.bs.modal', function(e) {
    url: '/leave_application/' + branch_id,
    data: branch_id,
    success: function(data){ 
-    console.log("suc");
+    // console.log("suc");
      table.ajax.reload(null, false);
      $('#confirm_delete').modal('toggle');
    },error:function(data){
-    console.log("askdl");
+    // console.log("askdl");
    }
  });
 });

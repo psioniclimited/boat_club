@@ -10,5 +10,9 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Lea
 	Route::resource('/leave_application', 'LeaveApplicationController');
 
 
+	Route::get('/leave_approval/get_all_leave_applications', 'LeaveApprovalController@getAllLeaveApplications');
+	Route::resource('/leave_approval', 'LeaveApprovalController');
+
+
 
 });

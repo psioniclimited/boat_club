@@ -100,12 +100,14 @@ class LeaveApplicationController extends Controller
      */
     public function destroy(Request $request,LeaveLedger $leave_application)
     {  
+        // dd($leave_application);
         if (!$this->isChangebale($leave_application)) { 
             return redirect()->back()->with('alert-class', 'You can not Change as a Decision has been made on this Application');
         } 
         $leave_application->delete();
         $request->session()->flash('status', 'Task was successful!');
         // return back();
+        // return "sadjksad";
     }
     
 

@@ -212,6 +212,7 @@
   <ul class="treeview-menu">  
    <li><a href="{{URL::to('/leave_application')}}">Leave Application List</a></li> 
    <li><a href="{{URL::to('/leave_application/create')}}">Create Leave Application</a></li>  
+   <li><a href="{{URL::to('/leave_approval')}}">Leave Approval</a></li>  
  </ul>
 </li>
 
