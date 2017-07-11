@@ -63,7 +63,6 @@ class LeaveApprovalController extends Controller
         ->where('leave_type_id',$leave_approval->leave_type_id)
         ->get();
 
-
         return view('leave::leave_approval.edit_active_application',[
             'leave_application'=>$leave_approval,
             'leave_status'=>LeaveStatus::all(),
@@ -105,20 +104,16 @@ class LeaveApprovalController extends Controller
     //otherwise check if the leave was already approved and now been rejected or cancelled in that case we have to add the working days again with the stocks
     public function updateLeaveStock($leave_approval,$new_leave_status)
     {  
-
         $leave_stock=LeaveStock::where('employees_master_id', $leave_approval->employees_master_id)
         ->where('leave_type_id',  $leave_approval->leave_type_id);
-
+       
         if ($new_leave_status->deduction==1) { 
             $this->addAndUpdateStock($leave_stock,$leave_approval->working_days);
         }else{
-
             $current_status=LeaveStatus::find($leave_approval->leave_status_id);
-
             if ($current_status->deduction==1) {
                 $this->deductAndUpdateStock($leave_stock,$leave_approval->working_days);
             }
-
         }
 
     }
@@ -146,8 +141,6 @@ class LeaveApprovalController extends Controller
 
     public function getAllLeaveApplications(DatatableHelper $databaseHelper)
     { 
-
-
         $leave_applications=DB::table('leave_ledger')
         ->join('employees_master','employees_master.id','=','leave_ledger.employees_master_id')
         ->where('leave_ledger.active', '=', '1')
@@ -158,7 +151,6 @@ class LeaveApprovalController extends Controller
         ->join('branch','employee_job_info.department_branch_id','=','branch.id')
         ->join('leave_status','leave_ledger.leave_status_id','=','leave_status.id')
         ->select('leave_ledger.*','employees_master.contact_number','employees_master.employee_fullname','employees_master.employee_code','department.department_name','designation.designation_name','branch.branch_name','leave_status.status_name');
-
 
         return Datatables::of($leave_applications)
         ->addColumn('action', function ($leave_applications) use ($databaseHelper){ 

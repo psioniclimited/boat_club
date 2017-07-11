@@ -236,7 +236,7 @@ $.get( "{{URL::to('/department/auto/get_department/branch')}}", { department_id:
     init_select2_with_default_value({
         default_value: data,
         placeholder: "Branch",
-        url: '{{URL::to("/")}}/department/auto/get_branchs',
+        url: '{{URL::to("/")}}/branch/auto/get_branchs',
         selector_id:$('#branch_id'),
         data:{}
     });

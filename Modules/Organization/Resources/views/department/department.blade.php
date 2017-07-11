@@ -229,7 +229,7 @@ init_select2({
 // initialize select2 for department_type_id
 init_select2({
     placeholder: "Branch",
-    url: '{{URL::to("/")}}/department/auto/get_branchs',
+    url: '{{URL::to("/")}}/branch/auto/get_branchs',
     selector_id:$('#branch_id'), 
     data:{}
 });
