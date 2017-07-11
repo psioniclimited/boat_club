@@ -144,6 +144,7 @@ class LeaveApprovalController extends Controller
         $leave_applications=DB::table('leave_ledger')
         ->join('employees_master','employees_master.id','=','leave_ledger.employees_master_id')
         ->where('leave_ledger.active', '=', '1')
+        ->where('leave_ledger.deleted_at', '=', NULL)
         ->join('employee_job_info','employee_job_info.employees_master_id','=','employees_master.id')
         ->where('employee_job_info.deleted_at', '=', NULL)
         ->join('department','employee_job_info.department_id','=','department.id')

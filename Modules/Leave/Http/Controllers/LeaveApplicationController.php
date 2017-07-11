@@ -101,16 +101,16 @@ class LeaveApplicationController extends Controller
     public function destroy(Request $request,LeaveLedger $leave_application)
     {  
         // dd($leave_application);
-        if (!$this->isChangebale($leave_application)) { 
-            return redirect()->back()->with('alert-class', 'You can not Change as a Decision has been made on this Application');
+
+        if (!$this->isChangebale($leave_application)) {  
+            $request->session()->flash('alert-class',  'You can not Change as a Decision has been made on this Application');
         } 
         $leave_application->delete();
         $request->session()->flash('status', 'Task was successful!');
-        // return back();
-        // return "sadjksad";
+ 
     }
     
-
+ 
 
     public function getAllLeaveApplications(DatatableHelper $databaseHelper)
     { 
@@ -132,6 +132,7 @@ class LeaveApplicationController extends Controller
 
         $leave_applications=DB::table('leave_ledger')
         ->join('employees_master','employees_master.id','=','leave_ledger.employees_master_id')
+        ->where('leave_ledger.deleted_at', '=', NULL)
         ->join('employee_job_info','employee_job_info.employees_master_id','=','employees_master.id')
         ->where('employee_job_info.deleted_at', '=', NULL)
         ->join('department','employee_job_info.department_id','=','department.id')
