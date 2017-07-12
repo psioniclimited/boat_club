@@ -28,6 +28,9 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Org
 	Route::get('/holiday/auto/get_holiday_lists', 'AutoCompleteController@getHolidayLists');
 	Route::get('/week_holiday/auto/get_week_holiday_masters', 'AutoCompleteController@getWeekHolidayMasters');
 	
+	Route::get('/attendance_deduction/auto/get_attendance_deduction_policies', 'AutoCompleteController@getAttendanceDeductionMasters');
+	Route::get('/leave_package/auto/get_leave_packages', 'AutoCompleteController@getLeavePackages');
+	
 
 
 

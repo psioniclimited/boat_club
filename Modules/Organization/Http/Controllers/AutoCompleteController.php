@@ -120,6 +120,14 @@ class AutoCompleteController extends Controller
         return $branchRepository->getLeaveTypes('leave_type_name',$request->input('term'), ['id', 'leave_type_name as text']); 
     }
 
+    public function getAttendanceDeductionMasters(Request $request, BranchRepository $branchRepository){ 
+        return $branchRepository->getAttendanceDeductionMasters('deduction_policy_name',$request->input('term'), ['id', 'deduction_policy_name as text']); 
+    }
+
+    public function getLeavePackages(Request $request, BranchRepository $branchRepository){ 
+        return $branchRepository->getLeavePackages('leave_package_name',$request->input('term'), ['id', 'leave_package_name as text']); 
+    }
+
 
 
 

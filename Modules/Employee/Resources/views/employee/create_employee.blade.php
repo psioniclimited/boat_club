@@ -227,6 +227,27 @@ Create Employee
   init_select2(parameters);
 
 
+  var attendance_deduction_master_id=$('#attendance_deduction_master_id'); 
+  parameters = { 
+    placeholder: "Attendance Deduction Policy",
+    url: '{{URL::to("/")}}/attendance_deduction/auto/get_attendance_deduction_policies',
+    selector_id:attendance_deduction_master_id, 
+    data:{}
+  }
+
+  init_select2(parameters);
+
+  var leave_package_id=$('#leave_package_id'); 
+  parameters = { 
+    placeholder: "Attendance Deduction Policy",
+    url: '{{URL::to("/")}}/leave_package/auto/get_leave_packages',
+    selector_id:leave_package_id, 
+    data:{}
+  }
+
+  init_select2(parameters);
+
+
   var holiday_list_id=$('#holiday_list_id'); 
   parameters = { 
     placeholder: "Holiday List",

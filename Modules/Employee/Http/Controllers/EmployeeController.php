@@ -21,6 +21,9 @@ use Modules\Employee\Entities\EmployeeEducationalBackground;
 use Modules\Employee\Entities\EmployeePreviousJobExperience; 
 use Modules\Employee\Entities\EmployeeFamilyMembers; 
 use Modules\Organization\Entities\SalaryHead;
+use Modules\Organization\Entities\LeavePackage;
+
+use Modules\Leave\Entities\LeaveStock;
 
 
 use Datatables; 
@@ -74,37 +77,17 @@ class EmployeeController extends Controller
     // public function store(Request $request)
     public function store(\Modules\Employee\Http\Requests\EmployeeCreateRequest $request)
     {    
+      // dd($request->leave_package_id);
         $tableValidation=$this->validateTableData($request);
         if($tableValidation[0]==false){ 
             return response()->json(['error' => $tableValidation[1]]); 
         }
 
-        $employees_master=EmployeeMaster::create($request->all()); 
+        $employees_master=EmployeeMaster::create($request->all());
         $this->createAdditionalData($employees_master,$request,1);
+        // dd($employees_master->id); 
         
-        // $data=$request->all();
-
-        // $data['employees_master_id']=$employees_master->id;
-        // $employee_job_info=EmployeeJobInfo::create($data);
-
-        // $data['employee_job_info_id']=$employee_job_info->id;
-        // $employee_salary_info=EmployeeSalaryInformation::create($data);
-
-
-        // $data['remarks']="Joined the Organization";
-        // EmployeeWorkHistoryInCompany::create($data);
-
-        // $employee_salary_info->employee_salary_details()->createMany(json_decode($request->salary_details,true));
-
-        // $this->batchInsert($employees_master->employee_family_members(),$request->family_information);
-
-        // $this->batchInsert($employees_master->employee_educational_background(),$request->educational_background);
-
-        // $this->batchInsert($employees_master->employee_previous_job_experience(),$request->previous_work_history);
-
-        // $this->batchInsert($employees_master->employee_work_history_inside_company(),$request->history_inside_organization);
-
-        
+ 
         return response()->json(['redirect' => URL::to('/employee')], 200);
     }
 
@@ -224,6 +207,7 @@ class EmployeeController extends Controller
        $employee->employee_work_history_inside_company()->delete();
        $employee->employee_educational_background()->delete();
        $employee->employee_previous_job_experience()->delete();
+       $employee->leave_stock()->delete();
 
        $employee_job_info=$employee->employee_job_info;  
        $employee_salary_info=$employee_job_info[0]->employee_salary_information;
@@ -267,6 +251,10 @@ public function createAdditionalData($employees_master,$request,$mode){
     $employee_salary_info=EmployeeSalaryInformation::create($data);
 
     if($mode==1){ 
+      // dd("hi");
+        //generate the designated leave package for this employee
+        $this->generateLeaveStock($employees_master,LeavePackage::find($request->leave_package_id));
+
         $data['remarks']="Joined the Organization";
         EmployeeWorkHistoryInCompany::create($data);
     }
@@ -281,6 +269,18 @@ public function createAdditionalData($employees_master,$request,$mode){
     $this->batchInsert($employees_master->employee_work_history_inside_company(),$request->history_inside_organization);
 
 
+}
+
+public function generateLeaveStock($employees_master,$leave_package)
+{
+  $package_details=$leave_package->leave_package_details;
+  foreach ($package_details as $row) { 
+    LeaveStock::create([
+        'employees_master_id'=>$employees_master->id,
+        'leave_type_id'=>$row->leave_type_id,
+        'number_of_days'=>$row->number_of_days,
+      ]); 
+  }
 }
 
 

@@ -90,6 +90,26 @@
                   </div> 
                 </div><!-- /.col-md-6 -->
 
+
+                <div class="col-md-6"> 
+                  <div class="form-group @if ($errors->has('attendance_deduction_master_id')) has-error @endif">
+                    <label for="name" class="control-label">Attendance Deduction Policy*</label>
+                    <select class="form-control" id="attendance_deduction_master_id" name="attendance_deduction_master_id" > 
+                    </select>                 
+                    @if ($errors->has('attendance_deduction_master_id')) <p class="help-block">{{ $errors->first('attendance_deduction_master_id') }}</p> @endif                             
+                  </div> 
+                </div><!-- /.col-md-6 -->
+
+
+                <div class="col-md-6"> 
+                  <div class="form-group @if ($errors->has('leave_package_id')) has-error @endif">
+                    <label for="name" class="control-label">Leave Package*</label>
+                    <select class="form-control" id="leave_package_id" name="leave_package_id" > 
+                    </select>                 
+                    @if ($errors->has('leave_package_id')) <p class="help-block">{{ $errors->first('leave_package_id') }}</p> @endif                             
+                  </div> 
+                </div><!-- /.col-md-6 -->
+
                 <div class="col-md-12"></div>
 
                 <div class="col-md-6"> 

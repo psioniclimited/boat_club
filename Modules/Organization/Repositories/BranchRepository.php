@@ -12,6 +12,8 @@ use Modules\Organization\Entities\SalaryHead;
 use Modules\Organization\Entities\SalaryGradeMaster;
 use Modules\Organization\Entities\WorkShift;
 use Modules\Organization\Entities\LeaveType;
+use Modules\Organization\Entities\LeavePackage;
+use Modules\Organization\Entities\AttendanceDeductionMaster;
 
 use Modules\Organization\Entities\HolidayList;
 use Modules\Organization\Entities\WeekHolidayMaster; 
@@ -51,6 +53,16 @@ class BranchRepository{
 	public function getSalaryGradess($attribute, $value,$columns = ['*']){
 		$salary_grades = SalaryGradeMaster::where($attribute, "LIKE", "%{$value}%")->get($columns);
 		return $salary_grades;
+	}
+
+	public function getAttendanceDeductionMasters($attribute, $value,$columns = ['*']){
+		$attendance_deductions = AttendanceDeductionMaster::where($attribute, "LIKE", "%{$value}%")->get($columns);
+		return $attendance_deductions;
+	}
+
+	public function getLeavePackages($attribute, $value,$columns = ['*']){
+		$leave_package = LeavePackage::where($attribute, "LIKE", "%{$value}%")->get($columns);
+		return $leave_package;
 	}
 
 	public function getDesignations($attribute, $value,$columns = ['*']){

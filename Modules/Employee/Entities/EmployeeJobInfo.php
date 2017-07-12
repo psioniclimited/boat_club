@@ -12,7 +12,7 @@ class EmployeeJobInfo extends Model
 
 	protected $table = 'employee_job_info';
 
-	protected $fillable = ['offer_date','confirmation_date','date_of_joining','retirement_date','contract_end_date','employees_master_id','department_id','department_branch_id','designation_id','company_email','notice_day','holiday_list_id','week_holiday_master_id','employment_type_id','resignation_offer_date','relieving_date','reason_for_leaving','new_workplace','feedback','work_shift_id','reporting_boss_id'];
+	protected $fillable = ['offer_date','confirmation_date','date_of_joining','retirement_date','contract_end_date','employees_master_id','department_id','department_branch_id','designation_id','company_email','notice_day','holiday_list_id','week_holiday_master_id','employment_type_id','resignation_offer_date','relieving_date','reason_for_leaving','new_workplace','feedback','work_shift_id','reporting_boss_id','leave_package_id','attendance_deduction_master_id'];
 
 	public $timestamps=true;
 
@@ -57,11 +57,20 @@ class EmployeeJobInfo extends Model
 		return $this->belongsTo('Modules\Employee\Entities\EmploymentType','employment_type_id'); 
 	}
 
+	public function attendance_deduction()
+	{  
+		return $this->belongsTo('Modules\Organization\Entities\AttendanceDeductionMaster','attendance_deduction_master_id'); 
+	}
+
+	public function leave_package()
+	{  
+		return $this->belongsTo('Modules\Organization\Entities\LeavePackage','leave_package_id'); 
+	}
+
 	public function employee_salary_information()
 	{  
 		return $this->hasMany('Modules\Employee\Entities\EmployeeSalaryInformation','employee_job_info_id'); 
 	}
-
 
 
 	public function setResignationOfferDateAttribute($value)
@@ -69,6 +78,7 @@ class EmployeeJobInfo extends Model
 		$date=date_create($value);  
 		$this->attributes['resignation_offer_date'] = date_format($date,"Y-m-d");
 	}
+	
 	public function setRelievingDateAttribute($value)
 	{     
 		$date=date_create($value);  
