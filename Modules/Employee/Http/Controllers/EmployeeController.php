@@ -207,7 +207,7 @@ class EmployeeController extends Controller
        $employee->employee_work_history_inside_company()->delete();
        $employee->employee_educational_background()->delete();
        $employee->employee_previous_job_experience()->delete();
-       $employee->leave_stock()->delete();
+       // $employee->leave_stock()->delete();
 
        $employee_job_info=$employee->employee_job_info;  
        $employee_salary_info=$employee_job_info[0]->employee_salary_information;
@@ -258,6 +258,8 @@ public function createAdditionalData($employees_master,$request,$mode){
         $data['remarks']="Joined the Organization";
         EmployeeWorkHistoryInCompany::create($data);
     }
+
+ 
     $employee_salary_info->employee_salary_details()->createMany(json_decode($request->salary_details,true));
 
     $this->batchInsert($employees_master->employee_family_members(),$request->family_information);
