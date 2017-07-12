@@ -21,7 +21,7 @@ class updateLeaveLedger extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = "updates the leave application's active status";
 
     /**
      * Create a new command instance.
