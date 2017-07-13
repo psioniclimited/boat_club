@@ -63,6 +63,6 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Emp
 	Route::resource('/employee_resignation', 'EmployeeResignationController');
 	Route::resource('/employee_reinitialize', 'EmployeeReinitializeController');
 
-
+ 
 
 });

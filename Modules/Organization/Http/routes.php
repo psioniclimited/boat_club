@@ -100,5 +100,6 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Org
 	Route::get('/leave_package/get_all_leave_packages', 'LeavePackageController@getAllLeavePackages');
 	Route::resource('/leave_package', 'LeavePackageController');
 
+	// Route::get('/test_employee/{id}', 'LeavePackageController@getAllLeavePackages');
 
 });
