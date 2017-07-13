@@ -42,7 +42,7 @@ $(document).ready(function(){
         label.closest('.form-group').removeClass('has-error');
       },
       rules: {
-        employee_code: {required: true,remote: '{{URL::to("/check_unique_employee_code")}}'},
+        employee_code: {required: true},
         employee_fullname: {required: true},
         contact_number: {required: true},
         date_of_birth: {required: true},
@@ -55,11 +55,14 @@ $(document).ready(function(){
         designation_id: {required: true}, 
         holiday_list_id: {required: true}, 
         week_holiday_master_id: {required: true}, 
+        work_shift_id: {required: true}, 
         salary_grade_master_id: {required: true}, 
         basic_salary: {required: true}, 
+        attendance_deduction_master_id: {required: true}, 
+        leave_package_id: {required: true}, 
       },
       messages: {
-        employee_code: {required: "Please give Employee Code",remote: "Employee Code is in already use"},  
+        employee_code: {required: "Please give Employee Code"},  
         employee_fullname: {required: "Please give Employee Name"},
         contact_number: {required: "Please give Employee's Contact Number"},
         date_of_birth: {required: "Please give Employee's Date Of Birth"},
@@ -72,8 +75,11 @@ $(document).ready(function(){
         department_branch_id : {required: "Please give Employee's Branch Name"}, 
         holiday_list_id : {required: "Please give Employee's Holiday List"}, 
         week_holiday_master_id : {required: "Please give Employee's Week Holiday"}, 
+        work_shift_id : {required: "Please give Employee's Work Shift"}, 
         salary_grade_master_id : {required: "Please give Employee's Salary Grade"}, 
         basic_salary : {required: "Please give Employee's Basic Salary"}, 
+        attendance_deduction_master_id : {required: "Please give Attendance Deduction Policy"}, 
+        leave_package_id : {required: "Please give Leave Package Policy"}, 
       }
     });
 

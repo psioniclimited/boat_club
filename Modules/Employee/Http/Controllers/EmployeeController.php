@@ -227,9 +227,9 @@ class EmployeeController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function update(\Modules\Employee\Http\Requests\EmployeeCreateRequest $request,EmployeeMaster $employee)
+    public function update(\Modules\Employee\Http\Requests\EmployeeUpdateRequest $request,EmployeeMaster $employee)
     {  
-        // dd($request->salary_details);
+        dd($request->all());
       $tableValidation=$this->validateTableData($request);
       if($tableValidation[0]==false){ 
         return response()->json(['error' => $tableValidation[1]]); 

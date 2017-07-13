@@ -7,7 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller; 
 use Modules\Employee\Entities\JobOpening;
 use Modules\Employee\Entities\JobApplicant;
-use Modules\Employee\Entities\OfferLetter;
+use Modules\Employee\Entities\OfferLetter; 
 use Modules\Employee\Entities\EmployeeJobInfo;
 use Modules\Employee\Entities\EmployeeSalaryInformation;
 use Modules\Employee\Entities\EmployeeFamilyMembers;
@@ -183,6 +183,28 @@ class AutoCompleteController extends Controller
 		return response()->json($family_relation);
 	}
 
+
+	public function getLeavePackageOfEmployeeJobInfo(Request $request)
+	{   
+		$employee_job_info = $request->input('employee_job_info');
+
+		$leave_package= EmployeeJobInfo::with(['leave_package'=> function($query){
+			$query->select('id', 'leave_package_name as text'); 
+		}])
+		->find($employee_job_info)->leave_package;
+		return response()->json($leave_package);
+	}
+
+	public function getAttendanceDeductionOfEmployeeJobInfo(Request $request)
+	{   
+		$employee_job_info = $request->input('employee_job_info');
+
+		$attendance_deduction= EmployeeJobInfo::with(['attendance_deduction'=> function($query){
+			$query->select('id', 'deduction_policy_name as text'); 
+		}])
+		->find($employee_job_info)->attendance_deduction;
+		return response()->json($attendance_deduction);
+	}
 
 
 }

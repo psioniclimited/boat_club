@@ -27,7 +27,9 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Emp
 	Route::get('/employee_job_info/auto/designation', 'AutoCompleteController@getDesignationOfEmPloyeeJobInfo'); 
 	Route::get('/employee_job_info/auto/work_shift', 'AutoCompleteController@getWorkShiftOfEmPloyeeJobInfo'); 
 	Route::get('/employee_job_info/auto/holiday_list', 'AutoCompleteController@getHolidayListOfEmPloyeeJobInfo'); 
-	Route::get('/employee_job_info/auto/week_holiday', 'AutoCompleteController@getWeekHolidayOfEmPloyeeJobInfo'); 
+	Route::get('/employee_job_info/auto/week_holiday', 'AutoCompleteController@getWeekHolidayOfEmPloyeeJobInfo');  
+	Route::get('/employee_job_info/auto/leave_package', 'AutoCompleteController@getLeavePackageOfEmployeeJobInfo'); 
+	Route::get('/employee_job_info/auto/attendance_deduction', 'AutoCompleteController@getAttendanceDeductionOfEmployeeJobInfo'); 
 	
 
 	Route::get('/employee_salary_info/auto/salary_grade', 'AutoCompleteController@getSalaryGradeOfEmployeeSalaryInfo'); 

@@ -38,7 +38,7 @@ Edit Employee
     <form action="" name="add_employe_form" id="add_employe_form" enctype="multipart/form-data" method="post">
 
       <input name="_method" type="hidden" value="PUT">
-
+        {!! Form::hidden('id', $employee->id) !!}  
       <div class="col-md-12"> 
         <div class="box box-info">
           <div class="box-header with-border">
@@ -195,16 +195,6 @@ Edit Employee
 
 
   var department_branch_id=$('#department_branch_id'); 
-  
-  // parameters = { 
-  //   placeholder: "Job Branch",
-  //   url: '{{URL::to("/")}}/branch/auto/get_branchs',
-  //   selector_id:department_branch_id, 
-  //   data:{}
-  // }
-
-  // init_select2(parameters);
-// initialize select2 for post Office
 
 $.get( "{{URL::to('/employee_job_info/auto/department_branch_id')}}", { employee_job_info: {{$employee->employee_job_info[0]->id}} } ,function( data ) {
   init_select2_with_default_value({
@@ -230,17 +220,6 @@ $.get( "{{URL::to('/employee_job_info/auto/department')}}", { employee_job_info:
   });
 });
 
-
-// parameters = {
-//   placeholder: "Post Office",
-//   url: '{{URL::to("/")}}/branch/auto/get_departments',
-//   selector_id:department_id,
-//   value_id:$('#department_branch_id')
-// }
-
-  // initialize select2 for post_office_id
-  // init_select2_with_one_parameter(parameters);
-
   var designation_id=$('#designation_id'); 
   $.get( "{{URL::to('/employee_job_info/auto/designation')}}", { employee_job_info: {{$employee->employee_job_info[0]->id}} } ,function( data ) {
     init_select2_with_default_value({
@@ -252,14 +231,6 @@ $.get( "{{URL::to('/employee_job_info/auto/department')}}", { employee_job_info:
     });
   });
 
-  // parameters = { 
-  //   placeholder: "Job Applicant",
-  //   url: '{{URL::to("/")}}/designation/auto/get_designations',
-  //   selector_id:designation_id, 
-  //   data:{}
-  // }
-
-  // init_select2(parameters);
 
   var work_shift_id=$('#work_shift_id'); 
   $.get( "{{URL::to('/employee_job_info/auto/work_shift')}}", { employee_job_info: {{$employee->employee_job_info[0]->id}} } ,function( data ) {
@@ -271,14 +242,30 @@ $.get( "{{URL::to('/employee_job_info/auto/department')}}", { employee_job_info:
       data:{}
     });
   });
-  // parameters = { 
-  //   placeholder: "Work Shift",
-  //   url: '{{URL::to("/")}}/branch/auto/get_work_shifts',
-  //   selector_id:work_shift_id, 
-  //   data:{}
-  // }
+  
+  var leave_package_id=$('#leave_package_id'); 
+  $.get( "{{URL::to('/employee_job_info/auto/leave_package')}}", { employee_job_info: {{$employee->employee_job_info[0]->id}}} ,function( data ) {
+    init_select2_with_default_value({
+      default_value: data,
+      placeholder: "Leave Package",
+      url: '{{URL::to("/")}}/leave_package/auto/get_leave_packages',
+      selector_id:leave_package_id,
+      data:{}
+    });
+  });
 
-  // init_select2(parameters);
+
+  var attendance_deduction_master_id=$('#attendance_deduction_master_id'); 
+  $.get( "{{URL::to('/employee_job_info/auto/attendance_deduction')}}", { employee_job_info: {{$employee->employee_job_info[0]->id}}} ,function( data ) {
+    init_select2_with_default_value({
+      default_value: data,
+      placeholder: "Attendance Deduction Policy",
+      url: '{{URL::to("/")}}/attendance_deduction/auto/get_attendance_deduction_policies',
+      selector_id:attendance_deduction_master_id, 
+      data:{}
+    });
+  });
+  
 
 
   var holiday_list_id=$('#holiday_list_id'); 
@@ -293,13 +280,6 @@ $.get( "{{URL::to('/employee_job_info/auto/department')}}", { employee_job_info:
     });
   });
 
-  // parameters = { 
-  //   placeholder: "Holiday List",
-  //   url: '{{URL::to("/")}}/holiday/auto/get_holiday_lists',
-  //   selector_id:holiday_list_id, 
-  //   data:{}
-  // }
-  // init_select2(parameters);
 
   var week_holiday_master_id=$('#week_holiday_master_id'); 
 
@@ -314,14 +294,6 @@ $.get( "{{URL::to('/employee_job_info/auto/department')}}", { employee_job_info:
     });
   });
 
-  // parameters = { 
-  //   placeholder: "Week Holiday",
-  //   url: '{{URL::to("/")}}/week_holiday/auto/get_week_holiday_masters',
-  //   selector_id:week_holiday_master_id, 
-  //   data:{}
-  // }
-
-  // init_select2(parameters);
 
   var salary_grade_master_id=$('#salary_grade_master_id'); 
 
@@ -334,14 +306,7 @@ $.get( "{{URL::to('/employee_job_info/auto/department')}}", { employee_job_info:
       data:{}
     });
   });
-  // parameters = { 
-  //   placeholder: "Salary Grade Holiday",
-  //   url: '{{URL::to("/salary_grade/auto/get_salary_grades")}}',
-  //   selector_id:salary_grade_master_id, 
-  //   data:{}
-  // }
 
-  // init_select2(parameters);
 
 });
 
@@ -959,17 +924,19 @@ previewImage = function(event) {
 
   $(document).ready(function(){
     $('#btn-submit').on('click',function(e){
-
+      alert("jk");
+      
       if(!$('#add_employe_form').valid()){ 
+        // alert("hjk");
         return;
       }   
-
-      var validation_result=validateAllTableData();
-      if(validation_result[0]==false){
-        $("#table-remarks .alert_message").html(validation_result[1]);
-        $("#table-remarks").css("display","block").delay(10000).fadeOut(400);
-        return;
-      }
+console.log("sakd");
+      // var validation_result=validateAllTableData();
+      // if(validation_result[0]==false){
+      //   $("#table-remarks .alert_message").html(validation_result[1]);
+      //   $("#table-remarks").css("display","block").delay(10000).fadeOut(400);
+      //   return;
+      // }
       //if everything alright then post the form data
       postAllData();
     });//button-submit on click
