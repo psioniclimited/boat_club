@@ -57,6 +57,7 @@ class EmployeeReinitializeController extends Controller
      $data['remarks']="Reinitialized in Branch : ".Branch::find($request->department_branch_id)->first()->branch_name.", Department: ".Department::find($request->department_id)->first()->department_name." as ".Designation::find($request->designation_id)->first()->designation_name.
 
 
+     $employee_job_info[0]->update(['relieving_date'=>NULL]);
      $employee_job_info[0]->update($request->all());
 
      EmployeeWorkHistoryInCompany::create($data); 

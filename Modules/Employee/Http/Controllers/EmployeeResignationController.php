@@ -60,7 +60,9 @@ class EmployeeResignationController extends Controller
      $data['department_id']=$employee_job_info[0]->department_id;
      $data['designation_id']=$employee_job_info[0]->designation_id;
 
+     $employee_job_info[0]->update(['re_joining_date'=>NULL]);
      $employee_job_info[0]->update($request->all());
+     
      EmployeeWorkHistoryInCompany::create($data);  
      $request->session()->flash('status', 'Task was successful!');
      return back();

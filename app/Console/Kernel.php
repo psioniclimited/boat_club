@@ -28,6 +28,8 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
 
            $schedule -> command('updateLeaveLedger:updateactivetoinactive') -> daily();
+           $schedule -> command('updateResigningEmployeeStatus:setAsInactive') -> daily();
+           $schedule -> command('updateReInitializedEmployeeStatus:setAsActive') -> daily();
     }
 
     /**
