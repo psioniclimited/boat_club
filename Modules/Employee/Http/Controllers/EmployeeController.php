@@ -229,7 +229,7 @@ class EmployeeController extends Controller
      */
     public function update(\Modules\Employee\Http\Requests\EmployeeUpdateRequest $request,EmployeeMaster $employee)
     {  
-        dd($request->all());
+        // dd($request->all());
       $tableValidation=$this->validateTableData($request);
       if($tableValidation[0]==false){ 
         return response()->json(['error' => $tableValidation[1]]); 
@@ -257,7 +257,9 @@ public function createAdditionalData($employees_master,$request,$mode,$cached_le
 
   if($mode==1){  
     //generate the designated leave package for this employee
-  
+
+    $data['date']=date("Y-m-d");
+
     $this->generateLeaveStock($employees_master,LeavePackage::find($request->leave_package_id));
 
     $data['remarks']="Joined the Organization";

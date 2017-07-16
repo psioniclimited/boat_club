@@ -687,6 +687,7 @@ previewImage = function(event) {
           item["department_id"]=$(this).find(".department_id").val(); 
           item["designation_id"]=$(this).find(".designation_id").val(); 
           item["remarks"]=$(this).find(".remarks").val();    
+          item["date"]=$(this).find(".date").val();    
           jsonObj.push(item);
         } 
 
@@ -750,8 +751,7 @@ previewImage = function(event) {
         url: "{{URL::to('/employee')}}", 
         success:function(data){    
 
-          if(data.error!=undefined){ 
-            alert("jipl");
+          if(data.error!=undefined){  
             $("#table-remarks .alert_message").html(data.error);  
             $("#table-remarks").css("display","block").delay(10000).fadeOut(400);
           }else{ 

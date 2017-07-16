@@ -9,7 +9,7 @@ class EmployeeWorkHistoryInCompany extends Model
 {
 	use SoftDeletes;
 	protected $table = 'employee_work_history_in_company';
-	protected $fillable = ['department_branch_id','department_id','designation_id','remarks','employees_master_id'];
+	protected $fillable = ['department_branch_id','department_id','date','designation_id','remarks','employees_master_id'];
 	public $timestamps=true;
 	protected $dates = ['deleted_at'];
 

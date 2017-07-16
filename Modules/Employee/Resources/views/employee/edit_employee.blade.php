@@ -38,7 +38,7 @@ Edit Employee
     <form action="" name="add_employe_form" id="add_employe_form" enctype="multipart/form-data" method="post">
 
       <input name="_method" type="hidden" value="PUT">
-        {!! Form::hidden('id', $employee->id) !!}  
+      {!! Form::hidden('id', $employee->id) !!}  
       <div class="col-md-12"> 
         <div class="box box-info">
           <div class="box-header with-border">
@@ -196,29 +196,29 @@ Edit Employee
 
   var department_branch_id=$('#department_branch_id'); 
 
-$.get( "{{URL::to('/employee_job_info/auto/department_branch_id')}}", { employee_job_info: {{$employee->employee_job_info[0]->id}} } ,function( data ) {
-  init_select2_with_default_value({
-    default_value: data,
-    placeholder: "Branch",
-    url: '{{URL::to("/")}}/branch/auto/get_branchs',
-    selector_id:department_branch_id,
-    data:{}
+  $.get( "{{URL::to('/employee_job_info/auto/department_branch_id')}}", { employee_job_info: {{$employee->employee_job_info[0]->id}} } ,function( data ) {
+    init_select2_with_default_value({
+      default_value: data,
+      placeholder: "Branch",
+      url: '{{URL::to("/")}}/branch/auto/get_branchs',
+      selector_id:department_branch_id,
+      data:{}
+    });
   });
-});
 
 
 
-var department_id=$("#department_id");
+  var department_id=$("#department_id");
 
-$.get( "{{URL::to('/employee_job_info/auto/department')}}", { employee_job_info: {{$employee->employee_job_info[0]->id}} } ,function( data ) {
-  init_select2_with_default_value({
-    default_value: data,
-    placeholder: "Department",
-    url: '{{URL::to("/")}}/branch/auto/get_departments',
-    selector_id:department_id,
-    data:{}
+  $.get( "{{URL::to('/employee_job_info/auto/department')}}", { employee_job_info: {{$employee->employee_job_info[0]->id}} } ,function( data ) {
+    init_select2_with_default_value({
+      default_value: data,
+      placeholder: "Department",
+      url: '{{URL::to("/")}}/branch/auto/get_departments',
+      selector_id:department_id,
+      data:{}
+    });
   });
-});
 
   var designation_id=$('#designation_id'); 
   $.get( "{{URL::to('/employee_job_info/auto/designation')}}", { employee_job_info: {{$employee->employee_job_info[0]->id}} } ,function( data ) {
@@ -897,6 +897,7 @@ previewImage = function(event) {
           item["department_id"]=$(this).find(".department_id").val(); 
           item["designation_id"]=$(this).find(".designation_id").val(); 
           item["remarks"]=$(this).find(".remarks").val();    
+          item["date"]=$(this).find(".date").val();    
           jsonObj.push(item);
         } 
 
@@ -924,19 +925,16 @@ previewImage = function(event) {
 
   $(document).ready(function(){
     $('#btn-submit').on('click',function(e){
-      alert("jk");
-      
+
       if(!$('#add_employe_form').valid()){ 
-        // alert("hjk");
         return;
       }   
-console.log("sakd");
-      // var validation_result=validateAllTableData();
-      // if(validation_result[0]==false){
-      //   $("#table-remarks .alert_message").html(validation_result[1]);
-      //   $("#table-remarks").css("display","block").delay(10000).fadeOut(400);
-      //   return;
-      // }
+      var validation_result=validateAllTableData();
+      if(validation_result[0]==false){
+        $("#table-remarks .alert_message").html(validation_result[1]);
+        $("#table-remarks").css("display","block").delay(10000).fadeOut(400);
+        return;
+      }
       //if everything alright then post the form data
       postAllData();
     });//button-submit on click
@@ -963,8 +961,7 @@ console.log("sakd");
         url: "{{URL::to('/employee/'.$employee->id)}}", 
         // url: "{{URL::to('/employee')}}", 
         success:function(data){     
-          if(data.error!=undefined){ 
-            alert("jipl");
+          if(data.error!=undefined){  
             $("#table-remarks .alert_message").html(data.error);  
             $("#table-remarks").css("display","block").delay(10000).fadeOut(400);
           }else{ 
