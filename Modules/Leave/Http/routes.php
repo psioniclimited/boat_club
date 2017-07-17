@@ -12,6 +12,10 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Lea
 
 	Route::get('/leave_approval/get_all_leave_applications', 'LeaveApprovalController@getAllLeaveApplications');
 	Route::resource('/leave_approval', 'LeaveApprovalController');
+	
+
+	Route::get('/leave_stock/get_leave_record/{employees_master_id}', 'LeaveStockController@getLeaveRecord');
+	Route::resource('/leave_stock', 'LeaveStockController');
 
 
 

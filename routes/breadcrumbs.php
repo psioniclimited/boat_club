@@ -160,3 +160,8 @@ Breadcrumbs::register('employee_leave_approval', function($breadcrumbs)
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Employee Leave Approval', url('/leave_approval'));
 });
+Breadcrumbs::register('leave_stock', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Employee Leave Record', url('/leave_stock'));
+});

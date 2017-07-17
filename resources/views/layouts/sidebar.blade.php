@@ -213,6 +213,7 @@
    <li><a href="{{URL::to('/leave_application')}}">Leave Application List</a></li> 
    <li><a href="{{URL::to('/leave_application/create')}}">Create Leave Application</a></li>  
    <li><a href="{{URL::to('/leave_approval')}}">Leave Approval</a></li>  
+   <li><a href="{{URL::to('/leave_stock')}}">Leave Record</a></li>  
  </ul>
 </li>
 
