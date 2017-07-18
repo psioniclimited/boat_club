@@ -29,6 +29,7 @@ class Kernel extends ConsoleKernel
 
            $schedule -> command('updateLeaveLedger:updateactivetoinactive') -> daily();
            $schedule -> command('updateResigningEmployeeStatus:setAsInactive') -> daily();
+           $schedule -> command('updateAnnualLeaveStock:addCarryForwards') -> yearly();
            $schedule -> command('updateReInitializedEmployeeStatus:setAsActive') -> daily();
     }
 
