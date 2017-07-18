@@ -117,6 +117,12 @@ Breadcrumbs::register('attendance_deduction', function($breadcrumbs)
     $breadcrumbs->push('Attendance Deduction Setup', url('/attendance_deduction'));
 });
 
+Breadcrumbs::register('loan_type', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Loan Type', url('/loan_type'));
+});
+
 
 Breadcrumbs::register('job_opening', function($breadcrumbs)
 {

@@ -102,4 +102,6 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Org
 
 	// Route::get('/test_employee/{id}', 'LeavePackageController@getAllLeavePackages');
 
+	Route::get('/loan_type/get_all_loan_types', 'LoanTypeController@getAllLoanTypes');
+	Route::resource('/loan_type', 'LoanTypeController');
 });
