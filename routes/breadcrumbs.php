@@ -158,7 +158,7 @@ Breadcrumbs::register('attendance', function($breadcrumbs)
 Breadcrumbs::register('employee_leave_application', function($breadcrumbs)
 {
     $breadcrumbs->parent('home');
-    $breadcrumbs->push('Employee Leave Applicantion', url('/leave_application'));
+    $breadcrumbs->push('Employee Leave Application', url('/leave_application'));
 });
 
 Breadcrumbs::register('employee_leave_approval', function($breadcrumbs)
@@ -170,4 +170,11 @@ Breadcrumbs::register('leave_stock', function($breadcrumbs)
 {
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Employee Leave Record', url('/leave_stock'));
+});
+
+
+Breadcrumbs::register('loan_application', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Loan Application', url('/loan_application'));
 });

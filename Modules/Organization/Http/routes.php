@@ -31,6 +31,8 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Org
 	Route::get('/attendance_deduction/auto/get_attendance_deduction_policies', 'AutoCompleteController@getAttendanceDeductionMasters');
 	Route::get('/leave_package/auto/get_leave_packages', 'AutoCompleteController@getLeavePackages');
 	
+	Route::get('/loan_type/auto/get_loan_types', 'AutoCompleteController@getLoanTypes');
+	
 
 
 
