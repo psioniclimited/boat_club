@@ -13,7 +13,7 @@ use Datatables;
 
 use DB;
 
-class LoanApprovalController extends Controller
+class LoanLedgerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,8 +21,7 @@ class LoanApprovalController extends Controller
      */
     public function index()
     {
-
-        return view('loan::loan_approval.list_of_loan_applications_for_approval');
+        return view('loan::loan_ledger.list_of_loan_records');
     }
 
     /**
@@ -31,6 +30,8 @@ class LoanApprovalController extends Controller
      */
     public function create(Request $request)
     { 
+        $loan_application=LoanApplication::find($request->loan_application_id); 
+        return view('loan::loan_ledger.create_loan_ledger_entry',['loan_status'=>LoanStatus::all(),'loan_application'=>$loan_application]);
     }
 
     /**
@@ -38,9 +39,12 @@ class LoanApprovalController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function store(Request $request) 
-    {     
-    }
+    public function store(\Modules\Loan\Http\Requests\LoanApplicationCreateRequest $request) 
+    {    
+       $loan_application = LoanApplication::create($request->all());  
+       $request->session()->flash('status', 'Task was successful!');
+       return back();
+   }
 
     /**
      * Show the specified resource.
@@ -55,9 +59,9 @@ class LoanApprovalController extends Controller
      * Show the form for editing the specified resource.
      * @return Response
      */
-    public function edit(LoanApplication $loan_approval)
+    public function edit(LoanApplication $loan_application)
     {   
-        return view('loan::loan_approval.edit_loan_application_for_approval',['loan_status'=>LoanStatus::all(),'loan_application'=>$loan_approval]);
+        return view('loan::loan_application.edit_loan_application',['loan_status'=>LoanStatus::all(),'loan_application'=>$loan_application]);
     }
 
     /**
@@ -65,39 +69,29 @@ class LoanApprovalController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function update(Request $request, LoanApplication $loan_approval)
+    public function update(\Modules\Loan\Http\Requests\LoanApplicationCreateRequest $request, LoanApplication $loan_application)
     {
 
-        if ($this->has_been_disbursed($loan_approval)) { 
-            return redirect()->back()->with('alert-class', 'You can not Change as it has already beeen disbursed');
-        }  
+        if (!$this->isChangebale($loan_application)) { 
+            return redirect()->back()->with('alert-class', 'You can not Change as a Decision has been made on this Application');
+        }
 
-        $loan_approval->update($request->all());  
-        
-        if ($loan_approval->loan_status->loan_ledger_entry==1) { 
-            if (empty($loan_approval->loan_ledger)) { 
-                return redirect()->route('loan_ledger.create', ['loan_application_id' => $loan_approval->id]);
-            }else{
-               $request->session()->flash('status', 'Loan entry has already been created!');
-               return back();  
-           }
-       }
-
-       $request->session()->flash('status', 'Task was successful!');
-       return back();  
-   }
-
-
-
-   public function has_been_disbursed($loan_application)
-   { 
-    if ($loan_application->disbursed==1) {
-        return true;
+        $loan_application->update($request->all());  
+        $request->session()->flash('status', 'Task was successful!');
+        return back();  
     }
-    else{
-        return false;
+
+
+
+    public function isChangebale($loan_application)
+    { 
+        if ($loan_application->loan_status->change_type==1) {
+            return true;
+        }
+        else{
+            return false;
+        }
     }
-}
 
 
 
@@ -107,13 +101,13 @@ class LoanApprovalController extends Controller
      * Remove the specified resource from storage.
      * @return Response
      */
-    public function destroy(Request $request, LoanApplication $loan_approval)
+    public function destroy(Request $request, LoanApplication $loan_application)
     {  
-
-        if ($this->has_been_disbursed->isChangebale($loan_approval)) {  
+       
+        if (!$this->isChangebale($loan_application)) {  
             $request->session()->flash('alert-class',  'You can not Change as a Decision has been made on this Application');
         } 
-        $loan_approval->delete();
+        $loan_application->delete();
         $request->session()->flash('status', 'Task was successful!');
         
     }
@@ -125,14 +119,13 @@ class LoanApprovalController extends Controller
      $loan_application=DB::table('loan_application')
      ->join('employees_master','employees_master.id','=','loan_application.employees_master_id')
      ->where('loan_application.deleted_at', '=', NULL)   
-     ->where('loan_application.disbursed', '=', 0)   
      ->join('loan_type','loan_type.id','=','loan_application.loan_type_id')
      ->join('loan_status','loan_status.id','=','loan_application.loan_status_id')
      ->select('loan_application.*','employees_master.employee_fullname','employees_master.contact_number','employees_master.employee_code','loan_status.loan_status_name','loan_type.loan_type_name');
 
      return Datatables::of($loan_application)
      ->addColumn('action', function ($loan_application) use ($databaseHelper){
-        return $databaseHelper->editButton('loan_approval',$loan_application->id);
+        return $databaseHelper->editButton('loan_application',$loan_application->id).' '.$databaseHelper->deleteButton($loan_application->id);
     })
      ->make(true);
 

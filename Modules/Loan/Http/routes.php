@@ -15,4 +15,8 @@ Route::group(['middleware' => 'web', 'prefix' => '', 'namespace' => 'Modules\Loa
 	Route::get('loan_approval/get_all_loan_applications', 'LoanApprovalController@getAllApplications');
 	Route::resource('loan_approval', 'LoanApprovalController');
 
+
+	Route::get('loan_ledger/get_all_loan_records', 'LoanLedgerController@getAllRecords');
+	Route::resource('loan_ledger', 'LoanLedgerController');
+
 });

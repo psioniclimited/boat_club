@@ -26,6 +26,12 @@ class LoanApplication extends Model
 		return $this->belongsTo('Modules\Organization\Entities\LoanType','loan_type_id');
 	}
 
+	public function loan_ledger(){
+		return $this->hasMany('Modules\Organization\Entities\LoanLedger','loan_application_id');
+	}
+
+
+
 	public function setRequiredByDateAttribute($value)
 	{     
 		$date=date_create($value);  

@@ -7,7 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Organization\Repositories\BranchRepository;
 use Modules\Loan\Entities\LoanStatus;  
-use Modules\Loan\Entities\LoanApplication;
+use Modules\Loan\Entities\LoanApplication; 
 use \Modules\Helpers\DatatableHelper;
 use Datatables;
 
