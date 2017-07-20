@@ -178,3 +178,10 @@ Breadcrumbs::register('loan_application', function($breadcrumbs)
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Loan Application', url('/loan_application'));
 });
+
+
+Breadcrumbs::register('loan_approval', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Loan Approval', url('/loan_approval'));
+});

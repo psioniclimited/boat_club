@@ -9,7 +9,7 @@ class LoanApplication extends Model
 {
 	use SoftDeletes;
 	protected $table = 'loan_application';
-	protected $fillable = ['loan_amount','annual_interest_rate','required_by_date','monthly_repayment_amount','reason','loan_status_id','employees_master_id','loan_type_id'];
+	protected $fillable = ['loan_amount','annual_interest_rate','required_by_date','monthly_repayment_amount','reason','loan_status_id','employees_master_id','loan_type_id','disbursed'];
 
 	public $timestamps=true;
 	protected $dates = ['deleted_at'];

@@ -238,9 +238,11 @@
       <i class="fa fa-angle-left pull-right"></i>
     </span>
   </a>
-  <ul class="treeview-menu">   
+  <ul class="treeview-menu"> 
+    
    <li><a href="{{URL::to('/loan_application')}}">Loan Applications</a></li>
    <li><a href="{{URL::to('/loan_application/create')}}">Create New Application</a></li>
+   <li><a href="{{URL::to('/loan_approval')}}">Loan Approval</a></li>
    
  </ul>
 </li>

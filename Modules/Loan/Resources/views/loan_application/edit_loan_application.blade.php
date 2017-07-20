@@ -53,8 +53,7 @@ Create Loan Application
             <option value="{{$row->id}}">{{$row->loan_status_name}}</option>
             @endif 
             @endif 
-            @endforeach
-            P 
+            @endforeach 
             @endif    
           </select>
           @if ($errors->has('loan_status_id')) <p class="help-block">{{ $errors->first('loan_status_id') }}</p> @endif                             
