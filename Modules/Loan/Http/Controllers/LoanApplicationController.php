@@ -120,7 +120,7 @@ class LoanApplicationController extends Controller
      ->where('loan_application.deleted_at', '=', NULL)   
      ->join('loan_type','loan_type.id','=','loan_application.loan_type_id')
      ->join('loan_status','loan_status.id','=','loan_application.loan_status_id')
-     ->select('loan_application.*','employees_master.employee_fullname','employees_master.contact_number','employees_master.employee_code',,'loan_status.loan_status_name','loan_type.loan_type_name');
+     ->select('loan_application.*','employees_master.employee_fullname','employees_master.contact_number','employees_master.employee_code','loan_status.loan_status_name','loan_type.loan_type_name');
 
      return Datatables::of($loan_application)
      ->addColumn('action', function ($loan_application) use ($databaseHelper){

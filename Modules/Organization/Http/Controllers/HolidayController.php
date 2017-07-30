@@ -60,7 +60,9 @@ class HolidayController extends Controller
      */
     public function edit($id)
     {             
-        $holliday_list=HolidayList::find($id)->get(); 
+        // dd($id);
+        $holliday_list=HolidayList::where('id',$id)->get(); 
+        // dd($holliday_list[0]);
         return view('organization::holiday.edit_holiday_new',['holiday_list'=>$holliday_list[0]]);
     }
 
@@ -153,7 +155,7 @@ class HolidayController extends Controller
         return true;
     }
 
-    public function holidayDetails($id){ 
+    public function holidayDetails($id){
         $holiday_infos = HolidayList::find($id)->holiday;
         return response()->json($holiday_infos);
     }

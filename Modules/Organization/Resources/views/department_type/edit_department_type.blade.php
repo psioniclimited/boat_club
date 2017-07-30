@@ -24,7 +24,7 @@ Set up Department Type
             <!-- Horizontal Form -->
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">District Create</h3>
+                    <h3 class="box-title">Department Type Create</h3>
                 </div> 
                 {!! Form::open(array('route' => array('department_type.update', $department_type->id), 'id' => 'add_department_type_form', 'method'=>'PUT')) !!}                  
                 <div class="box-body">
