@@ -43,7 +43,7 @@ Create New Salary Grade
         <!-- /.box-body -->
         <div class="box-footer"> 
           <button type="submit" name="submit"  class="btn btn-primary pull-left" value="submit">Submit</button> 
-          <button style="margin-left: 10px" type="submit" value="submit_and_edit" name="submit_and_edit"  class="btn btn-info pull-left">Submit & Edit</button>
+          <!-- <button style="margin-left: 10px" type="submit" value="submit_and_edit" name="submit_and_edit"  class="btn btn-info pull-left">Submit & Edit</button> -->
         </div>
         <!-- /.box-footer -->
         {!! Form::close() !!}

@@ -12,6 +12,7 @@ use Modules\Organization\Entities\SalaryHead;
 use Modules\Organization\Entities\SalaryGradeMaster;
 use Modules\Organization\Entities\WorkShift;
 use Modules\Organization\Entities\LeaveType;
+use Modules\Organization\Entities\LoanType;
 use Modules\Organization\Entities\LeavePackage;
 use Modules\Organization\Entities\AttendanceDeductionMaster;
 
@@ -87,6 +88,11 @@ class BranchRepository{
 
 		$leave_types = LeaveType::where($attribute, "LIKE", "%{$value}%")->get($columns);
 		return $leave_types;
+	}
+	public function getLoanTypes($attribute, $value,$columns = ['*']){
+
+		$loan_types = LoanType::where($attribute, "LIKE", "%{$value}%")->get($columns);
+		return $loan_types;
 	}
 
 

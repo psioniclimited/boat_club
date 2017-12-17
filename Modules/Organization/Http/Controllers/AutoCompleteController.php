@@ -13,6 +13,9 @@ use Modules\Organization\Entities\BranchType;
 use Modules\Organization\Entities\DepartmentType; 
 use Modules\Organization\Entities\Department; 
 use Modules\Organization\Entities\LeaveType; 
+use Modules\Organization\Entities\LoanType; 
+
+
 class AutoCompleteController extends Controller
 {
     /**
@@ -128,6 +131,9 @@ class AutoCompleteController extends Controller
         return $branchRepository->getLeavePackages('leave_package_name',$request->input('term'), ['id', 'leave_package_name as text']); 
     }
 
+    public function getLoanTypes(Request $request, BranchRepository $branchRepository){ 
+        return $branchRepository->getLoanTypes('loan_type_name',$request->input('term'), ['id', 'loan_type_name as text','annual_interest_rate']); 
+    }
 
 
 

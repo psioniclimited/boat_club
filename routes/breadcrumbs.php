@@ -117,6 +117,12 @@ Breadcrumbs::register('attendance_deduction', function($breadcrumbs)
     $breadcrumbs->push('Attendance Deduction Setup', url('/attendance_deduction'));
 });
 
+Breadcrumbs::register('loan_type', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Loan Type', url('/loan_type'));
+});
+
 
 Breadcrumbs::register('job_opening', function($breadcrumbs)
 {
@@ -152,7 +158,7 @@ Breadcrumbs::register('attendance', function($breadcrumbs)
 Breadcrumbs::register('employee_leave_application', function($breadcrumbs)
 {
     $breadcrumbs->parent('home');
-    $breadcrumbs->push('Employee Leave Applicantion', url('/leave_application'));
+    $breadcrumbs->push('Employee Leave Application', url('/leave_application'));
 });
 
 Breadcrumbs::register('employee_leave_approval', function($breadcrumbs)
@@ -164,4 +170,18 @@ Breadcrumbs::register('leave_stock', function($breadcrumbs)
 {
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Employee Leave Record', url('/leave_stock'));
+});
+
+
+Breadcrumbs::register('loan_application', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Loan Application', url('/loan_application'));
+});
+
+
+Breadcrumbs::register('loan_approval', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Loan Approval', url('/loan_approval'));
 });

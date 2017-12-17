@@ -41,9 +41,13 @@ class SalaryGradeController extends Controller
 
         $salary_grade_master=SalaryGradeMaster::create($request->all());
 
-        if(isset($request->submit_and_edit)){ 
-            $this->edit($salary_grade_master);
+        if(isset($request->submit_and_edit)){  
+            $this->edit($salary_grade_master); 
         }
+        // dd($request->all());
+
+
+        
 
         $request->session()->flash('status', 'Task was successful!');
         return back();
@@ -62,9 +66,9 @@ class SalaryGradeController extends Controller
      * Show the form for editing the specified resource.
      * @return Response
      */
-    public function edit(SalaryGradeMaster $salary_grade_master) {
-     return view('organization::salary_grade.edit_salary_grade',['salary_grade_master'=>$salary_grade_master]);
- }
+    public function edit(SalaryGradeMaster $salary_grade_master) { 
+       return view('organization::salary_grade.edit_salary_grade',['salary_grade_master'=>$salary_grade_master]);
+   }
 
     /**
      * Update the specified resource in storage.
@@ -149,15 +153,15 @@ class SalaryGradeController extends Controller
 
     public function validateGradeInfoData($data){
 
-       $validator = Validator::make($data, array(
+     $validator = Validator::make($data, array(
         'salary_head_id' =>'required|exists:salary_head,id' , 
         'amount_type' =>'required|numeric' , 
         'amount' =>'required|numeric' , 
         'salary_grade_master_id' =>'required|exists:salary_grade_master,id' , 
         ));
 
-       if ($validator->fails())
-       { 
+     if ($validator->fails())
+     { 
         return false;
     }
     return true;

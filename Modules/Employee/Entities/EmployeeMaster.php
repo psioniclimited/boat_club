@@ -62,9 +62,9 @@ class EmployeeMaster extends Model
 	public function leave_stock(){
 		return $this->hasMany('Modules\Leave\Entities\LeaveStock','employees_master_id'); 
 	}
-
-	public function leave_stock(){
-		return $this->hasMany('Modules\Leave\Entities\LeaveStock','employees_master_id'); 
+ 
+	public function loan_application(){
+		return $this->hasMany('Modules\Loan\Entities\LoanApplication','employees_master_id'); 
 	}
 
 

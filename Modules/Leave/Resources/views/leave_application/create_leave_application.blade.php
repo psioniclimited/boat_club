@@ -38,17 +38,16 @@ manage employee leave
 
 
           <div class="col-md-6">  
-            <div class="form-group @if ($errors->has('status')) has-error @endif">
+            <div class="form-group @if ($errors->has('leave_status_id')) has-error @endif">
               <label for="name" class="control-label">Status</label>
-              <select class="form-control" id="status" name="status" > 
+              <select class="form-control" id="leave_status_id" name="leave_status_id" > 
                 @foreach($leave_status as $row)
                 @if($row->change_type==1)
-
                 <option value="{{$row->id}}">{{$row->status_name}}</option>
                 @endif
                 @endforeach
             </select>   
-            @if ($errors->has('status')) <p class="help-block">{{ $errors->first('status') }}</p> @endif                             
+            @if ($errors->has('leave_status_id')) <p class="help-block">{{ $errors->first('leave_status_id') }}</p> @endif                             
         </div>  
     </div><!-- /.col-md-6 -->
 
