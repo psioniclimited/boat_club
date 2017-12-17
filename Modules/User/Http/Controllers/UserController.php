@@ -52,9 +52,12 @@ class UserController extends Controller
      */
     public function store(\Modules\User\Http\Requests\UserRequest $request)
     {
-        $user = User::create($request->all());
-        $user->password = bcrypt($request->input('password'));
-        $user->save();
+        $user = User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password'))
+        ]);
+
         $user->roles()->sync($request->input('role')); 
         $request->session()->flash('status', 'Task was successful!');
         return back();
