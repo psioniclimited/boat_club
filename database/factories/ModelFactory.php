@@ -22,3 +22,9 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(\Modules\Organization\Entities\District::class, function (Faker\Generator $faker) {
+    return [
+        'district_name' => $faker->word,
+    ];
+});

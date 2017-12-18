@@ -43,7 +43,7 @@
         </ul>
       </div>
       @endif
-      {!! Form::open(array('url' => 'user.login', 'id' => 'login_form')) !!}
+      {!! Form::open(array('url' => '/login', 'id' => 'login_form')) !!}
 
       <div class="form-group has-feedback">
         <input type="email" class="form-control" name="email" placeholder="Email">

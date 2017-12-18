@@ -28,6 +28,12 @@ class UserController extends Controller
     }
 
     public function login(Request $request){
+        // $credentials=array('email' => $request->email,  'password' => $request->password);
+        // dd($credentials);
+        // if (Auth::attempt($credentials)) {
+        //     return redirect()->intended('/');
+        // }
+
         $credentials=array('email' => $request->email,  'password' => $request->password);
         if (Auth::attempt($credentials)) {
             return redirect()->intended('/');
@@ -52,7 +58,9 @@ class UserController extends Controller
      */
     public function store(\Modules\User\Http\Requests\UserRequest $request)
     {
-        $user = User::create($request->all());
+        $user = User::create([
+            
+        ]);
         $user->password = bcrypt($request->input('password'));
         $user->save();
         $user->roles()->sync($request->input('role')); 
