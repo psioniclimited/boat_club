@@ -193,6 +193,36 @@
     </li>
     <!-- Ends Employee Leave -->
 
+    <!-- Starts Loan Management -->
+    <li {!! Request::is('loan_application') || Request::is('loan_application/create') || Request::is('loan_approval') ? ' class="active treeview"' : ' class="treeview"' !!} class="treeview">
+        <a href="#"><i class="fa fa-link"></i> <span>Loan Management</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+            <li {!! Request::is('loan_application') ? ' class="active"' : null !!}><a href="{{URL::to('/loan_application')}}"><i class="fa fa-circle-o"></i> Loan Applications</a></li>
+            <li {!! Request::is('loan_application/create') ? ' class="active"' : null !!}><a href="{{URL::to('/loan_application/create')}}"><i class="fa fa-circle-o"></i> Create New Application</a></li>
+            <li {!! Request::is('loan_approval') ? ' class="active"' : null !!}><a href="{{URL::to('/loan_approval')}}"><i class="fa fa-circle-o"></i> Loan Approval</a></li>
+        </ul>
+    </li>
+    <!-- Ends Loan Management -->
+
+    <!-- Starts Setting -->
+    <li {!! Request::is('user/create') || Request::is('user/all_users') || Request::is('role') || Request::is('permission') ? ' class="active treeview"' : ' class="treeview"' !!} class="treeview">
+        <a href="#"><i class="fa fa-link"></i> <span>Setting</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+            <li {!! Request::is('user/create') ? ' class="active"' : null !!}><a href="{{URL::to('/user/create')}}"><i class="fa fa-circle-o"></i> Create User</a></li>
+            <li {!! Request::is('user/all_users') ? ' class="active"' : null !!}><a href="{{URL::to('user/all_users')}}"><i class="fa fa-circle-o"></i> All Users</a></li>
+            <li {!! Request::is('role') ? ' class="active"' : null !!}><a href="{{URL::to('/role')}}"><i class="fa fa-circle-o"></i> Rolel</a></li>
+            <li {!! Request::is('permission') ? ' class="active"' : null !!}><a href="{{URL::to('/permission')}}"><i class="fa fa-circle-o"></i> Permission</a></li>
+        </ul>
+    </li>  
+    <!-- Ends Setting -->
 
 
 </ul>
